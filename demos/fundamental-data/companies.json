@@ -1,0 +1,1311 @@
+{
+  "boot-barn": {
+    "company_name": "BOOT BARN HOLDINGS, INC.",
+    "fiscal_year_end": "2025-03-29",
+    "source_url": "https://s201.q4cdn.com/136683698/files/doc_financials/2025/ar/Boot-Barn-Holdings-Inc-Annual-Meetings-Annual-Report.pdf",
+    "country": "US",
+    "domain": "retail",
+    "raw_values": {
+      "net_income": {
+        "value": 180942000,
+        "as_printed": "180,942",
+        "unit_note": "in thousands",
+        "source_page": 56,
+        "source_quote": "Net income $ 180,942 $ 146,996 $ 170,553"
+      },
+      "total_stockholders_equity": {
+        "value": 1131057000,
+        "as_printed": "1,131,057",
+        "unit_note": "in thousands",
+        "source_page": 62,
+        "source_quote": "Total stockholders\u2019 equity $ 1,131,057 $ 943,643"
+      },
+      "beginning_total_assets": {
+        "value": 1705592000,
+        "as_printed": "1,705,592",
+        "unit_note": "in thousands",
+        "source_page": 62,
+        "source_quote": "Total assets $ 2,018,021 $ 1,705,592"
+      },
+      "ending_total_assets": {
+        "value": 2018021000,
+        "as_printed": "2,018,021",
+        "unit_note": "in thousands",
+        "source_page": 62,
+        "source_quote": "Total assets $ 2,018,021 $ 1,705,592"
+      },
+      "total_liabilities": {
+        "value": 886964000,
+        "as_printed": "886,964",
+        "unit_note": "in thousands",
+        "source_page": 62,
+        "source_quote": "Total liabilities $ 886,964 $ 761,949"
+      },
+      "total_current_assets": {
+        "value": 863960000,
+        "as_printed": "863,960",
+        "unit_note": "in thousands",
+        "source_page": 62,
+        "source_quote": "Total current assets 863,960 729,649"
+      },
+      "total_current_liabilities": {
+        "value": 353349000,
+        "as_printed": "353,349",
+        "unit_note": "in thousands",
+        "source_page": 62,
+        "source_quote": "Total current liabilities 353,349 312,808"
+      },
+      "inventory": {
+        "value": 747191000,
+        "as_printed": "747,191",
+        "unit_note": "in thousands",
+        "source_page": 62,
+        "source_quote": "Inventories 747,191 599,120"
+      },
+      "cash_and_equivalents": {
+        "value": 69770000,
+        "as_printed": "69,770",
+        "unit_note": "in thousands",
+        "source_page": 62,
+        "source_quote": "Cash and cash equivalents $ 69,770 $ 75,847"
+      },
+      "revenue": {
+        "value": 1911104000,
+        "as_printed": "1,911,104",
+        "unit_note": "in thousands",
+        "source_page": 63,
+        "source_quote": "Net sales $ 1,911,104 $ 1,667,009 $ 1,657,615"
+      },
+      "operating_income": {
+        "value": 239352000,
+        "as_printed": "239,352",
+        "unit_note": "in thousands",
+        "source_page": 63,
+        "source_quote": "Income from operations 239,352 198,214 231,787"
+      },
+      "interest_expense": {
+        "value": 1497000,
+        "as_printed": "1,497",
+        "unit_note": "in thousands",
+        "source_page": 63,
+        "source_quote": "Interest expense 1,497 2,238 5,880"
+      },
+      "income_tax_expense": {
+        "value": 59175000,
+        "as_printed": "59,175",
+        "unit_note": "in thousands",
+        "source_page": 63,
+        "source_quote": "Income tax expense 59,175 50,376 55,325"
+      },
+      "depreciation_and_amortization": {
+        "value": 62482000,
+        "as_printed": "62,462",
+        "unit_note": "in thousands",
+        "source_page": 65,
+        "source_quote": "Depreciation 62,462 49,531 35,883"
+      },
+      "basic_eps": {
+        "value": 5.93,
+        "as_printed": "5.93",
+        "unit_note": "whole dollars",
+        "source_page": 63,
+        "source_quote": "Basic $ 5.93 $ 4.87 $ 5.72"
+      },
+      "diluted_eps": {
+        "value": 5.88,
+        "as_printed": "5.88",
+        "unit_note": "whole dollars",
+        "source_page": 63,
+        "source_quote": "Diluted $ 5.88 $ 4.80 $ 5.62"
+      },
+      "dividend_per_share": {
+        "value": 0,
+        "as_printed": "have not declared any cash dividends",
+        "unit_note": "whole dollars",
+        "source_page": 44,
+        "source_quote": "Since our common stock began trading, we have not declared any cash dividends, and we do not anticipate declaring any cash dividends in the foreseeable future."
+      },
+      "operating_cash_flow": {
+        "value": 147540000,
+        "as_printed": "147,540",
+        "unit_note": "in thousands",
+        "source_page": 65,
+        "source_quote": "Net cash provided by operating activities $ 147,540 $ 236,080 $ 88,887"
+      },
+      "shares_outstanding": {
+        "value": 30594094,
+        "as_printed": "30,594,094",
+        "unit_note": "whole dollars",
+        "source_page": 5,
+        "source_quote": "The number of outstanding shares of the registrant\u2019s common stock, $0.0001 par value, as of May 9, 2025 was 30,594,094."
+      },
+      "share_price": null,
+      "expected_growth_rate": null,
+      "investment_cost": null,
+      "investment_gain": null,
+      "debt_principal_and_interest_due": null,
+      "sss_net_sales_current": null,
+      "sss_net_sales_prior": null,
+      "retail_store_sss_net_sales_current": null,
+      "retail_store_sss_net_sales_prior": null,
+      "ecommerce_sss_net_sales_current": null,
+      "ecommerce_sss_net_sales_prior": null,
+      "exclusive_brand_net_sales": null,
+      "third_party_brand_net_sales": null,
+      "beginning_store_count": {
+        "value": 400,
+        "as_printed": "400",
+        "unit_note": "whole dollars",
+        "source_page": 51,
+        "source_quote": "Stores operating at end of period 459 400 345"
+      },
+      "ending_store_count": {
+        "value": 459,
+        "as_printed": "459",
+        "unit_note": "whole dollars",
+        "source_page": 51,
+        "source_quote": "Stores operating at end of period 459 400 345"
+      },
+      "retail_store_net_sales": null,
+      "capex_per_new_store": {
+        "value": 1700000,
+        "as_printed": "1.7",
+        "unit_note": "million",
+        "source_page": 10,
+        "source_quote": "Our new store model requires an average net cash investment of approximately $1.7 million"
+      },
+      "store_contribution_margin": null,
+      "cost_of_goods_sold": {
+        "value": 1194066000,
+        "as_printed": "1,194,066",
+        "unit_note": "in thousands",
+        "source_page": 63,
+        "source_quote": "Cost of goods sold 1,194,066 1,052,585 1,047,043"
+      },
+      "store_occupancy_costs": null,
+      "distribution_freight_costs": null
+    },
+    "ratios": {
+      "roe": {
+        "name": "ROE (Return on Equity)",
+        "formula": "Net Income / Total Stockholders' Equity",
+        "description": "Measures profitability relative to shareholders' equity. Higher means management is using investor capital more efficiently to generate profit.",
+        "value": "16.00%",
+        "source_note": "Computed from extracted values."
+      },
+      "roa": {
+        "name": "ROA (Return on Assets)",
+        "formula": "Net Income / Average Total Assets",
+        "description": "Average Total Assets is (Beginning + Ending Total Assets) / 2. Higher means management is using resources more efficiently to generate earnings.",
+        "value": "9.72%",
+        "source_note": "Computed from extracted values."
+      },
+      "debt_to_equity": {
+        "name": "Debt-to-Equity Ratio",
+        "formula": "Total Liabilities / Total Stockholders' Equity",
+        "description": "Measures leverage - how much a company finances its operations with debt versus its own funds. A lower ratio generally indicates greater financial stability.",
+        "value": "0.78x",
+        "source_note": "Computed from extracted values."
+      },
+      "current_ratio": {
+        "name": "Current Ratio",
+        "formula": "Total Current Assets / Total Current Liabilities",
+        "description": "Measures ability to pay short-term obligations (due within one year) with current assets. Above 1.0 is healthy; 1.5-2.0 is generally considered ideal.",
+        "value": "2.45x",
+        "source_note": "Computed from extracted values."
+      },
+      "quick_ratio": {
+        "name": "Quick Ratio (Acid-Test Ratio)",
+        "formula": "(Current Assets - Inventory) / Current Liabilities",
+        "description": "Measures ability to pay short-term liabilities with the most liquid assets, excluding inventory. A ratio of 1:1 is considered ideal.",
+        "value": "0.33x",
+        "source_note": "Computed from extracted values."
+      },
+      "operating_profit_margin": {
+        "name": "Operating Profit Margin",
+        "formula": "Operating Income / Revenue",
+        "description": "Measures core operational efficiency - the percentage of revenue remaining after covering cost of goods sold and operating expenses, before interest and taxes. Higher indicates better profitability.",
+        "value": "12.52%",
+        "source_note": "Computed from extracted values."
+      },
+      "interest_coverage_ratio": {
+        "name": "Interest Coverage Ratio",
+        "formula": "Operating Income / Interest Expense",
+        "description": "Measures ability to pay interest on outstanding debt (uses Operating Income as a proxy for EBIT). Above 2-3 is typically considered good; higher means lower default risk.",
+        "value": "159.89x",
+        "source_note": "Computed from extracted values."
+      },
+      "ebitda_margin": {
+        "name": "EBITDA Margin",
+        "formula": "(Net Income + Interest Expense + Income Tax Expense + Depreciation & Amortization) / Revenue",
+        "description": "Measures operational profitability excluding financing, tax, and non-cash expenses. Higher indicates the business converts more of its core operations into earnings.",
+        "value": "15.91%",
+        "source_note": "Computed from extracted values."
+      },
+      "eps": {
+        "name": "Basic EPS",
+        "formula": "Reported directly on the Income Statement",
+        "description": "Net income divided by weighted-average shares outstanding, as calculated and disclosed by the company itself.",
+        "value": "$5.93",
+        "source_note": "Computed from extracted values."
+      },
+      "diluted_eps": {
+        "name": "Diluted EPS",
+        "formula": "Reported directly on the Income Statement",
+        "description": "Like Basic EPS, but assumes all convertible securities (options, warrants, convertible debt) are exercised - a conservative, usually lower, per-share figure.",
+        "value": "$5.88",
+        "source_note": "Computed from extracted values."
+      },
+      "shareholder_equity": {
+        "name": "Shareholder Equity",
+        "formula": "Total Assets - Total Liabilities",
+        "description": "A company's net worth - the residual value belonging to owners after all liabilities are settled. Reported directly on the Balance Sheet.",
+        "value": "$1,131,057,000",
+        "source_note": "Computed from extracted values."
+      },
+      "cash_on_hand": {
+        "name": "Cash on Hand",
+        "formula": "Reported directly on the Balance Sheet",
+        "description": "Total immediately accessible cash and cash equivalents.",
+        "value": "$69,770,000",
+        "source_note": "Computed from extracted values."
+      },
+      "dividend_per_share": {
+        "name": "Dividend Per Share",
+        "formula": "Reported directly on the financial statements",
+        "description": "The portion of profit paid to shareholders per share owned. 0 if the company does not pay a dividend.",
+        "value": "$0.00",
+        "source_note": "Computed from extracted values."
+      },
+      "pe_ratio": {
+        "name": "Price-to-Earnings (P/E) Ratio",
+        "formula": "Share Price / Earnings Per Share (EPS)",
+        "description": "Measures how much investors pay per $1 of earnings. A high ratio may suggest overvaluation or high growth expectations.",
+        "value": "",
+        "source_note": ""
+      },
+      "pb_ratio": {
+        "name": "Price-to-Book (P/B) Ratio",
+        "formula": "Share Price / Book Value Per Share",
+        "description": "Measures market valuation relative to net asset (book) value. A lower P/B (often < 1) may indicate an undervalued stock.",
+        "value": "",
+        "source_note": ""
+      },
+      "peg_ratio": {
+        "name": "Price/Earnings-to-Growth (PEG) Ratio",
+        "formula": "P/E Ratio / Expected Earnings Growth Rate (%)",
+        "description": "Divides P/E by expected earnings growth to judge value relative to growth prospects. ~1.0 suggests fair value.",
+        "value": "",
+        "source_note": ""
+      },
+      "dividend_yield": {
+        "name": "Dividend Yield",
+        "formula": "Annual Dividend Per Share / Share Price",
+        "description": "Annualized cash dividends as a percentage of the share price.",
+        "value": "",
+        "source_note": ""
+      },
+      "roi": {
+        "name": "ROI (Return on Investment)",
+        "formula": "Investment Gain / Cost of Investment",
+        "description": "Evaluates profitability and efficiency of a specific investment by comparing its gain to its initial cost. Only computable when the report explicitly discusses a specific investment in these terms.",
+        "value": "",
+        "source_note": ""
+      },
+      "debt_service_ratio": {
+        "name": "Debt Service Ratio",
+        "formula": "Operating Cash Flow / (Principal + Interest Payments Due)",
+        "description": "Measures ability to cover debt obligations (principal + interest) with operating cash flow. Above 1.0 is sufficient; 1.25+ is standard for lenders.",
+        "value": "",
+        "source_note": ""
+      },
+      "debt_service_coverage_ratio": {
+        "name": "Debt Service Coverage Ratio",
+        "formula": "EBITDA / (Principal + Interest Payments Due)",
+        "description": "Measures ability to cover debt obligations with EBITDA. 1.0 is break-even; lenders typically require 1.25+.",
+        "value": "",
+        "source_note": ""
+      }
+    },
+    "extraction_meta": {
+      "model": "gemini-3.5-flash-lite",
+      "pdf_path": "pdfs/boot-barn.pdf",
+      "prompt": "You are extracting facts from a company's annual report for its MOST RECENT fiscal year. You have TWO jobs below. Do no arithmetic yourself either way - only report numbers literally printed in the document, never from outside knowledge.\n\nSome of the fields and ratios below are retail-domain KPIs - they only apply if this company's business matches that domain. If they don't apply, leave them null; don't force a fit.\n\nRules that apply throughout:\n- Every field is optional. Use value: 0 ONLY when the document EXPLICITLY states a fact equivalent to zero/none (e.g. \"we have not declared any cash dividends\", \"amounts outstanding were zero\") - quote that exact statement in source_quote. If the document simply never discusses a topic at all (no mention of it anywhere), that is NOT the same as zero - use null instead. Do not guess 0 just because you found nothing; 0 must be something the document actually says, not your absence-of-evidence.\n- Match by meaning, not exact wording - filers phrase the same concept differently (e.g. \"Shareholders' equity\" = \"Total stockholders' equity\"; \"ROE\" = \"return on equity\").\n- When the same figure appears at different precision in different places, use the exact one from the primary financial statement, not a rounded mention elsewhere.\n- If a line item is split into sub-components shown separately, report their sum and show each component plus the total in source_quote.\n\nJOB 1 - Raw input values. Find these in the CONSOLIDATED financial statements:\n\n- net_income: Consolidated Statements of Operations/Income, most recent fiscal year\n- total_stockholders_equity: Consolidated Balance Sheet, most recent fiscal year end\n- beginning_total_assets: Total Assets, Consolidated Balance Sheet, PRIOR fiscal year end\n- ending_total_assets: Total Assets, Consolidated Balance Sheet, most recent fiscal year end\n- total_liabilities: Total Liabilities, Consolidated Balance Sheet, most recent fiscal year end\n- total_current_assets: Total Current Assets, Consolidated Balance Sheet\n- total_current_liabilities: Total Current Liabilities, Consolidated Balance Sheet\n- inventory: Inventory, Consolidated Balance Sheet\n- cash_and_equivalents: Cash and Cash Equivalents, Consolidated Balance Sheet\n- revenue: Total Revenue / Net Sales, Consolidated Statements of Operations\n- operating_income: Operating Income / Income from Operations, Consolidated Statements of Operations\n- interest_expense: Interest Expense, Consolidated Statements of Operations\n- income_tax_expense: Income Tax Expense / Provision for Income Taxes, Consolidated Statements of Operations\n- depreciation_and_amortization: Depreciation and Amortization, Consolidated Statements of Cash Flows\n- basic_eps: Basic Earnings Per Share, Consolidated Statements of Operations\n- diluted_eps: Diluted Earnings Per Share, Consolidated Statements of Operations\n- dividend_per_share: Dividends declared/paid per share\n- operating_cash_flow: Net Cash Provided by Operating Activities, Consolidated Statements of Cash Flows\n- shares_outstanding: Shares of common stock outstanding\n- share_price: The company's own stock price, if stated anywhere in this document\n- expected_growth_rate: A forward-looking earnings growth rate estimate, if the company states one\n- investment_cost: Cost of a specific named investment, if the report discusses one\n- investment_gain: Gain on that same named investment, if discussed alongside its cost\n- debt_principal_and_interest_due: Principal + interest due in the coming year on borrowed-money debt (loans, bonds, credit facility draws)\n- sss_net_sales_current: Same-store (comparable) net sales across all channels, current fiscal year\n- sss_net_sales_prior: Same-store (comparable) net sales across all channels, prior fiscal year - same store base as above\n- retail_store_sss_net_sales_current: Same-store net sales from physical retail stores only, current fiscal year\n- retail_store_sss_net_sales_prior: Same-store net sales from physical retail stores only, prior fiscal year\n- ecommerce_sss_net_sales_current: Same-store (comparable) net sales from the e-commerce/direct-to-consumer channel, current fiscal year\n- ecommerce_sss_net_sales_prior: Same-store (comparable) net sales from the e-commerce/direct-to-consumer channel, prior fiscal year\n- exclusive_brand_net_sales: Net sales from the retailer's own exclusive/proprietary brands\n- third_party_brand_net_sales: Net sales from third-party/national brands carried by the retailer\n- beginning_store_count: Number of stores open at the start of the fiscal year\n- ending_store_count: Number of stores open at the end of the fiscal year\n- retail_store_net_sales: Net sales from physical retail stores (all stores, not just comparable), most recent fiscal year\n- capex_per_new_store: Average capital expenditure to open one new store, net of landlord/tenant allowances\n- store_contribution_margin: Annual store-level contribution margin for a mature/average store (e.g. EBITDAR minus rent), if disclosed\n- cost_of_goods_sold: Cost of Goods Sold / Cost of Merchandise Sold, Consolidated Statements of Operations\n- store_occupancy_costs: Store occupancy costs (rent, utilities, property taxes, common area maintenance) included within cost of goods sold\n- distribution_freight_costs: Distribution center and freight/fulfillment costs included within cost of goods sold\n\nFor each raw value, report:\n- value: the exact number in whole dollars (not thousands - if the statement says \"in thousands\", multiply by 1000). Per-share fields (EPS, dividend per share, share price) are already per-share, do not scale them.\n- as_printed: an exact substring a text search would find on the page, used to jump straight to this value in the source document. If the number is printed as a digit, use it exactly as printed (e.g. \"180,942\"), BEFORE any unit scaling. If instead the value is INFERRED from a qualitative statement with no digit printed at all (e.g. \"we have not declared any cash dividends\" implying $0), as_printed must be a short distinctive phrase copied verbatim from source_quote instead - never a number that does not actually appear on the page.\n- unit_note: the exact nearby text establishing scale, e.g. \"in thousands\", \"in millions\", or \"whole dollars\" if no scaling note is nearby - quote it verbatim, do not paraphrase.\n- source_page: the PDF page number (1-indexed, count actual PDF pages) where you found it.\n- source_quote: the exact line of text containing this number, quoted verbatim.\n\nJOB 2 - Already-stated ratios. Separately, check whether the document ALREADY states the final computed value for any of these ratios itself (e.g. in a \"Selected Financial Data\" table, MD&A discussion, or a key-metrics summary) - companies sometimes quote their own ROE, current ratio, EBITDA margin, etc. directly:\n\n- roe: ROE (Return on Equity)\n- roa: ROA (Return on Assets)\n- debt_to_equity: Debt-to-Equity Ratio\n- current_ratio: Current Ratio\n- quick_ratio: Quick Ratio (Acid-Test Ratio)\n- operating_profit_margin: Operating Profit Margin\n- interest_coverage_ratio: Interest Coverage Ratio\n- ebitda_margin: EBITDA Margin\n- eps: Basic EPS\n- diluted_eps: Diluted EPS\n- shareholder_equity: Shareholder Equity\n- cash_on_hand: Cash on Hand\n- dividend_per_share: Dividend Per Share\n- pe_ratio: Price-to-Earnings (P/E) Ratio\n- pb_ratio: Price-to-Book (P/B) Ratio\n- peg_ratio: Price/Earnings-to-Growth (PEG) Ratio\n- dividend_yield: Dividend Yield\n- roi: ROI (Return on Investment)\n- debt_service_ratio: Debt Service Ratio\n- debt_service_coverage_ratio: Debt Service Coverage Ratio\n- consolidated_sss_growth: Consolidated Same-Store Sales Growth\n- retail_store_sss: Retail Store Same-Store Sales Growth\n- ecommerce_sss: E-commerce Same-Store Sales Growth\n- exclusive_brand_penetration: Exclusive Brand Penetration\n- third_party_brand_penetration: Third-Party Brand Penetration\n- average_net_revenue_per_store: Average Net Revenue Per Store\n- capex_payback_period: CapEx Payback Period (Years)\n- merchandise_margin_rate: Merchandise Margin Rate\n- occupancy_cost_rate: Occupancy Cost Rate\n- gross_margin_rate: Gross Margin Rate\n\nFor each one, only report a value if you find the FINAL ratio value already stated as such in the text - do not compute it yourself from other numbers, and do not confuse a raw line item (like \"Total stockholders' equity\") with a stated ratio (like \"return on equity of 16%\"). If a ratio is not explicitly stated as a computed metric anywhere, set its value to null. Report source_page and source_quote for any you do find.\n\nAlso report company_name (full legal name) and fiscal_year_end (e.g. \"2025-03-29\").\n\nRespond with ONLY valid JSON, no markdown fences:\n{\n  \"company_name\": \"...\",\n  \"fiscal_year_end\": \"...\",\n  \"raw_values\": {\n    \"net_income\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"total_stockholders_equity\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"beginning_total_assets\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"ending_total_assets\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"total_liabilities\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"total_current_assets\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"total_current_liabilities\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"inventory\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"cash_and_equivalents\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"revenue\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"operating_income\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"interest_expense\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"income_tax_expense\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"depreciation_and_amortization\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"basic_eps\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"diluted_eps\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"dividend_per_share\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"operating_cash_flow\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"shares_outstanding\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"share_price\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"expected_growth_rate\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"investment_cost\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"investment_gain\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"debt_principal_and_interest_due\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"sss_net_sales_current\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"sss_net_sales_prior\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"retail_store_sss_net_sales_current\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"retail_store_sss_net_sales_prior\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"ecommerce_sss_net_sales_current\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"ecommerce_sss_net_sales_prior\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"exclusive_brand_net_sales\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"third_party_brand_net_sales\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"beginning_store_count\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"ending_store_count\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"retail_store_net_sales\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"capex_per_new_store\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"store_contribution_margin\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"cost_of_goods_sold\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"store_occupancy_costs\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"distribution_freight_costs\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"}\n  },\n  \"stated_ratios\": {\n    \"roe\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"roa\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"debt_to_equity\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"current_ratio\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"quick_ratio\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"operating_profit_margin\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"interest_coverage_ratio\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"ebitda_margin\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"eps\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"diluted_eps\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"shareholder_equity\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"cash_on_hand\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"dividend_per_share\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"pe_ratio\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"pb_ratio\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"peg_ratio\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"dividend_yield\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"roi\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"debt_service_ratio\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"debt_service_coverage_ratio\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"consolidated_sss_growth\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"retail_store_sss\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"ecommerce_sss\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"exclusive_brand_penetration\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"third_party_brand_penetration\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"average_net_revenue_per_store\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"capex_payback_period\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"merchandise_margin_rate\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"occupancy_cost_rate\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"gross_margin_rate\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"}\n  }\n}\n",
+      "input_tokens": 58785,
+      "output_tokens": 2702
+    },
+    "domain_ratios": {
+      "consolidated_sss_growth": {
+        "name": "Consolidated Same-Store Sales Growth",
+        "formula": "(Same-Store Net Sales, Current Year - Same-Store Net Sales, Prior Year) / Same-Store Net Sales, Prior Year",
+        "description": "Retail KPI. Net sales growth from stores open long enough (typically 14+ months) to exclude the effect of new store openings.",
+        "value": "5.50%",
+        "source_note": "Stated directly - p. 51: \"Same Store Sales growth/(decline) 5.5 % (6.2)% (0.1)%\""
+      },
+      "retail_store_sss": {
+        "name": "Retail Store Same-Store Sales Growth",
+        "formula": "(Store SSS Net Sales, Current Period - Store SSS Net Sales, Prior Period) / Store SSS Net Sales, Prior Period",
+        "description": "Retail KPI. Same-store sales growth isolated to the physical retail store channel.",
+        "value": "",
+        "source_note": ""
+      },
+      "ecommerce_sss": {
+        "name": "E-commerce Same-Store Sales Growth",
+        "formula": "(E-commerce Net Sales, Current Period - E-commerce Net Sales, Prior Period) / E-commerce Net Sales, Prior Period",
+        "description": "Retail KPI. Same-store sales growth isolated to the e-commerce/direct- to-consumer channel.",
+        "value": "",
+        "source_note": ""
+      },
+      "exclusive_brand_penetration": {
+        "name": "Exclusive Brand Penetration",
+        "formula": "Net Sales from Exclusive Brands / Total Net Sales",
+        "description": "Retail KPI. Share of revenue from a retailer's own higher-margin proprietary brands versus third-party/national brands.",
+        "value": "38.60%",
+        "source_note": "Stated directly - p. 16: \"In fiscal 2025, sales from our exclusive brand products accounted for approximately 38.6% of our consolidated sales.\""
+      },
+      "third_party_brand_penetration": {
+        "name": "Third-Party Brand Penetration",
+        "formula": "Net Sales from Third-Party Brands / Total Net Sales",
+        "description": "Retail KPI. Share of revenue from third-party/national brands versus a retailer's own exclusive brands.",
+        "value": "",
+        "source_note": ""
+      },
+      "average_net_revenue_per_store": {
+        "name": "Average Net Revenue Per Store",
+        "formula": "Retail Store Net Sales / Average Store Count",
+        "description": "Retail KPI. Average Store Count is (Beginning + Ending Store Count) / 2. Measures individual store productivity.",
+        "value": "",
+        "source_note": ""
+      },
+      "capex_payback_period": {
+        "name": "CapEx Payback Period (Years)",
+        "formula": "Initial Capital Expenditure Per New Store / Annual Store-Level Contribution Margin",
+        "description": "Retail KPI. Years needed for a new store's investment to be recovered from its own contribution margin (e.g. EBITDAR minus rent). Shorter is better.",
+        "value": "3.0 yrs",
+        "source_note": "Stated directly - p. 10: \"Our new store model requires an average net cash investment of approximately $1.7 million and targets an average payback period of three years.\""
+      },
+      "merchandise_margin_rate": {
+        "name": "Merchandise Margin Rate",
+        "formula": "(Net Sales - (Cost of Goods Sold - Occupancy and Distribution Costs)) / Net Sales",
+        "description": "Retail KPI. Margin on product sales alone, excluding the store occupancy and distribution/fulfillment costs bundled into Cost of Goods Sold.",
+        "value": "",
+        "source_note": ""
+      },
+      "occupancy_cost_rate": {
+        "name": "Occupancy Cost Rate",
+        "formula": "(Store Occupancy Costs + Distribution & Freight/Fulfillment Costs) / Net Sales",
+        "description": "Retail KPI. Operating leverage on fixed retail and distribution infrastructure, as a percentage of net sales.",
+        "value": "",
+        "source_note": ""
+      },
+      "gross_margin_rate": {
+        "name": "Gross Margin Rate",
+        "formula": "(Net Sales - Cost of Goods Sold) / Net Sales",
+        "description": "Retail KPI. GAAP gross profit margin after product and store/warehouse occupancy overhead - equals Merchandise Margin Rate minus Occupancy Cost Rate.",
+        "value": "37.50%",
+        "source_note": "Stated directly - p. 50: \"Gross profit 37.5 % 36.9 %\""
+      }
+    }
+  },
+  "homedepot": {
+    "company_name": "THE HOME DEPOT, INC.",
+    "fiscal_year_end": "2026-02-01",
+    "source_url": "test-source-homedepot",
+    "raw_values": {
+      "net_income": {
+        "value": 14156000000,
+        "as_printed": "14,156",
+        "unit_note": "in millions",
+        "source_page": 44,
+        "source_quote": "Net earnings $ 14,156"
+      },
+      "total_stockholders_equity": {
+        "value": 12813000000,
+        "as_printed": "12,813",
+        "unit_note": "in millions",
+        "source_page": 43,
+        "source_quote": "Total stockholders\u2019 equity 12,813"
+      },
+      "beginning_total_assets": {
+        "value": 96119000000,
+        "as_printed": "96,119",
+        "unit_note": "in millions",
+        "source_page": 43,
+        "source_quote": "Total assets $ 105,095 $ 96,119"
+      },
+      "ending_total_assets": {
+        "value": 105095000000,
+        "as_printed": "105,095",
+        "unit_note": "in millions",
+        "source_page": 43,
+        "source_quote": "Total assets $ 105,095 $ 96,119"
+      },
+      "total_liabilities": {
+        "value": 92282000000,
+        "as_printed": "92,282",
+        "unit_note": "in millions",
+        "source_page": 43,
+        "source_quote": "Total liabilities 92,282"
+      },
+      "total_current_assets": {
+        "value": 34391000000,
+        "as_printed": "34,391",
+        "unit_note": "in millions",
+        "source_page": 43,
+        "source_quote": "Total current assets 34,391"
+      },
+      "total_current_liabilities": {
+        "value": 32424000000,
+        "as_printed": "32,424",
+        "unit_note": "in millions",
+        "source_page": 43,
+        "source_quote": "Total current liabilities 32,424"
+      },
+      "inventory": {
+        "value": 25817000000,
+        "as_printed": "25,817",
+        "unit_note": "in millions",
+        "source_page": 43,
+        "source_quote": "Merchandise inventories 25,817"
+      },
+      "cash_and_equivalents": {
+        "value": 1389000000,
+        "as_printed": "1,389",
+        "unit_note": "in millions",
+        "source_page": 43,
+        "source_quote": "Cash and cash equivalents $ 1,389"
+      },
+      "revenue": {
+        "value": 164683000000,
+        "as_printed": "164,683",
+        "unit_note": "in millions",
+        "source_page": 44,
+        "source_quote": "Net sales $ 164,683"
+      },
+      "operating_income": {
+        "value": 20890000000,
+        "as_printed": "20,890",
+        "unit_note": "in millions",
+        "source_page": 44,
+        "source_quote": "Operating income 20,890"
+      },
+      "interest_expense": {
+        "value": 2412000000,
+        "as_printed": "2,412",
+        "unit_note": "in millions",
+        "source_page": 44,
+        "source_quote": "Interest expense 2,412"
+      },
+      "income_tax_expense": {
+        "value": 4446000000,
+        "as_printed": "4,446",
+        "unit_note": "in millions",
+        "source_page": 44,
+        "source_quote": "Provision for income taxes 4,446"
+      },
+      "depreciation_and_amortization": {
+        "value": 4121000000,
+        "as_printed": "4,121",
+        "unit_note": "in millions",
+        "source_page": 47,
+        "source_quote": "Depreciation and amortization, excluding amortization of intangible assets 3,514; Intangible asset amortization 607; Total: 4,121"
+      },
+      "basic_eps": {
+        "value": 14.26,
+        "as_printed": "14.26",
+        "unit_note": "per share data",
+        "source_page": 44,
+        "source_quote": "Basic earnings per share $ 14.26"
+      },
+      "diluted_eps": {
+        "value": 14.23,
+        "as_printed": "14.23",
+        "unit_note": "per share data",
+        "source_page": 44,
+        "source_quote": "Diluted earnings per share $ 14.23"
+      },
+      "dividend_per_share": {
+        "value": 9.2,
+        "as_printed": "9.20",
+        "unit_note": "whole dollars",
+        "source_page": 69,
+        "source_quote": "Cash dividends per share $ 9.20"
+      },
+      "operating_cash_flow": {
+        "value": 16325000000,
+        "as_printed": "16,325",
+        "unit_note": "in millions",
+        "source_page": 47,
+        "source_quote": "Net cash provided by operating activities 16,325"
+      },
+      "shares_outstanding": {
+        "value": 996000000,
+        "as_printed": "996",
+        "unit_note": "in millions",
+        "source_page": 43,
+        "source_quote": "outstanding: 996 shares at February 1, 2026"
+      },
+      "share_price": null,
+      "expected_growth_rate": null,
+      "investment_cost": {
+        "value": 5081000000,
+        "as_printed": "5,081",
+        "unit_note": "in millions",
+        "source_page": 75,
+        "source_quote": "Total purchase consideration $ 5,081"
+      },
+      "investment_gain": null,
+      "debt_principal_and_interest_due": {
+        "value": 11431000000,
+        "as_printed": "11,431",
+        "unit_note": "in millions",
+        "source_page": 43,
+        "source_quote": "Short-term debt $4,464 million; Current installments of long-term debt $4,967 million; Future interest payments associated with senior notes payable within 12 months $2,000 million; Total: $11,431 million"
+      }
+    },
+    "ratios": {
+      "roe": {
+        "name": "ROE (Return on Equity)",
+        "formula": "Net Income / Total Stockholders' Equity",
+        "description": "Measures profitability relative to shareholders' equity. Higher means management is using investor capital more efficiently to generate profit.",
+        "value": "110.48%",
+        "source_note": "Computed from extracted values."
+      },
+      "roa": {
+        "name": "ROA (Return on Assets)",
+        "formula": "Net Income / Average Total Assets",
+        "description": "Average Total Assets is (Beginning + Ending Total Assets) / 2. Higher means management is using resources more efficiently to generate earnings.",
+        "value": "14.07%",
+        "source_note": "Computed from extracted values."
+      },
+      "debt_to_equity": {
+        "name": "Debt-to-Equity Ratio",
+        "formula": "Total Liabilities / Total Stockholders' Equity",
+        "description": "Measures leverage - how much a company finances its operations with debt versus its own funds. A lower ratio generally indicates greater financial stability.",
+        "value": "7.20x",
+        "source_note": "Computed from extracted values."
+      },
+      "current_ratio": {
+        "name": "Current Ratio",
+        "formula": "Total Current Assets / Total Current Liabilities",
+        "description": "Measures ability to pay short-term obligations (due within one year) with current assets. Above 1.0 is healthy; 1.5-2.0 is generally considered ideal.",
+        "value": "1.06x",
+        "source_note": "Computed from extracted values."
+      },
+      "quick_ratio": {
+        "name": "Quick Ratio (Acid-Test Ratio)",
+        "formula": "(Current Assets - Inventory) / Current Liabilities",
+        "description": "Measures ability to pay short-term liabilities with the most liquid assets, excluding inventory. A ratio of 1:1 is considered ideal.",
+        "value": "0.26x",
+        "source_note": "Computed from extracted values."
+      },
+      "operating_profit_margin": {
+        "name": "Operating Profit Margin",
+        "formula": "Operating Income / Revenue",
+        "description": "Measures core operational efficiency - the percentage of revenue remaining after covering cost of goods sold and operating expenses, before interest and taxes. Higher indicates better profitability.",
+        "value": "12.68%",
+        "source_note": "Computed from extracted values."
+      },
+      "interest_coverage_ratio": {
+        "name": "Interest Coverage Ratio",
+        "formula": "Operating Income / Interest Expense",
+        "description": "Measures ability to pay interest on outstanding debt (uses Operating Income as a proxy for EBIT). Above 2-3 is typically considered good; higher means lower default risk.",
+        "value": "8.66x",
+        "source_note": "Computed from extracted values."
+      },
+      "ebitda_margin": {
+        "name": "EBITDA Margin",
+        "formula": "(Net Income + Interest Expense + Income Tax Expense + Depreciation & Amortization) / Revenue",
+        "description": "Measures operational profitability excluding financing, tax, and non-cash expenses. Higher indicates the business converts more of its core operations into earnings.",
+        "value": "15.26%",
+        "source_note": "Computed from extracted values."
+      },
+      "eps": {
+        "name": "Basic EPS",
+        "formula": "Reported directly on the Income Statement",
+        "description": "Net income divided by weighted-average shares outstanding, as calculated and disclosed by the company itself.",
+        "value": "$14.26",
+        "source_note": "Stated directly - p. 44: \"Basic earnings per share $ 14.26\""
+      },
+      "diluted_eps": {
+        "name": "Diluted EPS",
+        "formula": "Reported directly on the Income Statement",
+        "description": "Like Basic EPS, but assumes all convertible securities (options, warrants, convertible debt) are exercised - a conservative, usually lower, per-share figure.",
+        "value": "$14.23",
+        "source_note": "Stated directly - p. 33: \"Diluted earnings per share $14.23\""
+      },
+      "shareholder_equity": {
+        "name": "Shareholder Equity",
+        "formula": "Total Assets - Total Liabilities",
+        "description": "A company's net worth - the residual value belonging to owners after all liabilities are settled. Reported directly on the Balance Sheet.",
+        "value": "$12,813,000,000",
+        "source_note": "Stated directly - p. 43: \"Total stockholders\u2019 equity 12,813\""
+      },
+      "cash_on_hand": {
+        "name": "Cash on Hand",
+        "formula": "Reported directly on the Balance Sheet",
+        "description": "Total immediately accessible cash and cash equivalents.",
+        "value": "$1,389,000,000",
+        "source_note": "Stated directly - p. 43: \"Cash and cash equivalents $ 1,389\""
+      },
+      "dividend_per_share": {
+        "name": "Dividend Per Share",
+        "formula": "Reported directly on the financial statements",
+        "description": "The portion of profit paid to shareholders per share owned. 0 if the company does not pay a dividend.",
+        "value": "$9.20",
+        "source_note": "Stated directly - p. 69: \"Cash dividends per share $ 9.20\""
+      },
+      "pe_ratio": {
+        "name": "Price-to-Earnings (P/E) Ratio",
+        "formula": "Share Price / Earnings Per Share (EPS)",
+        "description": "Measures how much investors pay per $1 of earnings. A high ratio may suggest overvaluation or high growth expectations.",
+        "value": "",
+        "source_note": ""
+      },
+      "pb_ratio": {
+        "name": "Price-to-Book (P/B) Ratio",
+        "formula": "Share Price / Book Value Per Share",
+        "description": "Measures market valuation relative to net asset (book) value. A lower P/B (often < 1) may indicate an undervalued stock.",
+        "value": "",
+        "source_note": ""
+      },
+      "peg_ratio": {
+        "name": "Price/Earnings-to-Growth (PEG) Ratio",
+        "formula": "P/E Ratio / Expected Earnings Growth Rate (%)",
+        "description": "Divides P/E by expected earnings growth to judge value relative to growth prospects. ~1.0 suggests fair value.",
+        "value": "",
+        "source_note": ""
+      },
+      "dividend_yield": {
+        "name": "Dividend Yield",
+        "formula": "Annual Dividend Per Share / Share Price",
+        "description": "Annualized cash dividends as a percentage of the share price.",
+        "value": "",
+        "source_note": ""
+      },
+      "roi": {
+        "name": "ROI (Return on Investment)",
+        "formula": "Investment Gain / Cost of Investment",
+        "description": "Evaluates profitability and efficiency of a specific investment by comparing its gain to its initial cost. Only computable when the report explicitly discusses a specific investment in these terms.",
+        "value": "25.70%",
+        "source_note": "Stated directly - p. 35: \"ROIC 25.7 %\""
+      },
+      "debt_service_ratio": {
+        "name": "Debt Service Ratio",
+        "formula": "Operating Cash Flow / (Principal + Interest Payments Due)",
+        "description": "Measures ability to cover debt obligations (principal + interest) with operating cash flow. Above 1.0 is sufficient; 1.25+ is standard for lenders.",
+        "value": "1.43x",
+        "source_note": "Computed from extracted values."
+      },
+      "debt_service_coverage_ratio": {
+        "name": "Debt Service Coverage Ratio",
+        "formula": "EBITDA / (Principal + Interest Payments Due)",
+        "description": "Measures ability to cover debt obligations with EBITDA. 1.0 is break-even; lenders typically require 1.25+.",
+        "value": "2.20x",
+        "source_note": "Computed from extracted values."
+      }
+    }
+  },
+  "apple": {
+    "company_name": "Apple Inc.",
+    "fiscal_year_end": "2025-09-27",
+    "source_url": "https://s2.q4cdn.com/470004039/files/doc_financials/2025/ar/_10-K-2025-As-Filed.pdf",
+    "country": "US",
+    "raw_values": {
+      "net_income": {
+        "value": 112010000000,
+        "as_printed": "112,010",
+        "unit_note": "In millions",
+        "source_page": 32,
+        "source_quote": "Net income $ 112,010 $ 93,736 $ 96,995"
+      },
+      "total_stockholders_equity": {
+        "value": 73733000000,
+        "as_printed": "73,733",
+        "unit_note": "In millions",
+        "source_page": 34,
+        "source_quote": "Total shareholders\u2019 equity $ 73,733 $ 56,950"
+      },
+      "beginning_total_assets": {
+        "value": 364980000000,
+        "as_printed": "364,980",
+        "unit_note": "In millions",
+        "source_page": 34,
+        "source_quote": "Total assets $ 359,241 $ 364,980"
+      },
+      "ending_total_assets": {
+        "value": 359241000000,
+        "as_printed": "359,241",
+        "unit_note": "In millions",
+        "source_page": 34,
+        "source_quote": "Total assets $ 359,241 $ 364,980"
+      },
+      "total_liabilities": {
+        "value": 285508000000,
+        "as_printed": "285,508",
+        "unit_note": "In millions",
+        "source_page": 34,
+        "source_quote": "Total liabilities 285,508 308,030"
+      },
+      "total_current_assets": {
+        "value": 147957000000,
+        "as_printed": "147,957",
+        "unit_note": "In millions",
+        "source_page": 34,
+        "source_quote": "Total current assets 147,957 152,987"
+      },
+      "total_current_liabilities": {
+        "value": 165631000000,
+        "as_printed": "165,631",
+        "unit_note": "In millions",
+        "source_page": 34,
+        "source_quote": "Total current liabilities 165,631 176,392"
+      },
+      "inventory": {
+        "value": 5718000000,
+        "as_printed": "5,718",
+        "unit_note": "In millions",
+        "source_page": 34,
+        "source_quote": "Inventories 5,718 7,286"
+      },
+      "cash_and_equivalents": {
+        "value": 35934000000,
+        "as_printed": "35,934",
+        "unit_note": "In millions",
+        "source_page": 34,
+        "source_quote": "Cash and cash equivalents $ 35,934 $ 29,943"
+      },
+      "revenue": {
+        "value": 416161000000,
+        "as_printed": "416,161",
+        "unit_note": "In millions",
+        "source_page": 32,
+        "source_quote": "Total net sales 416,161 391,035 383,285"
+      },
+      "operating_income": {
+        "value": 133050000000,
+        "as_printed": "133,050",
+        "unit_note": "In millions",
+        "source_page": 32,
+        "source_quote": "Operating income 133,050 123,216 114,301"
+      },
+      "interest_expense": null,
+      "income_tax_expense": {
+        "value": 20719000000,
+        "as_printed": "20,719",
+        "unit_note": "In millions",
+        "source_page": 32,
+        "source_quote": "Provision for income taxes 20,719 29,749 16,741"
+      },
+      "depreciation_and_amortization": {
+        "value": 11698000000,
+        "as_printed": "11,698",
+        "unit_note": "In millions",
+        "source_page": 36,
+        "source_quote": "Depreciation and amortization 11,698 11,445 11,519"
+      },
+      "basic_eps": {
+        "value": 7.49,
+        "as_printed": "7.49",
+        "unit_note": "In millions, except number of shares, which are reflected in thousands, and per-share amounts",
+        "source_page": 32,
+        "source_quote": "Basic $ 7.49 $ 6.11 $ 6.16"
+      },
+      "diluted_eps": {
+        "value": 7.46,
+        "as_printed": "7.46",
+        "unit_note": "In millions, except number of shares, which are reflected in thousands, and per-share amounts",
+        "source_page": 32,
+        "source_quote": "Diluted $ 7.46 $ 6.08 $ 6.13"
+      },
+      "dividend_per_share": {
+        "value": 1.02,
+        "as_printed": "1.02",
+        "unit_note": "In millions, except per-share amounts",
+        "source_page": 35,
+        "source_quote": "Dividends and dividend equivalents declared per share or RSU $ 1.02 $ 0.98 $ 0.94"
+      },
+      "operating_cash_flow": {
+        "value": 111482000000,
+        "as_printed": "111,482",
+        "unit_note": "In millions",
+        "source_page": 36,
+        "source_quote": "Cash generated by operating activities 111,482 118,254 110,543"
+      },
+      "shares_outstanding": {
+        "value": 14773260000,
+        "as_printed": "14,773,260",
+        "unit_note": "In millions, except number of shares, which are reflected in thousands, and par value",
+        "source_page": 34,
+        "source_quote": "authorized; 14,773,260 and 15,116,786 shares issued and outstanding, respectively"
+      },
+      "share_price": null,
+      "expected_growth_rate": null,
+      "investment_cost": null,
+      "investment_gain": null,
+      "debt_principal_and_interest_due": {
+        "value": 15000000000,
+        "as_printed": "12.4",
+        "unit_note": "in billions",
+        "source_page": 28,
+        "source_quote": "aggregate principal amount of $91.3 billion (collectively the \u201cNotes\u201d), with $12.4 billion payable within 12 months. Future interest payments associated with the Notes total $37.0 billion, with $2.6 billion payable within 12 months."
+      }
+    },
+    "ratios": {
+      "roe": {
+        "name": "ROE (Return on Equity)",
+        "formula": "Net Income / Total Stockholders' Equity",
+        "description": "Measures profitability relative to shareholders' equity. Higher means management is using investor capital more efficiently to generate profit.",
+        "value": "151.91%",
+        "source_note": "Computed from extracted values."
+      },
+      "roa": {
+        "name": "ROA (Return on Assets)",
+        "formula": "Net Income / Average Total Assets",
+        "description": "Average Total Assets is (Beginning + Ending Total Assets) / 2. Higher means management is using resources more efficiently to generate earnings.",
+        "value": "30.93%",
+        "source_note": "Computed from extracted values."
+      },
+      "debt_to_equity": {
+        "name": "Debt-to-Equity Ratio",
+        "formula": "Total Liabilities / Total Stockholders' Equity",
+        "description": "Measures leverage - how much a company finances its operations with debt versus its own funds. A lower ratio generally indicates greater financial stability.",
+        "value": "3.87x",
+        "source_note": "Computed from extracted values."
+      },
+      "current_ratio": {
+        "name": "Current Ratio",
+        "formula": "Total Current Assets / Total Current Liabilities",
+        "description": "Measures ability to pay short-term obligations (due within one year) with current assets. Above 1.0 is healthy; 1.5-2.0 is generally considered ideal.",
+        "value": "0.89x",
+        "source_note": "Computed from extracted values."
+      },
+      "quick_ratio": {
+        "name": "Quick Ratio (Acid-Test Ratio)",
+        "formula": "(Current Assets - Inventory) / Current Liabilities",
+        "description": "Measures ability to pay short-term liabilities with the most liquid assets, excluding inventory. A ratio of 1:1 is considered ideal.",
+        "value": "0.86x",
+        "source_note": "Computed from extracted values."
+      },
+      "operating_profit_margin": {
+        "name": "Operating Profit Margin",
+        "formula": "Operating Income / Revenue",
+        "description": "Measures core operational efficiency - the percentage of revenue remaining after covering cost of goods sold and operating expenses, before interest and taxes. Higher indicates better profitability.",
+        "value": "31.97%",
+        "source_note": "Computed from extracted values."
+      },
+      "interest_coverage_ratio": {
+        "name": "Interest Coverage Ratio",
+        "formula": "Operating Income / Interest Expense",
+        "description": "Measures ability to pay interest on outstanding debt (uses Operating Income as a proxy for EBIT). Above 2-3 is typically considered good; higher means lower default risk.",
+        "value": "",
+        "source_note": ""
+      },
+      "ebitda_margin": {
+        "name": "EBITDA Margin",
+        "formula": "(Net Income + Interest Expense + Income Tax Expense + Depreciation & Amortization) / Revenue",
+        "description": "Measures operational profitability excluding financing, tax, and non-cash expenses. Higher indicates the business converts more of its core operations into earnings.",
+        "value": "",
+        "source_note": ""
+      },
+      "eps": {
+        "name": "Basic EPS",
+        "formula": "Reported directly on the Income Statement",
+        "description": "Net income divided by weighted-average shares outstanding, as calculated and disclosed by the company itself.",
+        "value": "$7.49",
+        "source_note": "Computed from extracted values."
+      },
+      "diluted_eps": {
+        "name": "Diluted EPS",
+        "formula": "Reported directly on the Income Statement",
+        "description": "Like Basic EPS, but assumes all convertible securities (options, warrants, convertible debt) are exercised - a conservative, usually lower, per-share figure.",
+        "value": "$7.46",
+        "source_note": "Computed from extracted values."
+      },
+      "shareholder_equity": {
+        "name": "Shareholder Equity",
+        "formula": "Total Assets - Total Liabilities",
+        "description": "A company's net worth - the residual value belonging to owners after all liabilities are settled. Reported directly on the Balance Sheet.",
+        "value": "$73,733,000,000",
+        "source_note": "Computed from extracted values."
+      },
+      "cash_on_hand": {
+        "name": "Cash on Hand",
+        "formula": "Reported directly on the Balance Sheet",
+        "description": "Total immediately accessible cash and cash equivalents.",
+        "value": "$35,934,000,000",
+        "source_note": "Computed from extracted values."
+      },
+      "dividend_per_share": {
+        "name": "Dividend Per Share",
+        "formula": "Reported directly on the financial statements",
+        "description": "The portion of profit paid to shareholders per share owned. 0 if the company does not pay a dividend.",
+        "value": "$1.02",
+        "source_note": "Computed from extracted values."
+      },
+      "pe_ratio": {
+        "name": "Price-to-Earnings (P/E) Ratio",
+        "formula": "Share Price / Earnings Per Share (EPS)",
+        "description": "Measures how much investors pay per $1 of earnings. A high ratio may suggest overvaluation or high growth expectations.",
+        "value": "",
+        "source_note": ""
+      },
+      "pb_ratio": {
+        "name": "Price-to-Book (P/B) Ratio",
+        "formula": "Share Price / Book Value Per Share",
+        "description": "Measures market valuation relative to net asset (book) value. A lower P/B (often < 1) may indicate an undervalued stock.",
+        "value": "",
+        "source_note": ""
+      },
+      "peg_ratio": {
+        "name": "Price/Earnings-to-Growth (PEG) Ratio",
+        "formula": "P/E Ratio / Expected Earnings Growth Rate (%)",
+        "description": "Divides P/E by expected earnings growth to judge value relative to growth prospects. ~1.0 suggests fair value.",
+        "value": "",
+        "source_note": ""
+      },
+      "dividend_yield": {
+        "name": "Dividend Yield",
+        "formula": "Annual Dividend Per Share / Share Price",
+        "description": "Annualized cash dividends as a percentage of the share price.",
+        "value": "",
+        "source_note": ""
+      },
+      "roi": {
+        "name": "ROI (Return on Investment)",
+        "formula": "Investment Gain / Cost of Investment",
+        "description": "Evaluates profitability and efficiency of a specific investment by comparing its gain to its initial cost. Only computable when the report explicitly discusses a specific investment in these terms.",
+        "value": "",
+        "source_note": ""
+      },
+      "debt_service_ratio": {
+        "name": "Debt Service Ratio",
+        "formula": "Operating Cash Flow / (Principal + Interest Payments Due)",
+        "description": "Measures ability to cover debt obligations (principal + interest) with operating cash flow. Above 1.0 is sufficient; 1.25+ is standard for lenders.",
+        "value": "7.43x",
+        "source_note": "Computed from extracted values."
+      },
+      "debt_service_coverage_ratio": {
+        "name": "Debt Service Coverage Ratio",
+        "formula": "EBITDA / (Principal + Interest Payments Due)",
+        "description": "Measures ability to cover debt obligations with EBITDA. 1.0 is break-even; lenders typically require 1.25+.",
+        "value": "",
+        "source_note": ""
+      }
+    },
+    "extraction_meta": {
+      "model": "gemini-3.5-flash-lite",
+      "pdf_path": "pdfs/apple.pdf",
+      "prompt": "You are extracting facts from a company's annual report for its MOST RECENT fiscal year. You have TWO jobs below. Do no arithmetic yourself either way - only report numbers literally printed in the document, never from outside knowledge.\n\nRules that apply throughout:\n- Every field is optional. A genuine zero/none/not-applicable (no dividend, no debt, no inventory line) is a real answer - report it and quote why. Use null only when you truly cannot tell.\n- Match by meaning, not exact wording - filers phrase the same concept differently (e.g. \"Shareholders' equity\" = \"Total stockholders' equity\"; \"ROE\" = \"return on equity\").\n- When the same figure appears at different precision in different places, use the exact one from the primary financial statement, not a rounded mention elsewhere.\n- If a line item is split into sub-components shown separately, report their sum and show each component plus the total in source_quote.\n\nJOB 1 - Raw input values. Find these in the CONSOLIDATED financial statements:\n\n- net_income: Consolidated Statements of Operations/Income, most recent fiscal year\n- total_stockholders_equity: Consolidated Balance Sheet, most recent fiscal year end\n- beginning_total_assets: Total Assets, Consolidated Balance Sheet, PRIOR fiscal year end\n- ending_total_assets: Total Assets, Consolidated Balance Sheet, most recent fiscal year end\n- total_liabilities: Total Liabilities, Consolidated Balance Sheet, most recent fiscal year end\n- total_current_assets: Total Current Assets, Consolidated Balance Sheet\n- total_current_liabilities: Total Current Liabilities, Consolidated Balance Sheet\n- inventory: Inventory, Consolidated Balance Sheet\n- cash_and_equivalents: Cash and Cash Equivalents, Consolidated Balance Sheet\n- revenue: Total Revenue / Net Sales, Consolidated Statements of Operations\n- operating_income: Operating Income / Income from Operations, Consolidated Statements of Operations\n- interest_expense: Interest Expense, Consolidated Statements of Operations\n- income_tax_expense: Income Tax Expense / Provision for Income Taxes, Consolidated Statements of Operations\n- depreciation_and_amortization: Depreciation and Amortization, Consolidated Statements of Cash Flows\n- basic_eps: Basic Earnings Per Share, Consolidated Statements of Operations\n- diluted_eps: Diluted Earnings Per Share, Consolidated Statements of Operations\n- dividend_per_share: Dividends declared/paid per share\n- operating_cash_flow: Net Cash Provided by Operating Activities, Consolidated Statements of Cash Flows\n- shares_outstanding: Shares of common stock outstanding\n- share_price: The company's own stock price, if stated anywhere in this document\n- expected_growth_rate: A forward-looking earnings growth rate estimate, if the company states one\n- investment_cost: Cost of a specific named investment, if the report discusses one\n- investment_gain: Gain on that same named investment, if discussed alongside its cost\n- debt_principal_and_interest_due: Principal + interest due in the coming year on borrowed-money debt (loans, bonds, credit facility draws)\n\nFor each raw value, report:\n- value: the exact number in whole dollars (not thousands - if the statement says \"in thousands\", multiply by 1000). Per-share fields (EPS, dividend per share, share price) are already per-share, do not scale them.\n- as_printed: an exact substring a text search would find on the page, used to jump straight to this value in the source document. If the number is printed as a digit, use it exactly as printed (e.g. \"180,942\"), BEFORE any unit scaling. If instead the value is INFERRED from a qualitative statement with no digit printed at all (e.g. \"we have not declared any cash dividends\" implying $0), as_printed must be a short distinctive phrase copied verbatim from source_quote instead - never a number that does not actually appear on the page.\n- unit_note: the exact nearby text establishing scale, e.g. \"in thousands\", \"in millions\", or \"whole dollars\" if no scaling note is nearby - quote it verbatim, do not paraphrase.\n- source_page: the PDF page number (1-indexed, count actual PDF pages) where you found it.\n- source_quote: the exact line of text containing this number, quoted verbatim.\n\nJOB 2 - Already-stated ratios. Separately, check whether the document ALREADY states the final computed value for any of these ratios itself (e.g. in a \"Selected Financial Data\" table, MD&A discussion, or a key-metrics summary) - companies sometimes quote their own ROE, current ratio, EBITDA margin, etc. directly:\n\n- roe: ROE (Return on Equity)\n- roa: ROA (Return on Assets)\n- debt_to_equity: Debt-to-Equity Ratio\n- current_ratio: Current Ratio\n- quick_ratio: Quick Ratio (Acid-Test Ratio)\n- operating_profit_margin: Operating Profit Margin\n- interest_coverage_ratio: Interest Coverage Ratio\n- ebitda_margin: EBITDA Margin\n- eps: Basic EPS\n- diluted_eps: Diluted EPS\n- shareholder_equity: Shareholder Equity\n- cash_on_hand: Cash on Hand\n- dividend_per_share: Dividend Per Share\n- pe_ratio: Price-to-Earnings (P/E) Ratio\n- pb_ratio: Price-to-Book (P/B) Ratio\n- peg_ratio: Price/Earnings-to-Growth (PEG) Ratio\n- dividend_yield: Dividend Yield\n- roi: ROI (Return on Investment)\n- debt_service_ratio: Debt Service Ratio\n- debt_service_coverage_ratio: Debt Service Coverage Ratio\n\nFor each one, only report a value if you find the FINAL ratio value already stated as such in the text - do not compute it yourself from other numbers, and do not confuse a raw line item (like \"Total stockholders' equity\") with a stated ratio (like \"return on equity of 16%\"). If a ratio is not explicitly stated as a computed metric anywhere, set its value to null. Report source_page and source_quote for any you do find.\n\nAlso report company_name (full legal name) and fiscal_year_end (e.g. \"2025-03-29\").\n\nRespond with ONLY valid JSON, no markdown fences:\n{\n  \"company_name\": \"...\",\n  \"fiscal_year_end\": \"...\",\n  \"raw_values\": {\n    \"net_income\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"total_stockholders_equity\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"beginning_total_assets\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"ending_total_assets\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"total_liabilities\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"total_current_assets\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"total_current_liabilities\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"inventory\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"cash_and_equivalents\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"revenue\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"operating_income\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"interest_expense\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"income_tax_expense\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"depreciation_and_amortization\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"basic_eps\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"diluted_eps\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"dividend_per_share\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"operating_cash_flow\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"shares_outstanding\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"share_price\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"expected_growth_rate\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"investment_cost\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"investment_gain\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"debt_principal_and_interest_due\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"}\n  },\n  \"stated_ratios\": {\n    \"roe\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"roa\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"debt_to_equity\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"current_ratio\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"quick_ratio\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"operating_profit_margin\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"interest_coverage_ratio\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"ebitda_margin\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"eps\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"diluted_eps\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"shareholder_equity\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"cash_on_hand\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"dividend_per_share\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"pe_ratio\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"pb_ratio\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"peg_ratio\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"dividend_yield\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"roi\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"debt_service_ratio\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"debt_service_coverage_ratio\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"}\n  }\n}\n",
+      "input_tokens": 44637,
+      "output_tokens": 2262
+    }
+  },
+  "pepsico": {
+    "company_name": "PepsiCo, Inc.",
+    "fiscal_year_end": "2025-12-27",
+    "source_url": "https://investors.pepsico.com/docs/pepsico-5v9wci20/media/Files/investors/q4-2025-form-10k.pdf",
+    "country": "US",
+    "raw_values": {
+      "net_income": {
+        "value": 8295000000,
+        "as_printed": "8,295",
+        "unit_note": "(in millions except per share amounts)",
+        "source_page": 60,
+        "source_quote": "Net income 8,295 9,626 9,155"
+      },
+      "total_stockholders_equity": {
+        "value": 20547000000,
+        "as_printed": "20,547",
+        "unit_note": "(in millions except per share amounts)",
+        "source_page": 64,
+        "source_quote": "Total Equity $ 20,547 $ 18,171"
+      },
+      "beginning_total_assets": {
+        "value": 99467000000,
+        "as_printed": "99,467",
+        "unit_note": "(in millions except per share amounts)",
+        "source_page": 64,
+        "source_quote": "Total Assets $ 107,399 $ 99,467"
+      },
+      "ending_total_assets": {
+        "value": 107399000000,
+        "as_printed": "107,399",
+        "unit_note": "(in millions except per share amounts)",
+        "source_page": 64,
+        "source_quote": "Total Assets $ 107,399 $ 99,467"
+      },
+      "total_liabilities": {
+        "value": 86852000000,
+        "as_printed": "86,852",
+        "unit_note": "(in millions except per share amounts)",
+        "source_page": 64,
+        "source_quote": "Total Liabilities 86,852 81,296"
+      },
+      "total_current_assets": {
+        "value": 27949000000,
+        "as_printed": "27,949",
+        "unit_note": "(in millions except per share amounts)",
+        "source_page": 64,
+        "source_quote": "Total Current Assets 27,949 25,826"
+      },
+      "total_current_liabilities": {
+        "value": 32764000000,
+        "as_printed": "32,764",
+        "unit_note": "(in millions except per share amounts)",
+        "source_page": 64,
+        "source_quote": "Total Current Liabilities 32,764 31,536"
+      },
+      "inventory": {
+        "value": 5845000000,
+        "as_printed": "5,845",
+        "unit_note": "(in millions except per share amounts)",
+        "source_page": 64,
+        "source_quote": " 5,845 5,306"
+      },
+      "cash_and_equivalents": {
+        "value": 9159000000,
+        "as_printed": "9,159",
+        "unit_note": "(in millions except per share amounts)",
+        "source_page": 64,
+        "source_quote": "Cash and cash equivalents $ 9,159 $ 8,505"
+      },
+      "revenue": {
+        "value": 93925000000,
+        "as_printed": "93,925",
+        "unit_note": "(in millions except per share amounts)",
+        "source_page": 60,
+        "source_quote": "Net Revenue $ 93,925 $ 91,854 $ 91,471"
+      },
+      "operating_income": {
+        "value": 11498000000,
+        "as_printed": "11,498",
+        "unit_note": "(in millions except per share amounts)",
+        "source_page": 60,
+        "source_quote": "Operating Profit 11,498 12,887 11,986"
+      },
+      "interest_expense": {
+        "value": 1840000000,
+        "as_printed": "1,840",
+        "unit_note": "in millions",
+        "source_page": 54,
+        "source_quote": "Interest expense 1,840"
+      },
+      "income_tax_expense": {
+        "value": 1949000000,
+        "as_printed": "1,949",
+        "unit_note": "(in millions except per share amounts)",
+        "source_page": 60,
+        "source_quote": "Provision for income taxes 1,949 2,320 2,262"
+      },
+      "depreciation_and_amortization": {
+        "value": 3451000000,
+        "as_printed": "3,451",
+        "unit_note": "(in millions)",
+        "source_page": 62,
+        "source_quote": "Depreciation and amortization 3,451 3,160 2,948"
+      },
+      "basic_eps": {
+        "value": 6.02,
+        "as_printed": "6.02",
+        "unit_note": "(in millions except per share amounts)",
+        "source_page": 60,
+        "source_quote": "Basic $ 6.02 $ 6.97 $ 6.59"
+      },
+      "diluted_eps": {
+        "value": 6.0,
+        "as_printed": "6.00",
+        "unit_note": "(in millions except per share amounts)",
+        "source_page": 60,
+        "source_quote": "Diluted $ 6.00 $ 6.95 $ 6.56"
+      },
+      "dividend_per_share": {
+        "value": 5.6225,
+        "as_printed": "5.6225",
+        "unit_note": "(in millions except per share amounts)",
+        "source_page": 65,
+        "source_quote": "Cash dividends declared per common share were $5.6225, $5.3300 and $4.9450 for 2025, 2024 and 2023, respectively."
+      },
+      "operating_cash_flow": {
+        "value": 12087000000,
+        "as_printed": "12,087",
+        "unit_note": "(in millions)",
+        "source_page": 62,
+        "source_quote": "Net Cash Provided by Operating Activities 12,087 12,507 13,442"
+      },
+      "shares_outstanding": {
+        "value": 1366649053,
+        "as_printed": "1,366,649,053",
+        "unit_note": "shares",
+        "source_page": 2,
+        "source_quote": "The number of shares of PepsiCo, Inc. Common Stock outstanding as of January 23, 2026 was 1,366,649,053."
+      },
+      "share_price": null,
+      "expected_growth_rate": null,
+      "investment_cost": {
+        "value": 550000000,
+        "as_printed": "550",
+        "unit_note": "millions",
+        "source_page": 98,
+        "source_quote": "invested $550 million in Series A convertible preferred shares (Series A shares) issued by Celsius"
+      },
+      "investment_gain": null,
+      "debt_principal_and_interest_due": {
+        "value": 4030000000,
+        "as_printed": "4,030",
+        "unit_note": "(a) Amounts are shown net of unamortized net discounts",
+        "source_page": 94,
+        "source_quote": "Current maturities of long-term debt $ 4,030 $ 4,004"
+      }
+    },
+    "ratios": {
+      "roe": {
+        "name": "ROE (Return on Equity)",
+        "formula": "Net Income / Total Stockholders' Equity",
+        "description": "Measures profitability relative to shareholders' equity. Higher means management is using investor capital more efficiently to generate profit.",
+        "value": "40.37%",
+        "source_note": "Computed from extracted values."
+      },
+      "roa": {
+        "name": "ROA (Return on Assets)",
+        "formula": "Net Income / Average Total Assets",
+        "description": "Average Total Assets is (Beginning + Ending Total Assets) / 2. Higher means management is using resources more efficiently to generate earnings.",
+        "value": "8.02%",
+        "source_note": "Computed from extracted values."
+      },
+      "debt_to_equity": {
+        "name": "Debt-to-Equity Ratio",
+        "formula": "Total Liabilities / Total Stockholders' Equity",
+        "description": "Measures leverage - how much a company finances its operations with debt versus its own funds. A lower ratio generally indicates greater financial stability.",
+        "value": "4.23x",
+        "source_note": "Computed from extracted values."
+      },
+      "current_ratio": {
+        "name": "Current Ratio",
+        "formula": "Total Current Assets / Total Current Liabilities",
+        "description": "Measures ability to pay short-term obligations (due within one year) with current assets. Above 1.0 is healthy; 1.5-2.0 is generally considered ideal.",
+        "value": "0.85x",
+        "source_note": "Computed from extracted values."
+      },
+      "quick_ratio": {
+        "name": "Quick Ratio (Acid-Test Ratio)",
+        "formula": "(Current Assets - Inventory) / Current Liabilities",
+        "description": "Measures ability to pay short-term liabilities with the most liquid assets, excluding inventory. A ratio of 1:1 is considered ideal.",
+        "value": "0.67x",
+        "source_note": "Computed from extracted values."
+      },
+      "operating_profit_margin": {
+        "name": "Operating Profit Margin",
+        "formula": "Operating Income / Revenue",
+        "description": "Measures core operational efficiency - the percentage of revenue remaining after covering cost of goods sold and operating expenses, before interest and taxes. Higher indicates better profitability.",
+        "value": "12.24%",
+        "source_note": "Computed from extracted values."
+      },
+      "interest_coverage_ratio": {
+        "name": "Interest Coverage Ratio",
+        "formula": "Operating Income / Interest Expense",
+        "description": "Measures ability to pay interest on outstanding debt (uses Operating Income as a proxy for EBIT). Above 2-3 is typically considered good; higher means lower default risk.",
+        "value": "6.25x",
+        "source_note": "Computed from extracted values."
+      },
+      "ebitda_margin": {
+        "name": "EBITDA Margin",
+        "formula": "(Net Income + Interest Expense + Income Tax Expense + Depreciation & Amortization) / Revenue",
+        "description": "Measures operational profitability excluding financing, tax, and non-cash expenses. Higher indicates the business converts more of its core operations into earnings.",
+        "value": "16.54%",
+        "source_note": "Computed from extracted values."
+      },
+      "eps": {
+        "name": "Basic EPS",
+        "formula": "Reported directly on the Income Statement",
+        "description": "Net income divided by weighted-average shares outstanding, as calculated and disclosed by the company itself.",
+        "value": "$6.00",
+        "source_note": "Stated directly - p. 60: \"Diluted $ 6.00 $ 6.95 $ 6.56\""
+      },
+      "diluted_eps": {
+        "name": "Diluted EPS",
+        "formula": "Reported directly on the Income Statement",
+        "description": "Like Basic EPS, but assumes all convertible securities (options, warrants, convertible debt) are exercised - a conservative, usually lower, per-share figure.",
+        "value": "$6.00",
+        "source_note": "Stated directly - p. 60: \"Diluted $ 6.00 $ 6.95 $ 6.56\""
+      },
+      "shareholder_equity": {
+        "name": "Shareholder Equity",
+        "formula": "Total Assets - Total Liabilities",
+        "description": "A company's net worth - the residual value belonging to owners after all liabilities are settled. Reported directly on the Balance Sheet.",
+        "value": "$20,547,000,000",
+        "source_note": "Computed from extracted values."
+      },
+      "cash_on_hand": {
+        "name": "Cash on Hand",
+        "formula": "Reported directly on the Balance Sheet",
+        "description": "Total immediately accessible cash and cash equivalents.",
+        "value": "$9,159,000,000",
+        "source_note": "Computed from extracted values."
+      },
+      "dividend_per_share": {
+        "name": "Dividend Per Share",
+        "formula": "Reported directly on the financial statements",
+        "description": "The portion of profit paid to shareholders per share owned. 0 if the company does not pay a dividend.",
+        "value": "$5.62",
+        "source_note": "Stated directly - p. 65: \"Cash dividends declared per common share were $5.6225, $5.3300 and $4.9450 for 2025, 2024 and 2023, respectively.\""
+      },
+      "pe_ratio": {
+        "name": "Price-to-Earnings (P/E) Ratio",
+        "formula": "Share Price / Earnings Per Share (EPS)",
+        "description": "Measures how much investors pay per $1 of earnings. A high ratio may suggest overvaluation or high growth expectations.",
+        "value": "",
+        "source_note": ""
+      },
+      "pb_ratio": {
+        "name": "Price-to-Book (P/B) Ratio",
+        "formula": "Share Price / Book Value Per Share",
+        "description": "Measures market valuation relative to net asset (book) value. A lower P/B (often < 1) may indicate an undervalued stock.",
+        "value": "",
+        "source_note": ""
+      },
+      "peg_ratio": {
+        "name": "Price/Earnings-to-Growth (PEG) Ratio",
+        "formula": "P/E Ratio / Expected Earnings Growth Rate (%)",
+        "description": "Divides P/E by expected earnings growth to judge value relative to growth prospects. ~1.0 suggests fair value.",
+        "value": "",
+        "source_note": ""
+      },
+      "dividend_yield": {
+        "name": "Dividend Yield",
+        "formula": "Annual Dividend Per Share / Share Price",
+        "description": "Annualized cash dividends as a percentage of the share price.",
+        "value": "",
+        "source_note": ""
+      },
+      "roi": {
+        "name": "ROI (Return on Investment)",
+        "formula": "Investment Gain / Cost of Investment",
+        "description": "Evaluates profitability and efficiency of a specific investment by comparing its gain to its initial cost. Only computable when the report explicitly discusses a specific investment in these terms.",
+        "value": "14.30%",
+        "source_note": "Stated directly - p. 54: \"ROIC, non-GAAP measure 14.3 %\""
+      },
+      "debt_service_ratio": {
+        "name": "Debt Service Ratio",
+        "formula": "Operating Cash Flow / (Principal + Interest Payments Due)",
+        "description": "Measures ability to cover debt obligations (principal + interest) with operating cash flow. Above 1.0 is sufficient; 1.25+ is standard for lenders.",
+        "value": "3.00x",
+        "source_note": "Computed from extracted values."
+      },
+      "debt_service_coverage_ratio": {
+        "name": "Debt Service Coverage Ratio",
+        "formula": "EBITDA / (Principal + Interest Payments Due)",
+        "description": "Measures ability to cover debt obligations with EBITDA. 1.0 is break-even; lenders typically require 1.25+.",
+        "value": "3.85x",
+        "source_note": "Computed from extracted values."
+      }
+    },
+    "extraction_meta": {
+      "model": "gemini-3.5-flash-lite",
+      "pdf_path": "pdfs/pepsico.pdf",
+      "prompt": "You are extracting facts from a company's annual report for its MOST RECENT fiscal year. You have TWO jobs below. Do no arithmetic yourself either way - only report numbers literally printed in the document, never from outside knowledge.\n\nRules that apply throughout:\n- Every field is optional. A genuine zero/none/not-applicable (no dividend, no debt, no inventory line) is a real answer - report it and quote why. Use null only when you truly cannot tell.\n- Match by meaning, not exact wording - filers phrase the same concept differently (e.g. \"Shareholders' equity\" = \"Total stockholders' equity\"; \"ROE\" = \"return on equity\").\n- When the same figure appears at different precision in different places, use the exact one from the primary financial statement, not a rounded mention elsewhere.\n- If a line item is split into sub-components shown separately, report their sum and show each component plus the total in source_quote.\n\nJOB 1 - Raw input values. Find these in the CONSOLIDATED financial statements:\n\n- net_income: Consolidated Statements of Operations/Income, most recent fiscal year\n- total_stockholders_equity: Consolidated Balance Sheet, most recent fiscal year end\n- beginning_total_assets: Total Assets, Consolidated Balance Sheet, PRIOR fiscal year end\n- ending_total_assets: Total Assets, Consolidated Balance Sheet, most recent fiscal year end\n- total_liabilities: Total Liabilities, Consolidated Balance Sheet, most recent fiscal year end\n- total_current_assets: Total Current Assets, Consolidated Balance Sheet\n- total_current_liabilities: Total Current Liabilities, Consolidated Balance Sheet\n- inventory: Inventory, Consolidated Balance Sheet\n- cash_and_equivalents: Cash and Cash Equivalents, Consolidated Balance Sheet\n- revenue: Total Revenue / Net Sales, Consolidated Statements of Operations\n- operating_income: Operating Income / Income from Operations, Consolidated Statements of Operations\n- interest_expense: Interest Expense, Consolidated Statements of Operations\n- income_tax_expense: Income Tax Expense / Provision for Income Taxes, Consolidated Statements of Operations\n- depreciation_and_amortization: Depreciation and Amortization, Consolidated Statements of Cash Flows\n- basic_eps: Basic Earnings Per Share, Consolidated Statements of Operations\n- diluted_eps: Diluted Earnings Per Share, Consolidated Statements of Operations\n- dividend_per_share: Dividends declared/paid per share\n- operating_cash_flow: Net Cash Provided by Operating Activities, Consolidated Statements of Cash Flows\n- shares_outstanding: Shares of common stock outstanding\n- share_price: The company's own stock price, if stated anywhere in this document\n- expected_growth_rate: A forward-looking earnings growth rate estimate, if the company states one\n- investment_cost: Cost of a specific named investment, if the report discusses one\n- investment_gain: Gain on that same named investment, if discussed alongside its cost\n- debt_principal_and_interest_due: Principal + interest due in the coming year on borrowed-money debt (loans, bonds, credit facility draws)\n\nFor each raw value, report:\n- value: the exact number in whole dollars (not thousands - if the statement says \"in thousands\", multiply by 1000). Per-share fields (EPS, dividend per share, share price) are already per-share, do not scale them.\n- as_printed: an exact substring a text search would find on the page, used to jump straight to this value in the source document. If the number is printed as a digit, use it exactly as printed (e.g. \"180,942\"), BEFORE any unit scaling. If instead the value is INFERRED from a qualitative statement with no digit printed at all (e.g. \"we have not declared any cash dividends\" implying $0), as_printed must be a short distinctive phrase copied verbatim from source_quote instead - never a number that does not actually appear on the page.\n- unit_note: the exact nearby text establishing scale, e.g. \"in thousands\", \"in millions\", or \"whole dollars\" if no scaling note is nearby - quote it verbatim, do not paraphrase.\n- source_page: the PDF page number (1-indexed, count actual PDF pages) where you found it.\n- source_quote: the exact line of text containing this number, quoted verbatim.\n\nJOB 2 - Already-stated ratios. Separately, check whether the document ALREADY states the final computed value for any of these ratios itself (e.g. in a \"Selected Financial Data\" table, MD&A discussion, or a key-metrics summary) - companies sometimes quote their own ROE, current ratio, EBITDA margin, etc. directly:\n\n- roe: ROE (Return on Equity)\n- roa: ROA (Return on Assets)\n- debt_to_equity: Debt-to-Equity Ratio\n- current_ratio: Current Ratio\n- quick_ratio: Quick Ratio (Acid-Test Ratio)\n- operating_profit_margin: Operating Profit Margin\n- interest_coverage_ratio: Interest Coverage Ratio\n- ebitda_margin: EBITDA Margin\n- eps: Basic EPS\n- diluted_eps: Diluted EPS\n- shareholder_equity: Shareholder Equity\n- cash_on_hand: Cash on Hand\n- dividend_per_share: Dividend Per Share\n- pe_ratio: Price-to-Earnings (P/E) Ratio\n- pb_ratio: Price-to-Book (P/B) Ratio\n- peg_ratio: Price/Earnings-to-Growth (PEG) Ratio\n- dividend_yield: Dividend Yield\n- roi: ROI (Return on Investment)\n- debt_service_ratio: Debt Service Ratio\n- debt_service_coverage_ratio: Debt Service Coverage Ratio\n\nFor each one, only report a value if you find the FINAL ratio value already stated as such in the text - do not compute it yourself from other numbers, and do not confuse a raw line item (like \"Total stockholders' equity\") with a stated ratio (like \"return on equity of 16%\"). If a ratio is not explicitly stated as a computed metric anywhere, set its value to null. Report source_page and source_quote for any you do find.\n\nAlso report company_name (full legal name) and fiscal_year_end (e.g. \"2025-03-29\").\n\nRespond with ONLY valid JSON, no markdown fences:\n{\n  \"company_name\": \"...\",\n  \"fiscal_year_end\": \"...\",\n  \"raw_values\": {\n    \"net_income\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"total_stockholders_equity\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"beginning_total_assets\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"ending_total_assets\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"total_liabilities\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"total_current_assets\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"total_current_liabilities\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"inventory\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"cash_and_equivalents\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"revenue\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"operating_income\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"interest_expense\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"income_tax_expense\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"depreciation_and_amortization\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"basic_eps\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"diluted_eps\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"dividend_per_share\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"operating_cash_flow\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"shares_outstanding\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"share_price\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"expected_growth_rate\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"investment_cost\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"investment_gain\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"},\n    \"debt_principal_and_interest_due\": {\"value\": 0, \"as_printed\": \"...\", \"unit_note\": \"...\", \"source_page\": 0, \"source_quote\": \"...\"}\n  },\n  \"stated_ratios\": {\n    \"roe\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"roa\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"debt_to_equity\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"current_ratio\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"quick_ratio\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"operating_profit_margin\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"interest_coverage_ratio\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"ebitda_margin\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"eps\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"diluted_eps\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"shareholder_equity\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"cash_on_hand\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"dividend_per_share\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"pe_ratio\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"pb_ratio\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"peg_ratio\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"dividend_yield\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"roi\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"debt_service_ratio\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"},\n    \"debt_service_coverage_ratio\": {\"value\": 0, \"source_page\": 0, \"source_quote\": \"...\"}\n  }\n}\n",
+      "input_tokens": 180877,
+      "output_tokens": 2277
+    }
+  }
+}

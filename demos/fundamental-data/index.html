@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Fundamental Data — Ratios Dashboard</title>
+<style>
+  :root {
+    --bg: #f7f7f5; --panel: #fff; --border: #e2e0da; --text: #1f1e1c;
+    --muted: #6b6862; --accent: #2f6f4f; --accent-soft: #eaf3ee;
+    --mono: "SFMono-Regular", Consolas, Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); }
+  header { padding: 24px 32px; border-bottom: 1px solid var(--border); background: var(--panel); display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  header h1 { font-size: 1.15rem; margin: 0; font-weight: 600; }
+  header .sub { color: var(--muted); font-size: 0.85rem; }
+  select { font-size: 0.9rem; padding: 6px 10px; border-radius: 6px; border: 1px solid var(--border); background: var(--panel); }
+  main { max-width: 920px; margin: 0 auto; padding: 28px 32px 60px; }
+  .company-strip { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+  .company-strip h2 { margin: 0 0 4px; font-size: 1.4rem; }
+  .company-strip .meta { color: var(--muted); font-size: 0.85rem; }
+  .company-strip a { color: var(--accent); text-decoration: none; }
+  .company-strip a:hover { text-decoration: underline; }
+  .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-bottom: 20px; }
+  .tab-btn { appearance: none; background: none; border: none; padding: 10px 16px; font-size: 0.9rem; font-weight: 500; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  table { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  th, td { text-align: left; padding: 12px 14px; font-size: 0.88rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); background: #fafaf8; font-weight: 600; }
+  tr:last-child td { border-bottom: none; }
+  .ratio-value { font-family: var(--mono); font-weight: 600; font-size: 1.05rem; color: var(--accent); }
+  .source-page { display: inline-block; background: var(--accent-soft); color: var(--accent); font-size: 0.75rem; padding: 2px 8px; border-radius: 4px; font-family: var(--mono); white-space: nowrap; text-decoration: none; }
+  .source-page:hover { text-decoration: underline; }
+  .quote { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); background: #fafaf8; padding: 8px 10px; border-radius: 6px; display: block; margin-top: 6px; white-space: pre-wrap; }
+  .unit-note { font-size: 0.8rem; color: var(--muted); font-style: italic; }
+  .formula-expr { font-family: var(--mono); font-size: 0.85rem; color: var(--accent); }
+  .empty { color: var(--muted); padding: 40px; text-align: center; }
+
+  .header-right { display: flex; align-items: center; gap: 14px; }
+  .link-btn { appearance: none; background: none; border: none; padding: 0; font-size: 0.85rem; color: var(--accent); cursor: pointer; font-weight: 500; }
+  .link-btn:hover { text-decoration: underline; }
+  .add-panel { max-width: 920px; margin: 0 auto; padding: 0 32px; }
+  .add-panel.hidden { display: none; }
+  .add-form { display: flex; gap: 8px; flex-wrap: wrap; padding: 16px; margin-top: 8px; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; }
+  .add-form input { flex: 1 1 180px; font-size: 0.85rem; padding: 7px 10px; border-radius: 6px; border: 1px solid var(--border); font-family: inherit; }
+  .add-form button { font-size: 0.85rem; padding: 7px 16px; border-radius: 6px; border: none; background: var(--accent); color: #fff; font-weight: 600; cursor: pointer; }
+  .add-form button:disabled { opacity: 0.6; cursor: default; }
+  .add-status { font-size: 0.85rem; padding: 8px 2px 0; min-height: 1.2em; }
+  .add-status.working { color: var(--muted); }
+  .add-status.ok { color: var(--accent); }
+  .add-status.err { color: #b3452c; }
+  .purpose-strip { max-width: 920px; margin: 0 auto; padding: 14px 32px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .purpose-strip > div { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; }
+  .purpose-strip strong { display: block; font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; color: var(--accent); margin-bottom: 4px; }
+  .purpose-strip p { margin: 0; color: var(--muted); font-size: .82rem; }
+
+  /* Guided tour */
+  #tour-scrim { display:none; position:fixed; inset:0; z-index:20; background:rgba(20,24,29,.58); }
+  body.touring #tour-scrim { display:block; }
+  .tour-target { position:relative; z-index:30; box-shadow:0 0 0 3px var(--accent), 0 0 0 10px rgba(47,111,79,.2); border-radius:8px; }
+  #tour-card { display:none; position:fixed; z-index:40; left:50%; bottom:22px; transform:translateX(-50%); width:min(440px,calc(100vw - 32px)); padding:18px; background:#fff; border:1px solid var(--border); border-radius:10px; box-shadow:0 14px 45px rgba(0,0,0,.3); }
+  body.touring #tour-card { display:block; }
+  #tour-card .tour-step { color:var(--muted); font-size:.72rem; text-transform:uppercase; letter-spacing:.06em; }
+  #tour-card h3 { margin:6px 0 5px; font-size:1.05rem; }
+  #tour-card p { margin:0; color:var(--muted); font-size:.88rem; }
+  #tour-card .tour-actions { display:flex; justify-content:flex-end; gap:8px; margin-top:14px; }
+  #tour-card button { border:0; border-radius:6px; padding:7px 12px; cursor:pointer; }
+  #tour-next { background:var(--accent); color:#fff; font-weight:600; }
+  #tour-close { background:none; color:var(--accent); }
+</style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Fundamental Data — Ratios Dashboard</h1>
+      <div class="sub">Numbers extracted from source documents · ratios computed with deterministic formulas</div>
+    </div>
+    <div class="header-right">
+      <button id="tour-start" class="link-btn" type="button">Take the tour →</button>
+      <button id="add-toggle" class="link-btn" type="button">+ Add Company</button>
+      <select id="company-select" data-tour="company-select"></select>
+    </div>
+  </header>
+  <div class="purpose-strip">
+    <div><strong>Purpose</strong><p>Turn financial statements into comparable, auditable ratios for investment, credit, indexing, benchmarking, and trend analysis.</p></div>
+  </div>
+  <div class="add-panel hidden" id="add-panel">
+    <form class="add-form" id="add-form">
+      <input type="url" id="add-url" placeholder="Annual report PDF URL" required />
+      <input type="text" id="add-slug" placeholder="slug (e.g. apple)" required pattern="[a-z0-9-]+" />
+      <select id="add-domain">
+        <option value="">No domain KPIs</option>
+        <option value="retail">Retail</option>
+      </select>
+      <input type="password" id="add-token" placeholder="Access token" required />
+      <button type="submit" id="add-submit">Extract</button>
+    </form>
+    <div class="add-status" id="add-status"></div>
+  </div>
+  <main><div id="content" class="empty">Loading…</div></main>
+  <div id="tour-scrim"></div>
+  <aside id="tour-card" role="dialog" aria-live="polite">
+    <div class="tour-step" id="tour-step"></div>
+    <h3 id="tour-title"></h3>
+    <p id="tour-description"></p>
+    <div class="tour-actions"><button id="tour-close" type="button">Exit</button><button id="tour-next" type="button">Next →</button></div>
+  </aside>
+
+<script>
+// Add a company: run "uv run python pipeline.py <pdf> <url> <slug>" - it
+// adds the company straight into companies.json. Nothing here needs to change.
+const DATA_FILE = "companies.json";
+
+async function loadJSON(path) {
+  const res = await fetch(path);
+  if (!res.ok) throw new Error(`Failed to load ${path}: ${res.status}`);
+  return res.json();
+}
+
+function fmtUSD(n) { return "$" + Number(n).toLocaleString("en-US"); }
+
+function renderRatiosTab(c) {
+  const rows = Object.values(c.ratios).map(r => `
+    <tr><td>${r.name}</td><td class="${r.value ? "ratio-value" : "ratio-blank"}">${r.value}</td></tr>
+  `).join("");
+  return `<table><thead><tr><th>Ratio</th><th>Value</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+function renderRawValuesTab(c) {
+  const labels = {
+    net_income: "Net Income",
+    total_stockholders_equity: "Total Stockholders' Equity",
+    beginning_total_assets: "Beginning Total Assets",
+    ending_total_assets: "Ending Total Assets",
+    total_liabilities: "Total Liabilities",
+    total_current_assets: "Total Current Assets",
+    total_current_liabilities: "Total Current Liabilities",
+    inventory: "Inventory",
+    cash_and_equivalents: "Cash and Cash Equivalents",
+    revenue: "Revenue",
+    operating_income: "Operating Income",
+    interest_expense: "Interest Expense",
+    income_tax_expense: "Income Tax Expense",
+    depreciation_and_amortization: "Depreciation & Amortization",
+    basic_eps: "Basic EPS",
+    diluted_eps: "Diluted EPS",
+    dividend_per_share: "Dividend Per Share",
+    operating_cash_flow: "Operating Cash Flow",
+    shares_outstanding: "Shares Outstanding",
+    share_price: "Share Price",
+    expected_growth_rate: "Expected Growth Rate",
+    investment_cost: "Investment Cost",
+    investment_gain: "Investment Gain",
+    debt_principal_and_interest_due: "Debt Principal + Interest Due",
+  };
+  const rows = Object.entries(c.raw_values).map(([key, raw]) => {
+    const v = raw || {};
+    if (v.value === null || v.value === undefined) {
+      return `<tr><td>${labels[key] || key}</td><td class="ratio-blank"></td><td></td><td></td></tr>`;
+    }
+    const hasCitation = v.as_printed != null && v.source_page != null;
+    const sourceCell = hasCitation
+      ? `<a class="source-page" href="${c.source_url}#page=${v.source_page}&search=${encodeURIComponent(v.as_printed)}&phrase=true" target="_blank" rel="noopener">p. ${v.source_page} ↗</a>
+         <span class="quote">${v.source_quote || ""}</span>`
+      : "";
+    return `
+    <tr>
+      <td>${labels[key] || key}</td>
+      <td class="ratio-value">${fmtUSD(v.value)}</td>
+      <td class="unit-note">${v.unit_note || ""}</td>
+      <td>${sourceCell}</td>
+    </tr>
+  `;
+  }).join("");
+  return `<table><thead><tr><th>Data Point</th><th>Amount</th><th>Unit</th><th>Source in document</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+function renderFormulasTab(c) {
+  const all = { ...c.ratios, ...(c.domain_ratios || {}) };
+  const rows = Object.values(all).map(r => `
+    <tr><td>${r.name}</td><td class="formula-expr">${r.formula}</td><td>${r.description}</td></tr>
+  `).join("");
+  return `<table><thead><tr><th>Ratio</th><th>Formula</th><th>What it means</th></tr></thead><tbody>${rows}</tbody></table>`;
+}
+
+function renderCompany(c) {
+  const content = document.getElementById("content");
+  content.className = "";
+  const hasDomain = c.domain_ratios && Object.keys(c.domain_ratios).length > 0;
+  const domainLabel = hasDomain ? c.domain.charAt(0).toUpperCase() + c.domain.slice(1) : "";
+  content.innerHTML = `
+    <div class="company-strip">
+      <div><h2>${c.company_name}</h2><div class="meta">Fiscal year end: ${c.fiscal_year_end}</div></div>
+      <div class="meta"><a href="${c.source_url}" target="_blank" rel="noopener">Source document ↗</a></div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="ratios" data-tour="ratios-tab">Ratios</button>
+      ${hasDomain ? `<button class="tab-btn" data-tab="domain">${domainLabel} KPIs</button>` : ""}
+      <button class="tab-btn" data-tab="raw" data-tour="raw-tab">Fincial Indicator</button>
+      <button class="tab-btn" data-tab="formulas" data-tour="formula-tab">Formulas Used</button>
+    </div>
+    <div class="tab-panel active" id="tab-ratios" data-tour="ratios-table">${renderRatiosTab(c)}</div>
+    ${hasDomain ? `<div class="tab-panel" id="tab-domain">${renderRatiosTab({ ratios: c.domain_ratios })}</div>` : ""}
+    <div class="tab-panel" id="tab-raw">${renderRawValuesTab(c)}</div>
+    <div class="tab-panel" id="tab-formulas">${renderFormulasTab(c)}</div>
+  `;
+  content.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      content.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      content.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+      btn.classList.add("active");
+      document.getElementById(`tab-${btn.dataset.tab}`).classList.add("active");
+    });
+  });
+}
+
+const STAGE_MESSAGES = [
+  "Uploading PDF…",
+  "Sending to LLM…",
+  "Extracting values…",
+  "Computing ratios…",
+];
+
+function setupAddCompany(onAdded) {
+  const toggle = document.getElementById("add-toggle");
+  const panel = document.getElementById("add-panel");
+  const form = document.getElementById("add-form");
+  const submitBtn = document.getElementById("add-submit");
+  const status = document.getElementById("add-status");
+  const tokenInput = document.getElementById("add-token");
+
+  tokenInput.value = localStorage.getItem("addCompanyToken") || "";
+
+  toggle.addEventListener("click", () => {
+    panel.classList.toggle("hidden");
+  });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const source_url = document.getElementById("add-url").value.trim();
+    const slug = document.getElementById("add-slug").value.trim();
+    const domain = document.getElementById("add-domain").value || null;
+    const token = tokenInput.value.trim();
+    localStorage.setItem("addCompanyToken", token);
+
+    submitBtn.disabled = true;
+    const startedAt = Date.now();
+    let stageIndex = 0;
+    status.className = "add-status working";
+    status.textContent = STAGE_MESSAGES[0];
+    const stageTimer = setInterval(() => {
+      stageIndex = (stageIndex + 1) % STAGE_MESSAGES.length;
+      status.textContent = STAGE_MESSAGES[stageIndex];
+    }, 1500);
+
+    try {
+      const res = await fetch("/api/add-company", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ source_url, slug, domain, token }),
+      });
+      const body = await res.json();
+      if (!res.ok) throw new Error(body.detail || `Request failed (${res.status})`);
+
+      clearInterval(stageTimer);
+      const totalSeconds = ((Date.now() - startedAt) / 1000).toFixed(1);
+      status.className = "add-status ok";
+      status.textContent = `Done in ${totalSeconds}s (server-reported: ${body.elapsed_seconds}s)`;
+      form.reset();
+      tokenInput.value = token;
+      await onAdded(slug);
+    } catch (err) {
+      clearInterval(stageTimer);
+      status.className = "add-status err";
+      status.textContent = `Failed: ${err.message}`;
+    } finally {
+      submitBtn.disabled = false;
+    }
+  });
+}
+
+const TOUR_STEPS = [
+  { target: "company-select", title: "Choose a company", body: "Switch between the companies whose annual-report data has been extracted and normalized." },
+  { target: "ratios-table", title: "Start with ratios", body: "The dashboard turns source financial statements into comparable metrics such as ROE, ROA, leverage, and liquidity." },
+  { target: "raw-tab", title: "Inspect the inputs", body: "Financial indicators show the underlying values, units, source pages, and extracted quotations." },
+  { target: "formula-tab", title: "Make the calculation legible", body: "Formulas Used explains how each ratio was computed and what it means." },
+];
+
+function setupTour() {
+  const start = document.getElementById("tour-start");
+  const next = document.getElementById("tour-next");
+  const close = document.getElementById("tour-close");
+  const stepLabel = document.getElementById("tour-step");
+  const title = document.getElementById("tour-title");
+  const description = document.getElementById("tour-description");
+  let index = 0;
+
+  function finish() {
+    document.body.classList.remove("touring");
+    document.querySelectorAll(".tour-target").forEach((el) => el.classList.remove("tour-target"));
+  }
+
+  function show() {
+    document.querySelectorAll(".tour-target").forEach((el) => el.classList.remove("tour-target"));
+    const step = TOUR_STEPS[index];
+    const target = document.querySelector(`[data-tour="${step.target}"]`);
+    if (step.target === "raw-tab" || step.target === "formula-tab") {
+      document.querySelector(`[data-tour="${step.target}"]`).click();
+    }
+    const visibleTarget = document.querySelector(`[data-tour="${step.target}"]`);
+    if (visibleTarget) {
+      visibleTarget.classList.add("tour-target");
+      visibleTarget.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+    stepLabel.textContent = `Step ${index + 1} of ${TOUR_STEPS.length}`;
+    title.textContent = step.title;
+    description.textContent = step.body;
+    next.textContent = index === TOUR_STEPS.length - 1 ? "Done" : "Next →";
+  }
+
+  start.addEventListener("click", () => { index = 0; document.body.classList.add("touring"); show(); });
+  next.addEventListener("click", () => { if (index === TOUR_STEPS.length - 1) finish(); else { index += 1; show(); } });
+  close.addEventListener("click", finish);
+  document.getElementById("tour-scrim").addEventListener("click", finish);
+}
+
+async function main() {
+  let companies = await loadJSON(DATA_FILE); // { slug: {...company}, ... }
+  const select = document.getElementById("company-select");
+
+  function refreshDropdown(selectSlug) {
+    const slugs = Object.keys(companies);
+    select.innerHTML = slugs.map(slug => `<option value="${slug}">${companies[slug].company_name}</option>`).join("");
+    select.value = selectSlug || slugs[0];
+    renderCompany(companies[select.value]);
+  }
+
+  select.addEventListener("change", () => renderCompany(companies[select.value]));
+  refreshDropdown();
+
+  setupAddCompany(async (newSlug) => {
+    companies = await loadJSON(DATA_FILE);
+    refreshDropdown(newSlug);
+  });
+  setupTour();
+}
+
+main().catch(err => {
+  document.getElementById("content").innerHTML = `<div class="empty">Error: ${err.message}</div>`;
+  console.error(err);
+});
+</script>
+</body>
+</html>
