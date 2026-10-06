@@ -69,9 +69,86 @@
   #tour-card button { border:0; border-radius:6px; padding:7px 12px; cursor:pointer; }
   #tour-next { background:var(--accent); color:#fff; font-weight:600; }
   #tour-close { background:none; color:var(--accent); }
+
+  .verified { font-size: .72rem; color: var(--accent); margin-left: 6px; white-space: nowrap; }
+  .unverified { font-size: .72rem; color: #9a6510; margin-left: 6px; white-space: nowrap; }
+
+  /* View switch */
+  .views { max-width: 920px; margin: 0 auto; padding: 16px 32px 0; display: flex; gap: 6px; }
+  .view-btn { appearance: none; border: 1px solid var(--border); background: var(--panel); color: var(--text); border-radius: 99px; padding: 7px 14px; font-size: .85rem; font-weight: 500; cursor: pointer; }
+  .view-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  body.view-sector main { display: none; }
+  body.view-sector .purpose-strip, body.view-sector .views { max-width: 1120px; }
+  body.view-company #sector-view { display: none; }
+  body.view-sector #company-select, body.view-sector #add-toggle { display: none; }
+
+  /* Sector benchmark */
+  #sector-view { max-width: 1120px; margin: 0 auto; padding: 22px 32px 60px; }
+  .sector-bar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 18px; }
+  .sector-chip { appearance: none; border: 1px solid var(--border); background: var(--panel); border-radius: 8px; padding: 8px 12px; cursor: pointer; text-align: left; font: inherit; }
+  .sector-chip b { display: block; font-size: .9rem; }
+  .sector-chip span { font-size: .75rem; color: var(--muted); }
+  .sector-chip.active { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); background: var(--accent-soft); }
+  .sector-head { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+  .sector-head h2 { margin: 0 0 4px; font-size: 1.4rem; }
+  .sector-head .meta { color: var(--muted); font-size: .85rem; max-width: 640px; }
+  .sector-head label { font-size: .8rem; color: var(--muted); display: flex; gap: 8px; align-items: center; }
+  .peer-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 8px; margin-bottom: 18px; }
+  .peer-card { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; cursor: pointer; }
+  .peer-card.focus { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+  .peer-card b { display: block; font-size: .88rem; }
+  .peer-card span { display: block; font-size: .75rem; color: var(--muted); }
+  .peer-card .rev { font-family: var(--mono); font-size: .95rem; color: var(--text); margin-top: 4px; }
+  .bench-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--panel); }
+  .bench { border: 0; border-radius: 0; min-width: 760px; }
+  .bench th, .bench td { padding: 8px 10px; }
+  .bench th.co { text-transform: none; letter-spacing: 0; font-size: .78rem; color: var(--text); min-width: 118px; }
+  .bench th.co.focus, .bench td.focus { background: #f2f8f4; }
+  .bench th.med, .bench td.med { background: #fafaf8; border-left: 1px solid var(--border); }
+  .bench tr.group td { background: #fafaf8; font-size: .7rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); font-weight: 600; padding: 6px 10px; }
+  .bench tr.kpi td:first-child, .bench thead th:first-child { position: sticky; left: 0; z-index: 1; background: var(--panel); min-width: 150px; }
+  .bench thead th:first-child { background: #fafaf8; }
+  .bench tr.kpi { cursor: pointer; }
+  .bench tr.kpi:hover td, .bench tr.kpi:hover td:first-child { background: #f6f8f6; }
+  .bench tr.kpi.selected td:first-child { box-shadow: inset 3px 0 0 var(--accent); }
+  .bench .kname { font-weight: 500; }
+  .bench .kdir { display: block; font-size: .72rem; color: var(--muted); }
+  .cell-v { font-family: var(--mono); font-size: .84rem; white-space: nowrap; }
+  .cell-v.best::after { content: " ★"; color: var(--accent); }
+  .cell-bar { height: 4px; border-radius: 2px; background: #e9ece9; margin-top: 5px; overflow: hidden; }
+  .cell-bar i { display: block; height: 100%; border-radius: 2px; background: #8fb9a2; }
+  td.focus .cell-bar i { background: var(--accent); }
+  .cell-bar i.neg { background: #b9b5ad; }
+  .na { color: #b5b2ab; font-size: .8rem; }
+  .delta { display: block; font-size: .7rem; color: var(--muted); font-family: var(--mono); }
+  .rank-panel { margin-top: 18px; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 16px 18px; }
+  .rank-panel h3 { margin: 0 0 2px; font-size: 1rem; }
+  .rank-panel .meta { color: var(--muted); font-size: .8rem; margin-bottom: 14px; }
+  .rank-row { display: grid; grid-template-columns: 170px 1fr 92px; gap: 10px; align-items: center; padding: 5px 0; }
+  .rank-row .nm { font-size: .82rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .rank-row .nm small { color: var(--muted); }
+  .rank-row .vl { font-family: var(--mono); font-size: .82rem; text-align: right; }
+  .rank-track { position: relative; height: 20px; }
+  .rank-bar { position: absolute; top: 2px; height: 16px; background: #8fb9a2; }
+  .rank-bar.pos { border-radius: 0 4px 4px 0; }
+  .rank-bar.neg { border-radius: 4px 0 0 4px; background: #b9b5ad; }
+  .rank-row.focus .rank-bar.pos { background: var(--accent); }
+  .rank-zero { position: absolute; top: 18px; bottom: 0; width: 1px; background: #c9c6bf; }
+  .rank-overlay { position: absolute; left: 180px; right: 102px; top: 0; bottom: 0; pointer-events: none; }
+  .rank-median { position: absolute; top: 14px; bottom: 0; width: 0; border-left: 2px solid var(--text); }
+  .rank-median-label { position: absolute; top: 0; font-size: .68rem; color: var(--muted); transform: translateX(-50%); white-space: nowrap; }
+  .rank-plot { position: relative; padding-top: 18px; }
+  .caveats { margin-top: 12px; display: grid; gap: 4px; }
+  .caveats p { margin: 0; font-size: .78rem; color: var(--muted); }
+  #viz-tip { position: fixed; z-index: 50; pointer-events: none; background: #1f1e1c; color: #fff; font-size: .78rem; padding: 7px 9px; border-radius: 6px; max-width: 260px; display: none; line-height: 1.4; }
+  @media (max-width: 640px) {
+    header, main, #sector-view, .views { padding-left: 16px; padding-right: 16px; }
+    .rank-row { grid-template-columns: 110px 1fr 76px; }
+    .rank-overlay { left: 120px; right: 86px; }
+  }
 </style>
 </head>
-<body>
+<body class="view-company">
   <header>
     <div>
       <h1>Fundamental Data — Ratios Dashboard</h1>
@@ -94,12 +171,19 @@
         <option value="">No domain KPIs</option>
         <option value="retail">Retail</option>
       </select>
+      <input type="text" id="add-sector" placeholder="Sector (e.g. Retail)" />
       <input type="password" id="add-token" placeholder="Access token" required />
       <button type="submit" id="add-submit">Extract</button>
     </form>
     <div class="add-status" id="add-status"></div>
   </div>
+  <nav class="views" aria-label="View">
+    <button class="view-btn active" type="button" data-view="company">Company</button>
+    <button class="view-btn" type="button" data-view="sector" data-tour="sector-view-btn">Sector Benchmark</button>
+  </nav>
   <main><div id="content" class="empty">Loading…</div></main>
+  <section id="sector-view" aria-label="Sector benchmark"></section>
+  <div id="viz-tip" role="tooltip"></div>
   <div id="tour-scrim"></div>
   <aside id="tour-card" role="dialog" aria-live="polite">
     <div class="tour-step" id="tour-step"></div>
@@ -109,8 +193,8 @@
   </aside>
 
 <script>
-// Add a company: run "uv run python pipeline.py <pdf> <url> <slug>" - it
-// adds the company straight into companies.json. Nothing here needs to change.
+// Add a company: run "uv run --env-file .env pipeline.py <pdf> <url> <slug> --sector <name>" -
+// it adds the company straight into companies.json. Nothing here needs to change.
 const DATA_FILE = "companies.json";
 
 async function loadJSON(path) {
@@ -154,21 +238,36 @@ function renderRawValuesTab(c) {
     investment_cost: "Investment Cost",
     investment_gain: "Investment Gain",
     debt_principal_and_interest_due: "Debt Principal + Interest Due",
+    revenue_prior_year: "Revenue (Prior Year)",
+    capital_expenditures: "Capital Expenditures",
+    cost_of_goods_sold: "Cost of Goods Sold",
+    sss_net_sales_current: "Same-Store Net Sales (Current)",
+    sss_net_sales_prior: "Same-Store Net Sales (Prior)",
+    beginning_store_count: "Store Count (Beginning)",
+    ending_store_count: "Store Count (Ending)",
+    retail_store_net_sales: "Retail Store Net Sales",
   };
+  const perShare = new Set(["basic_eps", "diluted_eps", "dividend_per_share", "share_price"]);
+  const counts = new Set(["shares_outstanding", "beginning_store_count", "ending_store_count"]);
+  const fmtRaw = (key, n) => perShare.has(key) ? "$" + Number(n).toFixed(2)
+    : counts.has(key) ? Number(n).toLocaleString("en-US") : fmtUSD(n);
   const rows = Object.entries(c.raw_values).map(([key, raw]) => {
     const v = raw || {};
     if (v.value === null || v.value === undefined) {
       return `<tr><td>${labels[key] || key}</td><td class="ratio-blank"></td><td></td><td></td></tr>`;
     }
     const hasCitation = v.as_printed != null && v.source_page != null;
+    const check = v.verified === true ? `<span class="verified" title="The printed figure was found on this page of the PDF">✓ found on page</span>`
+      : v.verified === "sum" ? `<span class="verified" title="Each component in the quote was found on this page and they add up to the total">✓ components on page</span>`
+      : v.verified === false ? `<span class="unverified" title="The printed figure could not be matched in the PDF text layer - review manually">⚠ not matched in text</span>` : "";
     const sourceCell = hasCitation
-      ? `<a class="source-page" href="${c.source_url}#page=${v.source_page}&search=${encodeURIComponent(v.as_printed)}&phrase=true" target="_blank" rel="noopener">p. ${v.source_page} ↗</a>
+      ? `<a class="source-page" href="${c.source_url}#page=${v.source_page}&search=${encodeURIComponent(v.as_printed)}&phrase=true" target="_blank" rel="noopener">p. ${v.source_page} ↗</a>${check}
          <span class="quote">${v.source_quote || ""}</span>`
-      : "";
+      : v.derived ? `<span class="unverified">derived</span><span class="quote">${v.source_quote || ""}</span>` : "";
     return `
     <tr>
       <td>${labels[key] || key}</td>
-      <td class="ratio-value">${fmtUSD(v.value)}</td>
+      <td class="ratio-value">${fmtRaw(key, v.value)}</td>
       <td class="unit-note">${v.unit_note || ""}</td>
       <td>${sourceCell}</td>
     </tr>
@@ -192,13 +291,13 @@ function renderCompany(c) {
   const domainLabel = hasDomain ? c.domain.charAt(0).toUpperCase() + c.domain.slice(1) : "";
   content.innerHTML = `
     <div class="company-strip">
-      <div><h2>${c.company_name}</h2><div class="meta">Fiscal year end: ${c.fiscal_year_end}</div></div>
+      <div><h2>${c.company_name}</h2><div class="meta">Fiscal year end: ${c.fiscal_year_end}${c.sector ? ` · ${c.sector}${c.industry ? " — " + c.industry : ""}` : ""}</div></div>
       <div class="meta"><a href="${c.source_url}" target="_blank" rel="noopener">Source document ↗</a></div>
     </div>
     <div class="tabs">
       <button class="tab-btn active" data-tab="ratios" data-tour="ratios-tab">Ratios</button>
       ${hasDomain ? `<button class="tab-btn" data-tab="domain">${domainLabel} KPIs</button>` : ""}
-      <button class="tab-btn" data-tab="raw" data-tour="raw-tab">Fincial Indicator</button>
+      <button class="tab-btn" data-tab="raw" data-tour="raw-tab">Financial Indicators</button>
       <button class="tab-btn" data-tab="formulas" data-tour="formula-tab">Formulas Used</button>
     </div>
     <div class="tab-panel active" id="tab-ratios" data-tour="ratios-table">${renderRatiosTab(c)}</div>
@@ -259,7 +358,7 @@ function setupAddCompany(onAdded) {
       const res = await fetch("/api/add-company", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ source_url, slug, domain, token }),
+        body: JSON.stringify({ source_url, slug, domain, sector: document.getElementById("add-sector").value.trim() || null, token }),
       });
       const body = await res.json();
       if (!res.ok) throw new Error(body.detail || `Request failed (${res.status})`);
@@ -281,11 +380,240 @@ function setupAddCompany(onAdded) {
   });
 }
 
+// ---------------------------------------------------------------------------
+// Sector benchmark: compare every company in a sector on the same KPIs
+// ---------------------------------------------------------------------------
+
+// better: "high" | "low" | null (no ranking - scale metrics)
+const BENCH_KPIS = [
+  { group: "Scale", key: "revenue", label: "Revenue", raw: true, unit: "usd", better: null },
+  { group: "Scale", key: "net_income", label: "Net income", raw: true, unit: "usd", better: null },
+  { group: "Growth", key: "revenue_growth", label: "Revenue growth (YoY)", better: "high" },
+  { group: "Growth", key: "consolidated_sss_growth", label: "Comparable sales growth", domain: true, better: "high" },
+  { group: "Profitability", key: "gross_margin", label: "Gross margin", better: "high" },
+  { group: "Profitability", key: "operating_profit_margin", label: "Operating margin", better: "high" },
+  { group: "Profitability", key: "ebitda_margin", label: "EBITDA margin", better: "high" },
+  { group: "Profitability", key: "net_profit_margin", label: "Net profit margin", better: "high" },
+  { group: "Returns", key: "roe", label: "Return on equity", better: "high" },
+  { group: "Returns", key: "roa", label: "Return on assets", better: "high" },
+  { group: "Efficiency", key: "asset_turnover", label: "Asset turnover", better: "high" },
+  { group: "Efficiency", key: "inventory_turnover", label: "Inventory turnover", better: "high" },
+  { group: "Cash generation", key: "operating_cash_flow_margin", label: "Operating cash flow margin", better: "high" },
+  { group: "Cash generation", key: "free_cash_flow_margin", label: "Free cash flow margin", better: "high" },
+  { group: "Liquidity", key: "current_ratio", label: "Current ratio", better: "high" },
+  { group: "Liquidity", key: "quick_ratio", label: "Quick ratio", better: "high" },
+  { group: "Leverage", key: "debt_to_equity", label: "Liabilities-to-equity", better: "low" },
+  { group: "Leverage", key: "interest_coverage_ratio", label: "Interest coverage", better: "high" },
+];
+
+function kpiValue(c, k) {
+  if (k.raw) { const v = (c.raw_values || {})[k.key]; return v && v.value != null ? Number(v.value) : null; }
+  const r = (k.domain ? c.domain_ratios : c.ratios) || {};
+  return r[k.key] && r[k.key].number != null ? r[k.key].number : null;
+}
+function kpiUnit(c, k) {
+  if (k.unit) return k.unit;
+  const r = ((k.domain ? c.domain_ratios : c.ratios) || {})[k.key];
+  return (r && r.unit) || "x";
+}
+function kpiFormula(companies, k) {
+  if (k.raw) return "Reported on the income statement";
+  for (const c of companies) { const r = ((k.domain ? c.domain_ratios : c.ratios) || {})[k.key]; if (r) return r.formula; }
+  return "";
+}
+function fmtCompact(n) {
+  const a = Math.abs(n), s = n < 0 ? "-" : "";
+  if (a >= 1e12) return `${s}$${(a / 1e12).toFixed(2)}T`;
+  if (a >= 1e9) return `${s}$${(a / 1e9).toFixed(1)}B`;
+  if (a >= 1e6) return `${s}$${(a / 1e6).toFixed(1)}M`;
+  return `${s}$${a.toLocaleString("en-US")}`;
+}
+function fmtKpi(n, unit) {
+  if (n == null) return "—";
+  if (unit === "pct") return (n * 100).toFixed(Math.abs(n) < 0.005 ? 2 : 1) + "%";
+  if (unit === "usd") return fmtCompact(n);
+  if (unit === "yrs") return n.toFixed(1) + " yrs";
+  return n.toFixed(2) + "x";
+}
+function fmtDelta(d, unit) {
+  const sign = d > 0 ? "+" : d < 0 ? "−" : "±";
+  const a = Math.abs(d);
+  if (unit === "pct") return `${sign}${(a * 100).toFixed(1)} pts`;
+  if (unit === "usd") return `${sign}${fmtCompact(a)}`;
+  return `${sign}${a.toFixed(2)}x`;
+}
+function median(xs) {
+  const s = xs.filter(x => x != null).sort((a, b) => a - b);
+  if (!s.length) return null;
+  const m = Math.floor(s.length / 2);
+  return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
+}
+const esc = s => String(s ?? "").replace(/[&<>"]/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
+
+function setupSectorView(getCompanies) {
+  const root = document.getElementById("sector-view");
+  const tip = document.getElementById("viz-tip");
+  const state = { sector: null, focus: null, kpi: "operating_profit_margin" };
+
+  function sectors() {
+    const map = new Map();
+    for (const [slug, c] of Object.entries(getCompanies())) {
+      const s = c.sector || "Unclassified";
+      if (!map.has(s)) map.set(s, []);
+      map.get(s).push(slug);
+    }
+    return [...map.entries()].sort((a, b) => b[1].length - a[1].length);
+  }
+
+  function render() {
+    const all = getCompanies();
+    const list = sectors();
+    if (!state.sector || (state.sector !== "__all" && !list.some(([s]) => s === state.sector))) state.sector = list.length ? list[0][0] : "__all";
+    const slugs = state.sector === "__all" ? Object.keys(all) : list.find(([s]) => s === state.sector)[1];
+    // biggest company first, by revenue
+    slugs.sort((a, b) => (kpiValue(all[b], BENCH_KPIS[0]) || 0) - (kpiValue(all[a], BENCH_KPIS[0]) || 0));
+    if (!slugs.includes(state.focus)) state.focus = slugs[0];
+    const peers = slugs.map(s => all[s]);
+    const kpis = BENCH_KPIS.filter(k => peers.some(c => kpiValue(c, k) != null));
+    if (!kpis.some(k => k.key === state.kpi)) state.kpi = kpis.find(k => k.better)?.key || kpis[0]?.key;
+    const n = peers.length;
+    const title = state.sector === "__all" ? "All companies" : state.sector;
+    const showMedian = n >= 2;
+
+    const chips = list.map(([s, members]) => `
+      <button class="sector-chip ${s === state.sector ? "active" : ""}" data-sector="${esc(s)}" type="button">
+        <b>${esc(s)}</b><span>${members.length} compan${members.length === 1 ? "y" : "ies"}</span>
+      </button>`).join("") + `
+      <button class="sector-chip ${state.sector === "__all" ? "active" : ""}" data-sector="__all" type="button">
+        <b>All sectors</b><span>${Object.keys(all).length} companies · cross-industry</span>
+      </button>`;
+
+    const cards = slugs.map(s => {
+      const c = all[s];
+      return `<div class="peer-card ${s === state.focus ? "focus" : ""}" data-focus="${s}" title="Highlight ${esc(c.company_name)}">
+        <b>${esc(c.company_name)}</b><span>${esc(c.industry || c.sector || "")}</span>
+        <div class="rev">${fmtKpi(kpiValue(c, BENCH_KPIS[0]), "usd")}</div><span>Revenue · FY ending ${esc(c.fiscal_year_end)}</span>
+      </div>`;
+    }).join("");
+
+    let group = "";
+    const rows = kpis.map(k => {
+      const vals = peers.map(c => kpiValue(c, k));
+      const unit = kpiUnit(peers.find((c, i) => vals[i] != null), k);
+      const present = vals.filter(v => v != null);
+      const med = median(vals);
+      const maxAbs = Math.max(...present.map(Math.abs), 1e-12);
+      const best = k.better && present.length >= 2 ? (k.better === "high" ? Math.max(...present) : Math.min(...present)) : null;
+      let head = "";
+      if (k.group !== group) { group = k.group; head = `<tr class="group"><td colspan="${n + 1 + (showMedian ? 1 : 0)}">${esc(group)}</td></tr>`; }
+      const cells = vals.map((v, i) => {
+        const focus = slugs[i] === state.focus ? "focus" : "";
+        if (v == null) return `<td class="${focus}"><span class="na">not disclosed</span></td>`;
+        const d = !k.better || !showMedian || med == null || present.length < 2 ? ""
+          : `<span class="delta">${v === med ? "= median" : fmtDelta(v - med, unit) + " vs median"}</span>`;
+        return `<td class="${focus}"><span class="cell-v ${v === best ? "best" : ""}">${fmtKpi(v, unit)}</span>
+          <div class="cell-bar"><i class="${v < 0 ? "neg" : ""}" style="width:${(Math.abs(v) / maxAbs * 100).toFixed(1)}%"></i></div>${d}</td>`;
+      }).join("");
+      const dir = k.better === "high" ? "Higher is better" : k.better === "low" ? "Lower is better" : "Scale";
+      return head + `<tr class="kpi ${k.key === state.kpi ? "selected" : ""}" data-kpi="${k.key}">
+        <td><span class="kname">${esc(k.label)}</span><span class="kdir">${dir}</span></td>${cells}
+        ${showMedian ? `<td class="med"><span class="cell-v">${fmtKpi(med, unit)}</span><span class="delta">${present.length} of ${n} report</span></td>` : ""}
+      </tr>`;
+    }).join("");
+
+    const colHeads = slugs.map(s => `<th class="co ${s === state.focus ? "focus" : ""}">${esc(all[s].company_name)}</th>`).join("");
+
+    // caveats the reader needs to interpret the comparison honestly
+    const caveats = [];
+    for (const c of peers) {
+      const eq = kpiValue(c, { raw: true, key: "total_stockholders_equity" });
+      const ta = kpiValue(c, { raw: true, key: "ending_total_assets" });
+      if (eq != null && ta && eq / ta < 0.25) caveats.push(`${c.company_name}: equity is only ${(eq / ta * 100).toFixed(0)}% of assets (large buybacks), which inflates ROE and liabilities-to-equity.`);
+    }
+    if (n === 1) caveats.push(`${title} has a single company in this dataset, so there is no peer median. Switch to “All sectors” for a cross-industry comparison.`);
+    caveats.push("Fiscal years differ by company (see each card). Comparable sales growth is company-reported and not defined identically across retailers.");
+
+    root.innerHTML = `
+      <div class="sector-bar" data-tour="sector-chips">${chips}</div>
+      <div class="sector-head">
+        <div><h2>${esc(title)} benchmark</h2>
+          <div class="meta">${n} compan${n === 1 ? "y" : "ies"} on the same KPI set, all computed from extracted annual-report values with identical formulas. ★ marks the best in the peer set; click a row to rank it below.</div></div>
+      </div>
+      <div class="peer-cards">${cards}</div>
+      <div class="bench-wrap" data-tour="bench-table"><table class="bench">
+        <thead><tr><th>KPI</th>${colHeads}${showMedian ? `<th class="med">Peer median</th>` : ""}</tr></thead>
+        <tbody>${rows}</tbody></table></div>
+      <div class="rank-panel" id="rank-panel" data-tour="rank-panel"></div>
+      <div class="caveats">${caveats.map(c => `<p>• ${esc(c)}</p>`).join("")}</div>`;
+
+    renderRank(peers, slugs);
+
+    root.querySelectorAll("[data-sector]").forEach(b => b.addEventListener("click", () => { state.sector = b.dataset.sector; state.focus = null; render(); }));
+    root.querySelectorAll("[data-focus]").forEach(b => b.addEventListener("click", () => { state.focus = b.dataset.focus; render(); }));
+    root.querySelectorAll("tr.kpi").forEach(r => r.addEventListener("click", () => { state.kpi = r.dataset.kpi; render(); document.getElementById("rank-panel").scrollIntoView({ behavior: "smooth", block: "nearest" }); }));
+  }
+
+  function renderRank(peers, slugs) {
+    const panel = document.getElementById("rank-panel");
+    const k = BENCH_KPIS.find(x => x.key === state.kpi);
+    if (!k) { panel.innerHTML = ""; return; }
+    const items = peers.map((c, i) => ({ c, slug: slugs[i], v: kpiValue(c, k) })).filter(x => x.v != null);
+    const unit = items.length ? kpiUnit(items[0].c, k) : "x";
+    const missing = peers.filter(c => kpiValue(c, k) == null).map(c => c.company_name);
+    items.sort((a, b) => k.better === "low" ? a.v - b.v : b.v - a.v);
+    const med = median(items.map(x => x.v));
+    const lo = Math.min(0, ...items.map(x => x.v)), hi = Math.max(0, ...items.map(x => x.v));
+    const span = hi - lo || 1;
+    const pos = v => ((v - lo) / span) * 100;
+    const zero = pos(0);
+    const rows = items.map((x, i) => {
+      const left = Math.min(zero, pos(x.v)), width = Math.abs(pos(x.v) - zero);
+      return `<div class="rank-row ${x.slug === state.focus ? "focus" : ""}" data-i="${i}">
+        <div class="nm">${i + 1}. ${esc(x.c.company_name)}</div>
+        <div class="rank-track"><div class="rank-bar ${x.v < 0 ? "neg" : "pos"}" style="left:${left}%;width:${Math.max(width, 0.4)}%"></div></div>
+        <div class="vl">${fmtKpi(x.v, unit)}</div></div>`;
+    }).join("");
+    const medLine = items.length >= 2
+      ? `<div class="rank-overlay"><div class="rank-median" style="left:${pos(med)}%"></div><div class="rank-median-label" style="left:${pos(med)}%">median ${fmtKpi(med, unit)}</div></div>`
+      : "";
+    const dir = k.better === "high" ? "ranked highest first" : k.better === "low" ? "ranked lowest (best) first" : "ranked largest first";
+    panel.innerHTML = `
+      <h3>${esc(k.label)}</h3>
+      <div class="meta">${esc(kpiFormula(peers, k))} · ${dir}${missing.length ? ` · not disclosed: ${missing.map(esc).join(", ")}` : ""}</div>
+      <div class="rank-plot">${medLine}<div class="rank-overlay">${lo < 0 ? `<div class="rank-zero" style="left:${zero}%"></div>` : ""}</div>${rows}</div>`;
+
+    panel.querySelectorAll(".rank-row").forEach(row => {
+      const x = items[Number(row.dataset.i)];
+      row.addEventListener("mousemove", e => {
+        const vs = items.length >= 2 ? `<br>${fmtDelta(x.v - med, unit)} vs peer median` : "";
+        tip.innerHTML = `<b>${esc(x.c.company_name)}</b><br>${esc(k.label)}: ${fmtKpi(x.v, unit)}<br>Rank ${Number(row.dataset.i) + 1} of ${items.length}${vs}<br><span style="opacity:.7">FY ending ${esc(x.c.fiscal_year_end)}</span>`;
+        tip.style.display = "block";
+        tip.style.left = Math.min(e.clientX + 14, window.innerWidth - 270) + "px";
+        tip.style.top = e.clientY + 14 + "px";
+      });
+      row.addEventListener("mouseleave", () => { tip.style.display = "none"; });
+      row.addEventListener("click", () => { state.focus = x.slug; render(); });
+    });
+  }
+
+  return { render };
+}
+
+function setupViews(sectorView) {
+  document.querySelectorAll(".view-btn").forEach(btn => btn.addEventListener("click", () => {
+    document.querySelectorAll(".view-btn").forEach(b => b.classList.toggle("active", b === btn));
+    document.body.classList.toggle("view-sector", btn.dataset.view === "sector");
+    document.body.classList.toggle("view-company", btn.dataset.view === "company");
+    if (btn.dataset.view === "sector") sectorView.render();
+  }));
+}
+
 const TOUR_STEPS = [
   { target: "company-select", title: "Choose a company", body: "Switch between the companies whose annual-report data has been extracted and normalized." },
   { target: "ratios-table", title: "Start with ratios", body: "The dashboard turns source financial statements into comparable metrics such as ROE, ROA, leverage, and liquidity." },
   { target: "raw-tab", title: "Inspect the inputs", body: "Financial indicators show the underlying values, units, source pages, and extracted quotations." },
   { target: "formula-tab", title: "Make the calculation legible", body: "Formulas Used explains how each ratio was computed and what it means." },
+  { target: "sector-view-btn", title: "Benchmark the sector", body: "Sector Benchmark lines up every company in an industry on the same KPIs, with the peer median and the best performer marked." },
 ];
 
 function setupTour() {
@@ -306,6 +634,9 @@ function setupTour() {
     document.querySelectorAll(".tour-target").forEach((el) => el.classList.remove("tour-target"));
     const step = TOUR_STEPS[index];
     const target = document.querySelector(`[data-tour="${step.target}"]`);
+    if (step.target !== "sector-view-btn" && document.body.classList.contains("view-sector")) {
+      document.querySelector('[data-view="company"]').click();
+    }
     if (step.target === "raw-tab" || step.target === "formula-tab") {
       document.querySelector(`[data-tour="${step.target}"]`).click();
     }
@@ -340,9 +671,14 @@ async function main() {
   select.addEventListener("change", () => renderCompany(companies[select.value]));
   refreshDropdown();
 
+  const sectorView = setupSectorView(() => companies);
+  setupViews(sectorView);
+  if (location.hash === "#sector") document.querySelector('[data-view="sector"]').click();
+
   setupAddCompany(async (newSlug) => {
     companies = await loadJSON(DATA_FILE);
     refreshDropdown(newSlug);
+    sectorView.render();
   });
   setupTour();
 }
