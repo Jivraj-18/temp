@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <title>13F ingestion — a working demonstration</title>
 <style>
 :root{
@@ -18,6 +19,8 @@
 }
 
 *{ box-sizing:border-box; }
+:root{ --rp-accent:var(--accent); --rp-line:var(--rule); --rp-panel:var(--panel);
+       --rp-muted:var(--muted); --rp-ok:var(--good); --rp-ink:var(--ink); }
 body{ background:var(--paper); color:var(--ink); margin:0;
       font-family:Charter,"Bitstream Charter","Iowan Old Style",Georgia,serif;
       font-size:16px; line-height:1.55; -webkit-text-size-adjust:100%; }
@@ -144,6 +147,14 @@ body.touring #tour{ display:flex; }
       sampled than about the parser. Cost is a flat 19.5 microseconds per
       holding at every size. Timing covers document to structured rows; it excludes
       network time, which is the SEC's to control, not ours.</p>
+  </section>
+
+  <section id="s-replay">
+    <h2>Replay the day</h2>
+    <p class="note">Watch the 118 sampled filings arrive at their real SEC accepted times. Each
+      one is parsed in the time it actually took, and the stream below fills up as they
+      land. Only the clock is sped up.</p>
+    <div id="replay"></div>
   </section>
 
   <section id="s-stream">
@@ -480,4 +491,59 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+</script>
+<script src="../replay.js"></script>
+<script>
+// Replay: filings arrive at their real SEC accepted times and are parsed in their measured time.
+document.addEventListener('DOMContentLoaded', () => {
+  const tbody = document.querySelector('.stream tbody');
+  const toMs = hms => { const [h, m, s] = hms.split(':').map(Number); return ((h * 60 + m) * 60 + s) * 1000; };
+  const money = s => { const m = s.match(/\$([\d.]+)(m|bn|tn)/); return m ? m[1] * { m: 1e6, bn: 1e9, tn: 1e12 }[m[2]] : 0; };
+  const fmtMoney = v => v >= 1e12 ? `$${(v / 1e12).toFixed(1)}tn` : v >= 1e9 ? `$${(v / 1e9).toFixed(1)}bn` : `$${(v / 1e6).toFixed(1)}m`;
+  const hms = t => new Date(t).toISOString().slice(11, 19);
+  const filings = [...tbody.rows].map(tr => ({
+    tr, acc: tr.dataset.acc, t: toMs(tr.cells[0].textContent), filer: tr.cells[1].textContent,
+    n: Number(tr.cells[3].textContent.replace(/,/g, '')), value: money(tr.cells[4].textContent),
+    ms: Number(tr.cells[5].textContent.replace(/\D/g, '')),
+  }));
+  let s = {};
+
+  const r = Replay.mount(document.getElementById('replay'), {
+    start: toMs('10:00:00'), end: toMs('23:15:00'),
+    speeds: [[60, '60×'], [600, '600×'], [3600, '3,600×']], speed: 600,
+    clock: t => `2026-05-15 ${hms(t)}`,
+    note: 'Accepted times and parse times are real. 600× = ten minutes of the filing day per second.',
+    stages: [['accepted', 'SEC accepted', 'Filing appears on EDGAR'], ['parse', 'Parse holdings', 'XML to structured rows'],
+             ['resolve', 'Resolve identifiers', 'CUSIP to FIGI, ticker, ISIN'], ['store', 'Into the stream', 'Queryable']],
+    counters: [['filings', 'Filings'], ['holdings', 'Holdings parsed'], ['rate', 'Holdings / second'],
+               ['value', 'Value reported'], ['unres', 'Unresolved (top 25s)']],
+    onReset: () => { s = { filings: 0, holdings: 0, ms: 0, value: 0, unres: 0 }; filings.forEach(f => { f.tr.hidden = true; }); },
+    onDone: () => tbody.rows[0]?.click(),
+    events: filings.map(f => ({ t: f.t, run: fast => {
+      const top = (FILINGS[f.acc] || {}).holdings || [];
+      const resolved = top.filter(h => (IDS[h.cusip] || {}).figi).length;
+      Object.assign(s, { filings: s.filings + 1, holdings: s.holdings + f.n, ms: s.ms + f.ms, value: s.value + f.value, unres: s.unres + top.length - resolved });
+      tbody.prepend(f.tr);
+      f.tr.hidden = false;
+      r.count('filings', s.filings.toLocaleString());
+      r.count('holdings', s.holdings.toLocaleString());
+      r.count('rate', s.ms ? Math.round(s.holdings / (s.ms / 1000)).toLocaleString() : '–');
+      r.count('value', fmtMoney(s.value));
+      r.count('unres', s.unres.toLocaleString());
+      if (fast) return;
+      r.stage('accepted', 'done', `${hms(f.t)} · ${f.filer}`);
+      r.stage('parse', 'active', `${f.n.toLocaleString()} holdings…`);
+      r.stage('resolve', '', 'CUSIP to FIGI, ticker, ISIN');
+      r.stage('store', '', 'Queryable');
+      setTimeout(() => {   // the real parse time for this filing
+        r.stage('parse', 'done', `${f.n.toLocaleString()} holdings in ${f.ms} ms`);
+        r.stage('resolve', 'done', `${resolved} of top ${top.length} resolved`);
+        r.stage('store', 'done', `${s.filings} of ${filings.length} filings`);
+      }, f.ms);
+      r.log(`${f.filer}: ${f.n.toLocaleString()} holdings, ${f.ms} ms`);
+      f.tr.classList.remove('rp-flash'); void f.tr.offsetWidth; f.tr.classList.add('rp-flash');
+      f.tr.click();
+    } })),
+  });
+});
 </script>
