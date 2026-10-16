@@ -31,6 +31,9 @@
   th { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); background: #fafaf8; font-weight: 600; }
   tr:last-child td { border-bottom: none; }
   .ratio-value { font-family: var(--mono); font-weight: 600; font-size: 1.05rem; color: var(--accent); }
+  tr.ratio-group td { background: #fafaf8; padding: 10px 14px 8px; }
+  tr.ratio-group b { display: block; font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; color: var(--accent); }
+  tr.ratio-group span { display: block; font-size: .78rem; color: var(--muted); margin-top: 2px; }
   .source-page { display: inline-block; background: var(--accent-soft); color: var(--accent); font-size: 0.75rem; padding: 2px 8px; border-radius: 4px; font-family: var(--mono); white-space: nowrap; text-decoration: none; }
   .source-page:hover { text-decoration: underline; }
   .quote { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); background: #fafaf8; padding: 8px 10px; border-radius: 6px; display: block; margin-top: 6px; white-space: pre-wrap; }
@@ -238,11 +241,37 @@ async function loadJSON(path) {
 
 function fmtUSD(n) { return "$" + Number(n).toLocaleString("en-US"); }
 
-function renderRatiosTab(c) {
-  const rows = Object.values(c.ratios).map(r => `
-    <tr><td>${r.name}</td><td class="${r.value ? "ratio-value" : "ratio-blank"}">${r.value}</td></tr>
-  `).join("");
-  return `<table><thead><tr><th>Ratio</th><th>Value</th></tr></thead><tbody>${rows}</tbody></table>`;
+// The five clusters used to read a company's fundamentals; the sector benchmark uses the same groups.
+const RATIO_CLUSTERS = [
+  { name: "Profitability & Return", about: "How much profit the company earns on sales, assets and equity.",
+    keys: ["gross_margin", "ebitda_margin", "operating_profit_margin", "net_profit_margin", "roe", "roi", "roa", "revenue_growth"] },
+  { name: "Liquidity & Solvency", about: "Ability to pay short-term bills, and how much the company relies on debt.",
+    keys: ["current_ratio", "quick_ratio", "debt_to_equity", "interest_coverage_ratio", "debt_service_ratio", "debt_service_coverage_ratio"] },
+  { name: "Efficiency & Retail KPIs", about: "How quickly assets and inventory are turned into sales.",
+    keys: ["asset_turnover", "inventory_turnover"] },
+  { name: "Cash Flow & Shareholder Value", about: "Cash the business generates, and what it returns to shareholders.",
+    keys: ["operating_cash_flow_margin", "free_cash_flow_margin", "eps", "diluted_eps", "shareholder_equity", "cash_on_hand", "dividend_per_share"] },
+  { name: "Valuation", about: "Market price against fundamentals. Needs a share price, which most annual reports do not state.",
+    keys: ["pe_ratio", "pb_ratio", "peg_ratio", "dividend_yield"] },
+];
+
+function renderRatiosTab(c, { clustered = true } = {}) {
+  const row = r => `<tr><td>${r.name}</td><td class="${r.value ? "ratio-value" : "ratio-blank"}">${r.value || `<span class="na">not available</span>`}</td></tr>`;
+  const head = `<table><thead><tr><th>Ratio</th><th>Value</th></tr></thead><tbody>`;
+  if (!clustered) return head + Object.values(c.ratios).map(row).join("") + "</tbody></table>";
+  const placed = new Set();
+  const groups = RATIO_CLUSTERS.map(g => {
+    const items = g.keys.filter(k => c.ratios[k]).map(k => (placed.add(k), c.ratios[k]));
+    return { ...g, items };
+  });
+  const rest = Object.keys(c.ratios).filter(k => !placed.has(k)).map(k => c.ratios[k]);
+  if (rest.length) groups.push({ name: "Other", about: "", items: rest });
+  const body = groups.filter(g => g.items.length).map(g => {
+    const found = g.items.filter(r => r.value).length;
+    return `<tr class="ratio-group"><td colspan="2"><b>${g.name}</b><span>${found} of ${g.items.length} available${g.about ? " · " + g.about : ""}</span></td></tr>`
+      + g.items.map(row).join("");
+  }).join("");
+  return head + body + "</tbody></table>";
 }
 
 function renderRawValuesTab(c) {
@@ -338,7 +367,7 @@ function renderCompany(c) {
       <button class="tab-btn" data-tab="formulas" data-tour="formula-tab">Formulas Used</button>
     </div>
     <div class="tab-panel active" id="tab-ratios" data-tour="ratios-table">${renderRatiosTab(c)}</div>
-    ${hasDomain ? `<div class="tab-panel" id="tab-domain">${renderRatiosTab({ ratios: c.domain_ratios })}</div>` : ""}
+    ${hasDomain ? `<div class="tab-panel" id="tab-domain">${renderRatiosTab({ ratios: c.domain_ratios }, { clustered: false })}</div>` : ""}
     <div class="tab-panel" id="tab-raw">${renderRawValuesTab(c)}</div>
     <div class="tab-panel" id="tab-formulas">${renderFormulasTab(c)}</div>
   `;
@@ -353,7 +382,7 @@ function renderCompany(c) {
 }
 
 // Upload a PDF -> extract.js runs the whole pipeline in the browser; the flow diagram shows each stage.
-function setupAddCompany({ getCompanies, onAdded }) {
+function setupAddCompany({ getCompanies, onStart, onAdded, onFailed }) {
   const toggle = document.getElementById("add-toggle");
   const panel = document.getElementById("add-panel");
   const form = document.getElementById("add-form");
@@ -392,6 +421,7 @@ function setupAddCompany({ getCompanies, onAdded }) {
     flow.querySelectorAll("li").forEach(li => { li.className = ""; });
     status.className = "add-status working";
     status.textContent = "Running in your browser. The model step usually takes 30–90 seconds.";
+    onStart(file.name);
     let current = "read";
     try {
       const { slug, company } = await pipeline.run(file, {
@@ -411,6 +441,7 @@ function setupAddCompany({ getCompanies, onAdded }) {
       form.reset();
     } catch (err) {
       setStage(current, "failed");
+      onFailed();
       status.className = "add-status err";
       status.textContent = `Failed: ${err.message}`;
       console.error(err);
@@ -428,22 +459,22 @@ function setupAddCompany({ getCompanies, onAdded }) {
 const BENCH_KPIS = [
   { group: "Scale", key: "revenue", label: "Revenue", raw: true, unit: "usd", better: null },
   { group: "Scale", key: "net_income", label: "Net income", raw: true, unit: "usd", better: null },
-  { group: "Growth", key: "revenue_growth", label: "Revenue growth (YoY)", better: "high" },
-  { group: "Growth", key: "consolidated_sss_growth", label: "Comparable sales growth", domain: true, better: "high" },
-  { group: "Profitability", key: "gross_margin", label: "Gross margin", better: "high" },
-  { group: "Profitability", key: "operating_profit_margin", label: "Operating margin", better: "high" },
-  { group: "Profitability", key: "ebitda_margin", label: "EBITDA margin", better: "high" },
-  { group: "Profitability", key: "net_profit_margin", label: "Net profit margin", better: "high" },
-  { group: "Returns", key: "roe", label: "Return on equity", better: "high" },
-  { group: "Returns", key: "roa", label: "Return on assets", better: "high" },
-  { group: "Efficiency", key: "asset_turnover", label: "Asset turnover", better: "high" },
-  { group: "Efficiency", key: "inventory_turnover", label: "Inventory turnover", better: "high" },
-  { group: "Cash generation", key: "operating_cash_flow_margin", label: "Operating cash flow margin", better: "high" },
-  { group: "Cash generation", key: "free_cash_flow_margin", label: "Free cash flow margin", better: "high" },
-  { group: "Liquidity", key: "current_ratio", label: "Current ratio", better: "high" },
-  { group: "Liquidity", key: "quick_ratio", label: "Quick ratio", better: "high" },
-  { group: "Leverage", key: "debt_to_equity", label: "Liabilities-to-equity", better: "low" },
-  { group: "Leverage", key: "interest_coverage_ratio", label: "Interest coverage", better: "high" },
+  { group: "Profitability & Return", key: "gross_margin", label: "Gross margin", better: "high" },
+  { group: "Profitability & Return", key: "ebitda_margin", label: "EBITDA margin", better: "high" },
+  { group: "Profitability & Return", key: "operating_profit_margin", label: "Operating margin", better: "high" },
+  { group: "Profitability & Return", key: "net_profit_margin", label: "Net profit margin", better: "high" },
+  { group: "Profitability & Return", key: "roe", label: "Return on equity", better: "high" },
+  { group: "Profitability & Return", key: "roa", label: "Return on assets", better: "high" },
+  { group: "Profitability & Return", key: "revenue_growth", label: "Revenue growth (YoY)", better: "high" },
+  { group: "Liquidity & Solvency", key: "current_ratio", label: "Current ratio", better: "high" },
+  { group: "Liquidity & Solvency", key: "quick_ratio", label: "Quick ratio", better: "high" },
+  { group: "Liquidity & Solvency", key: "debt_to_equity", label: "Liabilities-to-equity", better: "low" },
+  { group: "Liquidity & Solvency", key: "interest_coverage_ratio", label: "Interest coverage", better: "high" },
+  { group: "Efficiency & Retail KPIs", key: "asset_turnover", label: "Asset turnover", better: "high" },
+  { group: "Efficiency & Retail KPIs", key: "inventory_turnover", label: "Inventory turnover", better: "high" },
+  { group: "Efficiency & Retail KPIs", key: "consolidated_sss_growth", label: "Comparable sales growth", domain: true, better: "high" },
+  { group: "Cash Flow & Shareholder Value", key: "operating_cash_flow_margin", label: "Operating cash flow margin", better: "high" },
+  { group: "Cash Flow & Shareholder Value", key: "free_cash_flow_margin", label: "Free cash flow margin", better: "high" },
 ];
 
 function kpiValue(c, k) {
@@ -734,9 +765,22 @@ async function main() {
   setupViews(sectorView);
   if (location.hash === "#sector") document.querySelector('[data-view="sector"]').click();
 
+  // While a PDF is being processed, hide the previously selected company so its numbers
+  // are never mistaken for the new one; the new company appears only when every step is done.
+  const content = document.getElementById("content");
   setupAddCompany({
     getCompanies: () => companies,
+    onStart: fileName => {
+      select.disabled = true;
+      content.className = "empty";
+      content.innerHTML = `Extracting <b>${esc(fileName)}</b>…<br>The company's ratios will appear here when all six steps finish.`;
+    },
+    onFailed: () => {
+      select.disabled = false;
+      show(select.value);
+    },
     onAdded: async (newSlug, company) => {
+      select.disabled = false;
       companies[newSlug] = company;
       refreshDropdown(newSlug);
       sectorView.render();
