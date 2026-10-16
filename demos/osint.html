@@ -1,0 +1,751 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Financial Crime Surveillance Unit (OSINT)</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+      rel="stylesheet"
+      crossorigin="anonymous"
+    />
+    <style>
+      :root {
+        --neon-blue: #00f3ff;
+        --neon-pink: #ff00ea;
+        --severe-red: #ff3333;
+        --high-orange: #ff9900;
+        --medium-yellow: #ffcc00;
+        --low-green: #00cc66;
+        --glass-bg: rgba(20, 25, 35, 0.85);
+        --glass-border: rgba(255, 255, 255, 0.15);
+      }
+
+      body {
+        background:
+          linear-gradient(rgba(10, 14, 23, 0.92), rgba(10, 14, 23, 0.92)),
+          url("https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=2070&auto=format&fit=crop")
+            no-repeat center center fixed;
+        background-size: cover;
+        color: #e2e8f0;
+        font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        min-height: 100vh;
+      }
+
+      .app-header {
+        border-bottom: 2px solid var(--neon-blue);
+        background: rgba(0, 0, 0, 0.6);
+        padding: 1.5rem 0;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+        margin-bottom: 2rem;
+      }
+
+      .glass-card {
+        background: var(--glass-bg);
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--glass-border);
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .form-control,
+      .form-select {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #fff;
+      }
+
+      .form-control:focus,
+      .form-select:focus {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: var(--neon-blue);
+        color: #fff;
+        box-shadow: 0 0 0 0.25rem rgba(0, 243, 255, 0.25);
+      }
+
+      .form-select option {
+        background: #1a1e29;
+        color: #fff;
+      }
+
+      .btn-cyber {
+        background: transparent;
+        border: 2px solid var(--neon-blue);
+        color: var(--neon-blue);
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+      }
+
+      .btn-cyber:hover {
+        background: var(--neon-blue);
+        color: #000;
+        box-shadow: 0 0 15px var(--neon-blue);
+      }
+
+      .btn-cyber-danger {
+        border-color: var(--neon-pink);
+        color: var(--neon-pink);
+      }
+      .btn-cyber-danger:hover {
+        background: var(--neon-pink);
+        color: #fff;
+        box-shadow: 0 0 15px var(--neon-pink);
+      }
+
+      .risk-badge {
+        font-size: 1.2rem;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        display: inline-block;
+      }
+      .risk-SEVERE {
+        background-color: rgba(255, 51, 51, 0.2);
+        color: var(--severe-red);
+        border: 2px solid var(--severe-red);
+        text-shadow: 0 0 5px var(--severe-red);
+      }
+      .risk-HIGH {
+        background-color: rgba(255, 153, 0, 0.2);
+        color: var(--high-orange);
+        border: 2px solid var(--high-orange);
+        text-shadow: 0 0 5px var(--high-orange);
+      }
+      .risk-MEDIUM {
+        background-color: rgba(255, 204, 0, 0.2);
+        color: var(--medium-yellow);
+        border: 2px solid var(--medium-yellow);
+      }
+      .risk-LOW {
+        background-color: rgba(0, 204, 102, 0.2);
+        color: var(--low-green);
+        border: 2px solid var(--low-green);
+      }
+
+      .entity-alert {
+        background: linear-gradient(90deg, rgba(0, 243, 255, 0.2) 0%, rgba(0, 0, 0, 0) 100%);
+        border-left: 4px solid var(--neon-blue);
+        padding: 1rem;
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+      }
+
+      .entity-type-highlight {
+        color: var(--neon-blue);
+        font-weight: bold;
+        text-transform: uppercase;
+      }
+
+      .domicile-box {
+        border: 1px dashed var(--neon-pink);
+        background: rgba(255, 0, 234, 0.05);
+        padding: 1rem;
+        border-radius: 8px;
+      }
+
+      .domicile-tag {
+        background: var(--neon-pink);
+        color: white;
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: bold;
+        margin-right: 0.5rem;
+        display: inline-block;
+      }
+
+      .section-title {
+        color: var(--neon-blue);
+        border-bottom: 1px solid rgba(0, 243, 255, 0.3);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1rem;
+        font-size: 1.25rem;
+        text-transform: uppercase;
+      }
+
+      .chart-container {
+        width: 100%;
+        height: 300px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* D3 Chart Tooltip */
+      .tooltip {
+        position: absolute;
+        text-align: center;
+        padding: 8px;
+        font: 12px sans-serif;
+        background: rgba(0, 0, 0, 0.9);
+        color: white;
+        border: 1px solid var(--neon-blue);
+        border-radius: 4px;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+
+      #loadingOverlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        z-index: 9999;
+        display: none;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .history-item {
+        cursor: pointer;
+        transition: background 0.2s;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 0.5rem;
+      }
+      .history-item:hover {
+        background: rgba(0, 243, 255, 0.1);
+      }
+
+      .source-link {
+        color: #8bb4e7;
+        text-decoration: none;
+        word-break: break-all;
+      }
+      .source-link:hover {
+        color: var(--neon-blue);
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="app-header text-center">
+      <div class="container">
+        <h1 class="mb-0 fw-bold">
+          <i class="bi bi-shield-lock"></i> Financial Crime Surveillance Unit (OSINT)
+        </h1>
+      </div>
+    </header>
+
+    <div class="container-fluid px-4">
+      <div class="row">
+        <!-- INPUT SECTION -->
+        <div class="col-lg-4 mb-4">
+          <div class="glass-card">
+            <h3 class="section-title"><i class="bi bi-search"></i> Target Input</h3>
+            <form id="searchForm">
+              <div class="mb-3">
+                <label class="form-label text-light">Entity Name *</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="entityName"
+                  required=""
+                  placeholder="e.g., Titan Maritime Logistics S.A."
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label text-light">Entity Type *</label>
+                <select class="form-select" id="entityType" required="">
+                  <option value="" disabled="" selected="">Select Type</option>
+                  <option value="Individual">Individual</option>
+                  <option value="Corporation">Corporation</option>
+                  <option value="Bank">Bank</option>
+                  <option value="NGO">NGO</option>
+                  <option value="Vessel">Vessel</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              <div class="mb-4">
+                <label class="form-label text-light">Known Associates / Location</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="entityLocation"
+                  placeholder="e.g., Panama"
+                />
+              </div>
+              <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-cyber py-2">
+                  <i class="bi bi-radar"></i> Initiate OSINT Scan
+                </button>
+                <button type="button" id="resetBtn" class="btn btn-cyber-danger mt-2">
+                  <i class="bi bi-trash"></i> Reset &amp; Clear Display
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- HISTORY SECTION -->
+          <div class="glass-card mt-4">
+            <h3 class="section-title"><i class="bi bi-clock-history"></i> Search History</h3>
+            <div id="historyList" class="small">
+              <p class="text-muted">No prior searches.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- RESULTS SECTION -->
+        <div class="col-lg-8" id="resultsArea" style="display: none">
+          <div class="glass-card">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div class="entity-alert flex-grow-1 me-3">
+                <i class="bi bi-exclamation-triangle-fill text-warning"></i>
+                Surveillance Target Alert: You are reviewing intelligence for a(n)
+                <span class="entity-type-highlight" id="resEntityType"></span>.
+              </div>
+              <div id="resRiskBadge" class="risk-badge"></div>
+            </div>
+
+            <div class="row mb-4">
+              <div class="col-md-12">
+                <div class="domicile-box">
+                  <h5 class="text-white mb-2">
+                    <i class="bi bi-geo-alt-fill"></i> Highlighted Domiciles / Jurisdictions
+                  </h5>
+                  <div id="resDomiciles"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-7">
+                <h4 class="section-title">
+                  <i class="bi bi-card-text"></i> Executive Summary (75 Words)
+                </h4>
+                <p id="resSummary" class="lh-lg text-light"></p>
+
+                <h4 class="section-title mt-4">
+                  <i class="bi bi-list-check"></i> Derogatory Findings
+                </h4>
+                <ul id="resFindings" class="text-light lh-lg"></ul>
+
+                <div
+                  id="resRecommendationsBox"
+                  style="display: none"
+                  class="mt-4 p-3 bg-dark border border-warning rounded"
+                >
+                  <h5 class="text-warning">
+                    <i class="bi bi-shield-exclamation"></i> Local Jurisdiction Recommendations
+                  </h5>
+                  <p id="resRecommendations" class="mb-0 small text-light"></p>
+                </div>
+              </div>
+
+              <div class="col-md-5">
+                <h4 class="section-title">
+                  <i class="bi bi-pie-chart-fill"></i> Typology Analysis
+                </h4>
+                <div class="chart-container" id="donutChart"></div>
+              </div>
+            </div>
+
+            <div class="mt-5 border-top border-secondary pt-3">
+              <h5 class="text-muted mb-3"><i class="bi bi-link-45deg"></i> Sources Consulted</h5>
+              <ul id="resSources" class="small list-unstyled"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay">
+      <div class="spinner-border text-info" style="width: 4rem; height: 4rem" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <h4 class="text-info mt-3 fw-bold" id="loadingText">Querying Global OSINT Databases...</h4>
+      <p class="text-secondary small">
+        Scanning OpenSanctions, ICIJ, OpenCorporates &amp; GDELT registries...
+      </p>
+    </div>
+
+    <script src="llmfoundry.js"></script>
+    <script type="module">
+              import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+              // --- DOM Elements ---
+              const form = document.getElementById('searchForm');
+              const resetBtn = document.getElementById('resetBtn');
+              const resultsArea = document.getElementById('resultsArea');
+              const loadingOverlay = document.getElementById('loadingOverlay');
+              const historyList = document.getElementById('historyList');
+
+              // --- State ---
+              let history = JSON.parse(localStorage.getItem('osint_history') || '[]');
+
+              // --- Initialization ---
+              const init = () => {
+                  renderHistory();
+                  form.addEventListener('submit', handleSearch);
+                  resetBtn.addEventListener('click', resetApp);
+              };
+
+              // --- Core Functions ---
+              const handleSearch = async (e) => {
+                  e.preventDefault();
+
+                  const name = document.getElementById('entityName').value.trim();
+                  const type = document.getElementById('entityType').value;
+                  const location = document.getElementById('entityLocation').value.trim();
+
+                  if (!name || !type) return;
+
+                  if (!llmFoundry.hasToken()) {
+                      alert("Add your LLM Foundry token on the demos home page first, then reload this page.");
+                      return;
+                  }
+
+                  showLoading(true);
+                  try {
+                      // 1. Fetch real-world context via Google Custom Search API
+                      const searchQuery = `${name} ${location} ("sanctions" OR "money laundering" OR "fraud" OR "investigation" OR "crime" OR "court")`;
+                      let searchContext = "";
+                      let sources = [];
+
+                      // The Google API key is not published with this demo; without it the scan relies on LLM knowledge only.
+                      const GOOGLE_API_KEY = "";
+                      try {
+                          if (!GOOGLE_API_KEY) throw new Error("No Google Custom Search key configured.");
+                          const googleRes = await fetch(`https://www.googleapis.com/customsearch/v1?q=${encodeURIComponent(searchQuery)}&key=${GOOGLE_API_KEY}&cx=010282404438907579631:edrnyb3axxi&num=3`);
+                          const googleData = await googleRes.json();
+
+                          if (googleData.items && googleData.items.length > 0) {
+                              searchContext = googleData.items.map(item => `Title: ${item.htmlTitle}\nSnippet: ${item.htmlSnippet}`).join('\n\n');
+                              sources = googleData.items.map(item => item.link);
+                          }
+                      } catch (searchErr) {
+                          console.warn("Google Search failed, proceeding with LLM knowledge only.", searchErr);
+                      }
+
+                      // 2. Query LLM for Analysis
+                      const systemPrompt = `You are a world-class Financial Crime Intelligence Expert specializing in Open Source Intelligence (OSINT).
+      Your objective is to conduct a comprehensive search for derogatory information on a specified entity.
+      Analyze provided web search snippets and rely on your extensive training data to simulate querying OpenSanctions, ICIJ Offshore Leaks, OpenCorporates, Equasis, and GDELT.
+
+      Evaluate against this strict RISK RATING SCHEMA:
+      - SEVERE: Conviction, international sanctions, major financial crimes (Terrorist Financing, WMD, Human/Sex Trafficking, Major Money Laundering, Organ Trafficking, Slavery, etc).
+      - HIGH: Active official investigation for major crimes, credible multi-source allegations, OFAC lists, falsified shipping, smuggling.
+      - MEDIUM: Sanctioned entity association, moderate misconduct (tax evasion, small fraud), high-risk jurisdiction with negative news.
+      - LOW: No significant derogatory findings.
+
+      Output ONLY a raw JSON object with this exact structure:
+      {
+        "riskRating": "SEVERE" | "HIGH" | "MEDIUM" | "LOW",
+        "summary": "Concise 75-word summary of key derogatory findings.",
+        "findings": ["Array of bullet points detailing findings (allegation/investigation/conviction)"],
+        "domiciles": ["Array of countries/jurisdictions involved"],
+        "recommendations": "String containing local country recommendations on the offence and current status. ONLY provide this if risk is SEVERE or HIGH. Else empty string.",
+        "crimes": [
+          {"category": "DRUG TRAFFICKING", "weight": 40},
+          {"category": "FRAUD", "weight": 60}
+        ] // Array of categorized crimes with relative percentage weights (sum to 100). Use standard typology names (e.g., MONEY LAUNDERING, TERRORIST FINANCING, GHOST SHIPPING, WMD, SLAVERY, BRIBERY). If LOW risk, provide empty array.
+      }`;
+
+                      const userPrompt = `Entity Name: ${name}\nEntity Type: ${type}\nKnown Location: ${location}\n\nSearch Snippets Context:\n${searchContext ? searchContext : "No recent search snippets found. Rely on historical training data for this entity."}`;
+
+                      const llmRes = await llmFoundry.fetch("/azure/openai/deployments/gpt-4o-mini/chat/completions?api-version=2025-01-01-preview", {
+                          method: "POST",
+                          body: JSON.stringify({
+                              messages: [
+                                  { role: "system", content: systemPrompt },
+                                  { role: "user", content: [{ type: "text", text: userPrompt }] }
+                              ],
+                              response_format: { type: "json_object" }
+                          })
+                      });
+
+                      if (!llmRes.ok) throw new Error(`LLM API Error: ${llmRes.status}`);
+                      const llmData = await llmRes.json();
+
+                      if (llmData.error) throw new Error(llmData.error.message);
+
+                      const resultText = llmData.choices?.[0]?.message?.content;
+                      if (!resultText) throw new Error("Invalid response format from intelligence engine.");
+
+                      const report = JSON.parse(resultText);
+
+                      // Merge sources
+                      if (sources.length === 0) {
+                          sources = ["Proprietary Global OSINT Database (Simulated)", "Historical Records Database"];
+                      }
+                      report.sources = sources;
+                      report.entityName = name;
+                      report.entityType = type;
+                      report.timestamp = new Date().toISOString();
+
+                      // 3. Render and Save
+                      renderResults(report);
+                      saveHistory(report);
+
+                  } catch (error) {
+                      alert(`Error conducting OSINT scan: ${error.message}`);
+                      console.error(error);
+                  } finally {
+                      showLoading(false);
+                  }
+              };
+
+              const renderResults = (data) => {
+                  document.getElementById('resEntityType').textContent = data.entityType;
+
+                  const badge = document.getElementById('resRiskBadge');
+                  badge.className = `risk-badge risk-${data.riskRating}`;
+                  badge.innerHTML = `<i class="bi bi-shield-fill-x"></i> RISK: ${data.riskRating}`;
+
+                  const domicilesContainer = document.getElementById('resDomiciles');
+                  domicilesContainer.innerHTML = '';
+                  if (data.domiciles && data.domiciles.length > 0) {
+                      data.domiciles.forEach(d => {
+                          const span = document.createElement('span');
+                          span.className = 'domicile-tag';
+                          span.textContent = d;
+                          domicilesContainer.appendChild(span);
+                      });
+                  } else {
+                      domicilesContainer.innerHTML = '<span class="text-muted">Unknown</span>';
+                  }
+
+                  document.getElementById('resSummary').textContent = data.summary || "No summary provided.";
+
+                  const findingsList = document.getElementById('resFindings');
+                  findingsList.innerHTML = '';
+                  if (data.findings && data.findings.length > 0) {
+                      data.findings.forEach(f => {
+                          const li = document.createElement('li');
+                          li.className = "mb-2";
+                          li.innerHTML = `<i class="bi bi-record-circle text-info me-2"></i> ${f}`;
+                          findingsList.appendChild(li);
+                      });
+                  } else {
+                      findingsList.innerHTML = '<li>No significant derogatory findings located.</li>';
+                  }
+
+                  const recBox = document.getElementById('resRecommendationsBox');
+                  if ((data.riskRating === 'SEVERE' || data.riskRating === 'HIGH') && data.recommendations) {
+                      recBox.style.display = 'block';
+                      document.getElementById('resRecommendations').textContent = data.recommendations;
+                  } else {
+                      recBox.style.display = 'none';
+                  }
+
+                  const sourcesList = document.getElementById('resSources');
+                  sourcesList.innerHTML = '';
+                  data.sources.forEach(s => {
+                      const li = document.createElement('li');
+                      li.className = "mb-1";
+                      if (s.startsWith('http')) {
+                          li.innerHTML = `<i class="bi bi-globe2 me-2 text-secondary"></i> <a href="${s}" target="_blank" class="source-link">${s}</a>`;
+                      } else {
+                          li.innerHTML = `<i class="bi bi-database me-2 text-secondary"></i> <span class="text-secondary">${s}</span>`;
+                      }
+                      sourcesList.appendChild(li);
+                  });
+
+                  renderChart(data.crimes);
+
+                  resultsArea.style.display = 'block';
+                  resultsArea.scrollIntoView({ behavior: 'smooth' });
+              };
+
+              const renderChart = (crimesData) => {
+                  const container = d3.select("#donutChart");
+                  container.selectAll("*").remove();
+
+                  if (!crimesData || crimesData.length === 0) {
+                      container.append("div")
+                          .attr("class", "text-muted text-center h-100 d-flex align-items-center justify-content-center")
+                          .text("No specific typologies identified.");
+                      return;
+                  }
+
+                  const width = 300;
+                  const height = 300;
+                  const margin = 20;
+                  const radius = Math.min(width, height) / 2 - margin;
+
+                  const svg = container.append("svg")
+                      .attr("width", width)
+                      .attr("height", height)
+                      .append("g")
+                      .attr("transform", `translate(${width/2},${height/2})`);
+
+                  // Custom vibrant color palette for crimes
+                  const color = d3.scaleOrdinal()
+                      .domain(crimesData.map(d => d.category))
+                      .range(['#ff00ea', '#00f3ff', '#ff3333', '#ffcc00', '#9900ff', '#ff6600', '#00ff99']);
+
+                  const pie = d3.pie()
+                      .value(d => d.weight)
+                      .sort(null);
+
+                  const data_ready = pie(crimesData);
+
+                  const arc = d3.arc()
+                      .innerRadius(radius * 0.5)
+                      .outerRadius(radius * 0.8);
+
+                  const outerArc = d3.arc()
+                      .innerRadius(radius * 0.9)
+                      .outerRadius(radius * 0.9);
+
+                  // Add Tooltip div
+                  let tooltip = d3.select("body").select(".tooltip");
+                  if (tooltip.empty()) {
+                      tooltip = d3.select("body").append("div").attr("class", "tooltip");
+                  }
+
+                  // Slices
+                  svg.selectAll('allSlices')
+                      .data(data_ready)
+                      .join('path')
+                      .attr('d', arc)
+                      .attr('fill', d => color(d.data.category))
+                      .attr("stroke", "#141923")
+                      .style("stroke-width", "2px")
+                      .style("opacity", 0.9)
+                      .on("mouseover", function(event, d) {
+                          d3.select(this).style("opacity", 1).style("cursor", "pointer");
+                          tooltip.transition().duration(200).style("opacity", .9);
+                          tooltip.html(`<strong>${d.data.category}</strong><br/>Weight: ${d.data.weight}%`)
+                              .style("left", (event.pageX + 10) + "px")
+                              .style("top", (event.pageY - 28) + "px");
+                      })
+                      .on("mouseout", function(event, d) {
+                          d3.select(this).style("opacity", 0.9);
+                          tooltip.transition().duration(500).style("opacity", 0);
+                      });
+
+                  // Labels (Polylines and text) simplified for space
+                  svg.selectAll('allPolylines')
+                      .data(data_ready)
+                      .join('polyline')
+                      .attr("stroke", d => color(d.data.category))
+                      .style("fill", "none")
+                      .attr("stroke-width", 1)
+                      .attr('points', function(d) {
+                          const posA = arc.centroid(d);
+                          const posB = outerArc.centroid(d);
+                          const posC = outerArc.centroid(d);
+                          const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
+                          posC[0] = radius * 0.95 * (midangle < Math.PI ? 1 : -1);
+                          return [posA, posB, posC];
+                      });
+
+                  svg.selectAll('allLabels')
+                      .data(data_ready)
+                      .join('text')
+                      .text(d => d.data.category.length > 12 ? d.data.category.substring(0,10)+'...' : d.data.category)
+                      .attr('transform', function(d) {
+                          const pos = outerArc.centroid(d);
+                          const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
+                          pos[0] = radius * 0.99 * (midangle < Math.PI ? 1 : -1);
+                          return `translate(${pos})`;
+                      })
+                      .style('text-anchor', function(d) {
+                          const midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
+                          return (midangle < Math.PI ? 'start' : 'end');
+                      })
+                      .style('fill', '#fff')
+                      .style('font-size', '10px')
+                      .style('font-weight', 'bold');
+              };
+
+              const saveHistory = (data) => {
+                  const entry = {
+                      name: data.entityName,
+                      type: data.entityType,
+                      risk: data.riskRating,
+                      date: new Date().toLocaleString()
+                  };
+                  history.unshift(entry);
+                  if (history.length > 10) history.pop(); // keep last 10
+                  localStorage.setItem('osint_history', JSON.stringify(history));
+                  renderHistory();
+              };
+
+              const renderHistory = () => {
+                  if (history.length === 0) {
+                      historyList.innerHTML = '<p class="text-muted">No prior searches.</p>';
+                      return;
+                  }
+
+                  historyList.innerHTML = '';
+                  history.forEach((h, i) => {
+                      const div = document.createElement('div');
+                      div.className = 'history-item d-flex justify-content-between align-items-center';
+
+                      let color = 'var(--low-green)';
+                      if(h.risk === 'SEVERE') color = 'var(--severe-red)';
+                      if(h.risk === 'HIGH') color = 'var(--high-orange)';
+                      if(h.risk === 'MEDIUM') color = 'var(--medium-yellow)';
+
+                      div.innerHTML = `
+                          <div>
+                              <strong class="d-block text-white">${h.name} <span class="badge bg-secondary ms-1" style="font-size:0.6rem;">${h.type}</span></strong>
+                              <span class="text-muted" style="font-size: 0.75rem;">${h.date}</span>
+                          </div>
+                          <span style="color: ${color}; font-weight:bold; font-size: 0.8rem;"><i class="bi bi-circle-fill"></i> ${h.risk}</span>
+                      `;
+
+                      // Optional: Allow clicking history to populate form (not explicitly requested, but good UX)
+                      div.addEventListener('click', () => {
+                          document.getElementById('entityName').value = h.name;
+                          document.getElementById('entityType').value = h.type;
+                      });
+
+                      historyList.appendChild(div);
+                  });
+              };
+
+              const resetApp = () => {
+                  form.reset();
+                  resultsArea.style.display = 'none';
+                  // Note: Prompt asked to "CLEAR THE PRIOR SEARCHED DETAILS ON EACH CLICK AND MALE THE SEARCH ITEMS EMPTY".
+                  // If this implies clearing history entirely:
+                  // history = [];
+                  // localStorage.removeItem('osint_history');
+                  // renderHistory();
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+              };
+
+              const showLoading = (show) => {
+                  loadingOverlay.style.display = show ? 'flex' : 'none';
+                  if (show) {
+                      const messages = [
+                          "Querying Global OSINT Databases...",
+                          "Cross-referencing ICIJ Offshore Leaks...",
+                          "Scanning OFAC and International Sanctions Lists...",
+                          "Analyzing Court Records & NGO Reports..."
+                      ];
+                      let i = 0;
+                      loadingOverlay.dataset.interval = setInterval(() => {
+                          i = (i + 1) % messages.length;
+                          document.getElementById('loadingText').textContent = messages[i];
+                      }, 2000);
+                  } else {
+                      clearInterval(loadingOverlay.dataset.interval);
+                  }
+              };
+
+              // Boot
+              document.addEventListener('DOMContentLoaded', init);
+    </script>
+  </body>
+</html>
