@@ -12,9 +12,14 @@
 .table-wrap{overflow:auto;background:white;border:1px solid var(--line);border-radius:16px}table{width:100%;border-collapse:collapse;min-width:760px}th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}th{background:#f0f5fa;color:var(--muted);font-size:11px;letter-spacing:.06em;text-transform:uppercase}tr:last-child td{border-bottom:0}.num{text-align:right;font-variant-numeric:tabular-nums}.source{color:var(--blue);font-family:ui-monospace,monospace;font-size:12px}.pill{display:inline-block;padding:3px 8px;border-radius:999px;font-size:12px;font-weight:800;background:#e6f4ef;color:var(--green)}.pill.review{background:#fff0dc;color:var(--amber)}.pill.investigating{background:#e8eef6;color:#53677d}.small{font-size:12px;color:var(--muted)}
 details{border-top:1px solid var(--line);padding:10px 0}details:first-child{border-top:0}summary{cursor:pointer;font-weight:750}.evidence{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:9px;margin-top:10px}.evidence div{background:#f7fafc;border:1px solid var(--line);border-radius:10px;padding:9px}.evidence b{display:block;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.06em}code{word-break:break-all;font-size:12px}.timeline{position:relative;margin:10px 0 0 8px;padding-left:25px;border-left:2px solid #b9d5e5}.event{position:relative;padding:0 0 19px 8px}.event:before{content:"";position:absolute;left:-32px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 4px #e2f0fa}.event.amendment:before{background:var(--amber)}.event.review:before{background:var(--red)}.notice{border-left:4px solid var(--blue);background:#eef6fc;padding:13px 16px;border-radius:0 12px 12px 0;margin:12px 0}.notice.warn{border-color:var(--amber);background:#fff7e9}footer{margin-top:38px;color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding-top:16px}
 :root{--rp-accent:var(--blue);--rp-line:var(--line);--rp-panel:white;--rp-muted:var(--muted);--rp-ok:var(--green);--rp-ink:var(--ink)}
+button.ghost{background:white;color:var(--blue)}
+#tour-scrim{position:fixed;inset:0;background:rgba(10,22,38,.58);z-index:20;display:none}body.touring #tour-scrim{display:block}
+.tour-target{position:relative;z-index:30;background:var(--paper);border-radius:16px;box-shadow:0 0 0 3px var(--blue),0 0 0 10px #1967a333}header.tour-target{background:var(--navy)}
+#tour-card{display:none;position:fixed;z-index:40;left:50%;bottom:20px;transform:translateX(-50%);width:min(460px,calc(100vw - 32px));background:white;border:1px solid var(--line);border-radius:14px;box-shadow:0 14px 45px rgba(0,0,0,.3);padding:16px 18px}body.touring #tour-card{display:block}
+#tour-card .step{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}#tour-card h3{margin:6px 0 4px}#tour-card p{margin:0}#tour-card .actions{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
 </style></head><body><main class="shell">
 <header><div class="eyebrow">Bounded stakeholder demo · deterministic local artifact</div><h1>One issuer profile, two kinds of reported disclosure.</h1><p>Evidence-backed ownership context combining institutional 13F reported holdings with Schedule 13D/G reported beneficial ownership — kept separate all the way down to the source pointer.</p><div><span class="badge">No live network calls</span><span class="badge">No complete-ownership claim</span><span class="badge">Review data never asserted</span></div></header>
-<div class="toolbar"><label>Issuer profile<select id="issuerSelect"></select></label><button id="downloadButton">Download matching JSON</button><span class="small" id="asOf"></span></div>
+<div class="toolbar"><label>Issuer profile<select id="issuerSelect"></select></label><button id="downloadButton">Download matching JSON</button><button id="tourStart" type="button" class="ghost">Take the tour →</button><span class="small" id="asOf"></span></div>
 <section class="section" id="replaySection"><div class="section-head"><div><h2>Replay: the profile as the filings arrived</h2><p>Rebuild this profile in the order the SEC accepted each filing. The 13F rows only appear once their amendment chain is resolved, on the date that became known.</p></div></div><div id="replay"></div></section>
 <section class="context" id="context"></section><section class="metrics" id="metrics"></section>
 <section class="section"><div class="section-head"><div><h2>Profile narrative</h2><p id="narrative"></p></div></div><div class="notice"><b>How to read this:</b> the two tables are adjacent for context, not additive ownership. Every safe row has source provenance; every unsafe row remains in diagnostics.</div></section>
@@ -103,6 +108,63 @@ function render(){const name=selected(),fs=profile.institutional_reported_holdin
     onReset: () => show(events[0].t - 10 * day),
     onDone: () => { profile = FULL; render(); },
     events,
+  });
+})();
+</script>
+<div id="tour-scrim"></div>
+<aside id="tour-card" role="dialog" aria-live="polite" aria-label="Guided tour"><div class="step" id="tourStep"></div><h3 id="tourTitle"></h3><p id="tourBody"></p>
+  <div class="actions"><button type="button" class="ghost" id="tourPrev">Back</button><button type="button" class="ghost" id="tourClose">Exit</button><button type="button" id="tourNext">Next →</button></div></aside>
+<script>
+// Guided tour. Each step highlights part of the page; some steps set the issuer or open evidence first.
+(() => {
+  const section = id => document.getElementById(id).closest('.section') || document.getElementById(id);
+  const issuer = v => { issuerSelect.value = v; render(); };
+  const steps = [
+    { el: () => document.querySelector('header'), title: 'One profile, two kinds of disclosure',
+      body: 'Institutional 13F holdings and Schedule 13D/G beneficial ownership are shown side by side for one issuer, but never added together. Each comes from a different filing type with different rules.' },
+    { el: () => document.querySelector('.toolbar'), act: () => issuer('Genco Shipping & Trading Limited'), title: 'Pick an issuer',
+      body: 'Every table below filters to the selected issuer. Genco Shipping has eight 13D/G observations from an original filing and its amendment.' },
+    { el: () => document.getElementById('replaySection'), act: () => issuer('__all__'), title: 'Replay how the profile was built',
+      body: 'Replay rebuilds the profile in the order the SEC accepted each filing, from December 2023 to June 2026. The profile only ever shows what was known on that date.' },
+    { el: () => document.getElementById('metrics'), title: 'What is asserted, and what is not',
+      body: 'Safe rows have full source provenance and are asserted. Records that failed a check stay visible as review diagnostics with no values claimed.' },
+    { el: () => section('fRows'), title: '13F institutional holdings',
+      body: 'Reported positions from resolved 13F chains, including an amendment and a correction. A row is asserted only once its chain is resolved.' },
+    { el: () => section('gRows'), act: () => document.querySelector('#gRows details')?.setAttribute('open', ''), title: 'Evidence for every value',
+      body: 'Open any evidence row to see the raw value, normalised value, source file, selector, byte range and SHA-256 hash, plus a link to the official SEC filing.' },
+    { el: () => section('timeline'), act: () => document.querySelector('#gRows details')?.removeAttribute('open'), title: 'When each fact became known',
+      body: 'The SEC acceptance time records when each disclosure became known. Amendments and corrections stay visible as separate events instead of overwriting history.' },
+    { el: () => document.getElementById('groups').closest('.split'), title: 'Kept apart on purpose',
+      body: 'Group observations are never added into one person\'s ownership. Records needing review list their reasons and next actions, without exposing values.' },
+    { el: () => document.getElementById('boundaries').closest('.card'), title: 'The boundary of the claim',
+      body: 'This is a bounded pilot, not SEC-wide coverage and not complete ownership. The page states those limits rather than leaving them implied.' },
+  ];
+  let i = 0;
+  const $ = id => document.getElementById(id);
+  const clear = () => document.querySelectorAll('.tour-target').forEach(e => e.classList.remove('tour-target'));
+  function show() {
+    const s = steps[i];
+    clear();
+    s.act && s.act();
+    const el = s.el();
+    if (el) { el.classList.add('tour-target'); el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+    $('tourStep').textContent = `Step ${i + 1} of ${steps.length}`;
+    $('tourTitle').textContent = s.title;
+    $('tourBody').textContent = s.body;
+    $('tourPrev').disabled = i === 0;
+    $('tourNext').textContent = i === steps.length - 1 ? 'Done' : 'Next →';
+  }
+  function stop() { document.body.classList.remove('touring'); clear(); }
+  $('tourStart').addEventListener('click', () => { i = 0; document.body.classList.add('touring'); show(); });
+  $('tourNext').addEventListener('click', () => { if (i === steps.length - 1) stop(); else { i++; show(); } });
+  $('tourPrev').addEventListener('click', () => { if (i > 0) { i--; show(); } });
+  $('tourClose').addEventListener('click', stop);
+  $('tour-scrim').addEventListener('click', stop);
+  document.addEventListener('keydown', e => {
+    if (!document.body.classList.contains('touring')) return;
+    if (e.key === 'Escape') stop();
+    if (e.key === 'ArrowRight') $('tourNext').click();
+    if (e.key === 'ArrowLeft') $('tourPrev').click();
   });
 })();
 </script></main></body></html>
