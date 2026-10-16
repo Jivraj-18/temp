@@ -140,6 +140,25 @@
   .rank-plot { position: relative; padding-top: 18px; }
   .caveats { margin-top: 12px; display: grid; gap: 4px; }
   .caveats p { margin: 0; font-size: .78rem; color: var(--muted); }
+  .token-note { font-size: .82rem; color: #9a6510; padding: 8px 2px 0; }
+  .token-note a { color: var(--accent); }
+  .local-badge { display: inline-block; font-size: .7rem; font-weight: 600; color: var(--accent); background: var(--accent-soft); border-radius: 4px; padding: 1px 6px; margin-left: 6px; vertical-align: middle; }
+
+  /* Upload data flow */
+  .flow { list-style: none; display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; margin: 12px 0 0; padding: 0; }
+  .flow li { position: relative; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 9px 10px; font-size: .74rem; color: var(--muted); min-height: 62px; }
+  .flow li b { display: block; color: var(--text); font-size: .8rem; margin-bottom: 2px; }
+  .flow li:not(:last-child)::after { content: "→"; position: absolute; right: -12px; top: 50%; transform: translateY(-50%); color: #b5b2ab; }
+  .flow li.active { border-color: var(--accent); animation: flow-pulse 1.2s ease-in-out infinite; }
+  .flow li.done { background: var(--accent-soft); border-color: var(--accent); }
+  .flow li.done b::before { content: "✓ "; color: var(--accent); }
+  .flow li.done:not(:last-child)::after { color: var(--accent); }
+  .flow li.failed { border-color: #b3452c; }
+  .flow li.failed b::before { content: "✕ "; color: #b3452c; }
+  @keyframes flow-pulse { 50% { box-shadow: 0 0 0 4px rgba(47,111,79,.15); } }
+  @media (prefers-reduced-motion: reduce) { .flow li.active { animation: none; } }
+  @media (max-width: 760px) { .flow { grid-template-columns: 1fr 1fr; } .flow li::after { display: none; } }
+
   #viz-tip { position: fixed; z-index: 50; pointer-events: none; background: #1f1e1c; color: #fff; font-size: .78rem; padding: 7px 9px; border-radius: 6px; max-width: 260px; display: none; line-height: 1.4; }
   @media (max-width: 640px) {
     header, main, #sector-view, .views { padding-left: 16px; padding-right: 16px; }
@@ -165,16 +184,26 @@
   </div>
   <div class="add-panel hidden" id="add-panel">
     <form class="add-form" id="add-form">
-      <input type="url" id="add-url" placeholder="Annual report PDF URL" required />
-      <input type="text" id="add-slug" placeholder="slug (e.g. apple)" required pattern="[a-z0-9-]+" />
+      <input type="file" id="add-file" accept="application/pdf" required aria-label="Annual report PDF" />
+      <input type="text" id="add-sector" placeholder="Sector (e.g. Retail)" list="sector-list" required />
+      <datalist id="sector-list"></datalist>
+      <input type="text" id="add-industry" placeholder="Industry (optional)" />
       <select id="add-domain">
         <option value="">No domain KPIs</option>
         <option value="retail">Retail</option>
       </select>
-      <input type="text" id="add-sector" placeholder="Sector (e.g. Retail)" />
-      <input type="password" id="add-token" placeholder="Access token" required />
+      <input type="url" id="add-url" placeholder="Public PDF URL (optional)" />
       <button type="submit" id="add-submit">Extract</button>
     </form>
+    <div class="token-note" id="token-note" hidden>Add your LLM Foundry token on the <a href="../index.html">demos home page</a> first. Extraction runs in this browser with your token.</div>
+    <ol class="flow" id="add-flow" hidden>
+      <li data-stage="read"><b>Read PDF</b><span>Text layer, page by page</span></li>
+      <li data-stage="model"><b>LLM extraction</b><span>Figures, pages, quotes</span></li>
+      <li data-stage="verify"><b>Check vs PDF</b><span>Every figure on its page?</span></li>
+      <li data-stage="ratios"><b>Compute ratios</b><span>Fixed formulas, no LLM</span></li>
+      <li data-stage="save"><b>Save locally</b><span>This browser only</span></li>
+      <li data-stage="sector"><b>Sector benchmark</b><span>Peers re-ranked</span></li>
+    </ol>
     <div class="add-status" id="add-status"></div>
   </div>
   <nav class="views" aria-label="View">
@@ -192,10 +221,14 @@
     <div class="tour-actions"><button id="tour-close" type="button">Exit</button><button id="tour-next" type="button">Next →</button></div>
   </aside>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="../llmfoundry.js"></script>
+<script src="extract.js"></script>
 <script>
-// Add a company: run "uv run --env-file .env pipeline.py <pdf> <url> <slug> --sector <name>" -
-// it adds the company straight into companies.json. Nothing here needs to change.
+// Companies come from two places: companies.json (published, built by pipeline.py) and
+// PDFs uploaded in this browser (extract.js, kept in localStorage/IndexedDB).
 const DATA_FILE = "companies.json";
+const pipeline = window.fundamentalsPipeline;
 
 async function loadJSON(path) {
   const res = await fetch(path);
@@ -251,22 +284,26 @@ function renderRawValuesTab(c) {
   const counts = new Set(["shares_outstanding", "beginning_store_count", "ending_store_count"]);
   const fmtRaw = (key, n) => perShare.has(key) ? "$" + Number(n).toFixed(2)
     : counts.has(key) ? Number(n).toLocaleString("en-US") : fmtUSD(n);
+  const label = key => labels[key] || key.replace(/_/g, " ").replace(/^./, ch => ch.toUpperCase());
   const rows = Object.entries(c.raw_values).map(([key, raw]) => {
     const v = raw || {};
     if (v.value === null || v.value === undefined) {
-      return `<tr><td>${labels[key] || key}</td><td class="ratio-blank"></td><td></td><td></td></tr>`;
+      return `<tr><td>${label(key)}</td><td class="ratio-blank"></td><td></td><td></td></tr>`;
     }
     const hasCitation = v.as_printed != null && v.source_page != null;
     const check = v.verified === true ? `<span class="verified" title="The printed figure was found on this page of the PDF">✓ found on page</span>`
       : v.verified === "sum" ? `<span class="verified" title="Each component in the quote was found on this page and they add up to the total">✓ components on page</span>`
       : v.verified === false ? `<span class="unverified" title="The printed figure could not be matched in the PDF text layer - review manually">⚠ not matched in text</span>` : "";
+    const pageRef = c.source_url
+      ? `<a class="source-page" href="${c.source_url}#page=${v.source_page}&search=${encodeURIComponent(v.as_printed)}&phrase=true" target="_blank" rel="noopener">p. ${v.source_page} ↗</a>`
+      : `<span class="source-page">p. ${v.source_page}</span>`;
     const sourceCell = hasCitation
-      ? `<a class="source-page" href="${c.source_url}#page=${v.source_page}&search=${encodeURIComponent(v.as_printed)}&phrase=true" target="_blank" rel="noopener">p. ${v.source_page} ↗</a>${check}
-         <span class="quote">${v.source_quote || ""}</span>`
-      : v.derived ? `<span class="unverified">derived</span><span class="quote">${v.source_quote || ""}</span>` : "";
+      ? `${pageRef}${check}
+         <span class="quote">${esc(v.source_quote)}</span>`
+      : v.derived ? `<span class="unverified">derived</span><span class="quote">${esc(v.source_quote)}</span>` : "";
     return `
     <tr>
-      <td>${labels[key] || key}</td>
+      <td>${label(key)}</td>
       <td class="ratio-value">${fmtRaw(key, v.value)}</td>
       <td class="unit-note">${v.unit_note || ""}</td>
       <td>${sourceCell}</td>
@@ -291,8 +328,8 @@ function renderCompany(c) {
   const domainLabel = hasDomain ? c.domain.charAt(0).toUpperCase() + c.domain.slice(1) : "";
   content.innerHTML = `
     <div class="company-strip">
-      <div><h2>${c.company_name}</h2><div class="meta">Fiscal year end: ${c.fiscal_year_end}${c.sector ? ` · ${c.sector}${c.industry ? " — " + c.industry : ""}` : ""}</div></div>
-      <div class="meta"><a href="${c.source_url}" target="_blank" rel="noopener">Source document ↗</a></div>
+      <div><h2>${esc(c.company_name)}${c.local ? `<span class="local-badge">Added in this browser</span>` : ""}</h2><div class="meta">Fiscal year end: ${esc(c.fiscal_year_end)}${c.sector ? ` · ${esc(c.sector)}${c.industry ? " — " + esc(c.industry) : ""}` : ""}${c.local && c.extraction_meta ? ` · ${c.extraction_meta.values_verified}/${c.extraction_meta.values_checked} figures matched in the PDF` : ""}</div></div>
+      <div class="meta">${c.source_url ? `<a href="${c.source_url}" target="_blank" rel="noopener">Source document ↗</a>` : ""}${c.local ? ` <button class="link-btn" type="button" id="remove-local">Remove</button>` : ""}</div>
     </div>
     <div class="tabs">
       <button class="tab-btn active" data-tab="ratios" data-tour="ratios-tab">Ratios</button>
@@ -315,65 +352,68 @@ function renderCompany(c) {
   });
 }
 
-const STAGE_MESSAGES = [
-  "Uploading PDF…",
-  "Sending to LLM…",
-  "Extracting values…",
-  "Computing ratios…",
-];
-
-function setupAddCompany(onAdded) {
+// Upload a PDF -> extract.js runs the whole pipeline in the browser; the flow diagram shows each stage.
+function setupAddCompany({ getCompanies, onAdded }) {
   const toggle = document.getElementById("add-toggle");
   const panel = document.getElementById("add-panel");
   const form = document.getElementById("add-form");
   const submitBtn = document.getElementById("add-submit");
   const status = document.getElementById("add-status");
-  const tokenInput = document.getElementById("add-token");
+  const tokenNote = document.getElementById("token-note");
+  const flow = document.getElementById("add-flow");
 
-  tokenInput.value = localStorage.getItem("addCompanyToken") || "";
+  const refreshSectors = () => {
+    const sectors = [...new Set(Object.values(getCompanies()).map(c => c.sector).filter(Boolean))].sort();
+    document.getElementById("sector-list").innerHTML = sectors.map(s => `<option value="${esc(s)}">`).join("");
+  };
 
   toggle.addEventListener("click", () => {
     panel.classList.toggle("hidden");
+    tokenNote.hidden = llmFoundry.hasToken();
+    refreshSectors();
   });
+
+  function setStage(id, state, detail) {
+    const li = flow.querySelector(`[data-stage="${id}"]`);
+    li.className = state;
+    if (detail) li.querySelector("span").textContent = detail;
+  }
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const source_url = document.getElementById("add-url").value.trim();
-    const slug = document.getElementById("add-slug").value.trim();
-    const domain = document.getElementById("add-domain").value || null;
-    const token = tokenInput.value.trim();
-    localStorage.setItem("addCompanyToken", token);
+    if (!llmFoundry.hasToken()) { tokenNote.hidden = false; return; }
+    const file = document.getElementById("add-file").files[0];
+    if (!file) return;
+    if (file.size > 18e6) { status.className = "add-status err"; status.textContent = "This PDF is over 18 MB, which is too large to send inline to the model."; return; }
+    const sector = document.getElementById("add-sector").value.trim();
 
     submitBtn.disabled = true;
-    const startedAt = Date.now();
-    let stageIndex = 0;
+    flow.hidden = false;
+    flow.querySelectorAll("li").forEach(li => { li.className = ""; });
     status.className = "add-status working";
-    status.textContent = STAGE_MESSAGES[0];
-    const stageTimer = setInterval(() => {
-      stageIndex = (stageIndex + 1) % STAGE_MESSAGES.length;
-      status.textContent = STAGE_MESSAGES[stageIndex];
-    }, 1500);
-
+    status.textContent = "Running in your browser. The model step usually takes 30–90 seconds.";
+    let current = "read";
     try {
-      const res = await fetch("/api/add-company", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ source_url, slug, domain, sector: document.getElementById("add-sector").value.trim() || null, token }),
+      const { slug, company } = await pipeline.run(file, {
+        sector,
+        industry: document.getElementById("add-industry").value.trim(),
+        domain: document.getElementById("add-domain").value || null,
+        sourceUrl: document.getElementById("add-url").value.trim(),
+        existingSlugs: Object.keys(getCompanies()),
+        onStage: (id, state, detail) => { current = id; setStage(id, state, detail); },
       });
-      const body = await res.json();
-      if (!res.ok) throw new Error(body.detail || `Request failed (${res.status})`);
-
-      clearInterval(stageTimer);
-      const totalSeconds = ((Date.now() - startedAt) / 1000).toFixed(1);
+      current = "sector";
+      setStage("sector", "active", "Re-ranking peers…");
+      const peers = await onAdded(slug, company);
+      setStage("sector", "done", `${sector}: ${peers} compan${peers === 1 ? "y" : "ies"} now`);
       status.className = "add-status ok";
-      status.textContent = `Done in ${totalSeconds}s (server-reported: ${body.elapsed_seconds}s)`;
+      status.textContent = `Added ${company.company_name} in ${company.extraction_meta.elapsed_seconds}s. It stays in this browser until you remove it.`;
       form.reset();
-      tokenInput.value = token;
-      await onAdded(slug);
     } catch (err) {
-      clearInterval(stageTimer);
+      setStage(current, "failed");
       status.className = "add-status err";
       status.textContent = `Failed: ${err.message}`;
+      console.error(err);
     } finally {
       submitBtn.disabled = false;
     }
@@ -491,7 +531,7 @@ function setupSectorView(getCompanies) {
     const cards = slugs.map(s => {
       const c = all[s];
       return `<div class="peer-card ${s === state.focus ? "focus" : ""}" data-focus="${s}" title="Highlight ${esc(c.company_name)}">
-        <b>${esc(c.company_name)}</b><span>${esc(c.industry || c.sector || "")}</span>
+        <b>${esc(c.company_name)}</b><span>${esc(c.industry || c.sector || "")}${c.local ? " · added in this browser" : ""}</span>
         <div class="rev">${fmtKpi(kpiValue(c, BENCH_KPIS[0]), "usd")}</div><span>Revenue · FY ending ${esc(c.fiscal_year_end)}</span>
       </div>`;
     }).join("");
@@ -658,27 +698,50 @@ function setupTour() {
 }
 
 async function main() {
-  let companies = await loadJSON(DATA_FILE); // { slug: {...company}, ... }
+  const published = await loadJSON(DATA_FILE); // { slug: {...company}, ... }
+  let companies = { ...published, ...pipeline.loadLocal() };
   const select = document.getElementById("company-select");
+
+  // Uploaded PDFs live in IndexedDB; give them a session URL so page links open the PDF.
+  async function show(slug) {
+    const c = companies[slug];
+    if (c.local && !c.source_url) {
+      const pdf = await pipeline.getPdf(slug);
+      if (pdf) c.source_url = URL.createObjectURL(pdf);
+    }
+    renderCompany(c);
+    const remove = document.getElementById("remove-local");
+    if (remove) remove.addEventListener("click", async () => {
+      if (!confirm(`Remove ${c.company_name} from this browser?`)) return;
+      await pipeline.removeLocal(slug);
+      delete companies[slug];
+      refreshDropdown();
+      sectorView.render();
+    });
+  }
 
   function refreshDropdown(selectSlug) {
     const slugs = Object.keys(companies);
-    select.innerHTML = slugs.map(slug => `<option value="${slug}">${companies[slug].company_name}</option>`).join("");
+    select.innerHTML = slugs.map(slug => `<option value="${slug}">${esc(companies[slug].company_name)}${companies[slug].local ? " (added)" : ""}</option>`).join("");
     select.value = selectSlug || slugs[0];
-    renderCompany(companies[select.value]);
+    show(select.value);
   }
 
-  select.addEventListener("change", () => renderCompany(companies[select.value]));
+  select.addEventListener("change", () => show(select.value));
   refreshDropdown();
 
   const sectorView = setupSectorView(() => companies);
   setupViews(sectorView);
   if (location.hash === "#sector") document.querySelector('[data-view="sector"]').click();
 
-  setupAddCompany(async (newSlug) => {
-    companies = await loadJSON(DATA_FILE);
-    refreshDropdown(newSlug);
-    sectorView.render();
+  setupAddCompany({
+    getCompanies: () => companies,
+    onAdded: async (newSlug, company) => {
+      companies[newSlug] = company;
+      refreshDropdown(newSlug);
+      sectorView.render();
+      return Object.values(companies).filter(c => c.sector === company.sector).length;
+    },
   });
   setupTour();
 }
