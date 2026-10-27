@@ -364,7 +364,7 @@ function renderCompany(c) {
   content.innerHTML = `
     <div class="company-strip">
       <div><h2>${esc(c.company_name)}${c.source_format === "xbrl" ? `<span class="local-badge">SEC inline XBRL</span>` : ""}${c.local ? `<span class="local-badge">Added in this browser</span>` : ""}</h2><div class="meta">Fiscal year end: ${esc(c.fiscal_year_end)}${c.sector ? ` · ${esc(c.sector)}${c.industry ? " — " + esc(c.industry) : ""}` : ""}</div></div>
-      <div class="meta">${c.source_url ? `<a href="${c.source_url}" target="_blank" rel="noopener">${c.source_format === "xbrl" ? "Source filing" : "Source document"} ↗</a>` : ""}${c.local ? ` <button class="link-btn" type="button" id="remove-local">Remove</button>` : ""}</div>
+      <div class="meta">${c.source_url ? `<a href="${c.source_url}" target="_blank" rel="noopener">Source document ↗</a>` : ""}${c.local ? ` <button class="link-btn" type="button" id="remove-local">Remove</button>` : ""}</div>
     </div>
     <div class="tabs">
       <button class="tab-btn active" data-tab="ratios" data-tour="ratios-tab">Ratios</button>
@@ -372,7 +372,7 @@ function renderCompany(c) {
       <button class="tab-btn" data-tab="raw" data-tour="raw-tab">Financial Indicators</button>
       <button class="tab-btn" data-tab="formulas" data-tour="formula-tab">Formulae Used</button>
     </div>
-    <div class="tab-panel active" id="tab-ratios" data-tour="ratios-table">${renderRatiosTab(c)}</div>
+    <div class="tab-panel active" id="tab-ratios">${renderRatiosTab(c)}</div>
     ${hasDomain ? `<div class="tab-panel" id="tab-domain">${renderRatiosTab({ ratios: c.domain_ratios }, { clustered: false })}</div>` : ""}
     <div class="tab-panel" id="tab-raw">${renderRawValuesTab(c)}</div>
     <div class="tab-panel" id="tab-formulas">${renderFormulasTab(c)}</div>
@@ -689,7 +689,7 @@ function setupViews(sectorView) {
 
 const TOUR_STEPS = [
   { target: "company-select", title: "Choose a company", body: "Switch between the companies whose annual-report data has been extracted and normalized." },
-  { target: "ratios-table", title: "Start with ratios", body: "The dashboard turns source financial statements into comparable metrics such as ROE, ROA, leverage, and liquidity." },
+  { target: "ratios-tab", title: "Start with ratios", body: "The dashboard turns source financial statements into comparable metrics such as ROE, ROA, leverage, and liquidity." },
   { target: "raw-tab", title: "Inspect the inputs", body: "Financial indicators show the underlying values, units, source pages, and extracted quotations." },
   { target: "formula-tab", title: "Make the calculation legible", body: "Formulae Used explains how each ratio was computed and what it means." },
   { target: "sector-view-btn", title: "Benchmark the sector", body: "Sector Benchmark lines up every company in an industry on the same KPIs, with the peer median and the best performer marked." },
@@ -716,7 +716,7 @@ function setupTour() {
     if (step.target !== "sector-view-btn" && document.body.classList.contains("view-sector")) {
       document.querySelector('[data-view="company"]').click();
     }
-    if (step.target === "raw-tab" || step.target === "formula-tab") {
+    if (["ratios-tab", "raw-tab", "formula-tab"].includes(step.target)) {
       document.querySelector(`[data-tour="${step.target}"]`).click();
     }
     const visibleTarget = document.querySelector(`[data-tour="${step.target}"]`);
