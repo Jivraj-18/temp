@@ -2,13 +2,16 @@
 # requires-python = ">=3.11"
 # dependencies = ["httpx", "pypdf"]
 # ///
-"""Extract fundamentals from an annual-report PDF and add the company to companies.json.
+"""Extract fundamentals from an annual report and add the company to companies.json.
 
-    uv run --env-file .env pipeline.py <pdf> <source_url> <slug> \
+    uv run --env-file .env pipeline.py <document> <source_url> <slug> \
         --sector Retail --industry "Home improvement retail" [--domain retail] [--country US]
 
+<document> is a PDF, or an SEC inline-XBRL filing (.htm/.html/.xhtml, e.g. a 10-K saved from EDGAR).
 The LLM only *reads* numbers (value, page, verbatim quote). Every ratio is computed here
-with a fixed formula, and every extracted number is checked against the PDF's own text layer.
+with a fixed formula, and every extracted number is checked against the document's own text.
+For XBRL, the filing is rendered to page-marked text with each tagged figure annotated with its
+concept, and each figure the LLM reads is also checked against the XBRL tag it cites.
 
 Env: LLMFOUNDRY_API_KEY, LLMFOUNDRY_PROJECT, LLMFOUNDRY_BASE_URL (default llmfoundry.straivedemo.com),
      MODEL (default gemini-3.8-flash).
@@ -21,6 +24,7 @@ import os
 import re
 import sys
 import time
+from html.parser import HTMLParser
 from pathlib import Path
 
 import httpx
@@ -131,7 +135,7 @@ PER_SHARE = {"basic_eps", "diluted_eps", "dividend_per_share", "share_price"}
 COUNTS = {"shares_outstanding", "beginning_store_count", "ending_store_count"}
 
 
-def build_prompt(retail: bool) -> str:
+def build_prompt(retail: bool, xbrl: bool = False) -> str:
     fields = {**RAW_FIELDS, **(RETAIL_FIELDS if retail else {})}
     ratios = {**RATIOS, **(RETAIL_RATIOS if retail else {})}
     field_lines = "\n".join(f"- {k}: {v}" for k, v in fields.items())
@@ -141,8 +145,20 @@ def build_prompt(retail: bool) -> str:
         "brand mix). Only fill them where the document actually discloses them; otherwise leave them null.\n"
         if retail else ""
     )
+    xbrl_note = (
+        "\nThe document is an SEC filing in inline XBRL, given below as text. '=== Page N ===' lines mark its pages, "
+        "table cells are separated by ' | ', and every XBRL-tagged number is followed by its concept in braces, "
+        "e.g. '112,010 {us-gaap:NetIncomeLoss}'. Prefer tagged figures from the primary financial statements.\n"
+        if xbrl else ""
+    )
+    page_rule = ("the page number from the '=== Page N ===' marker above the figure"
+                 if xbrl else "the PDF page number (1-indexed, counting actual PDF pages, NOT the printed folio)")
+    concept_rule = ("\n- xbrl_concept: the concept in braces right after the figure (e.g. \"us-gaap:NetIncomeLoss\"), or null if it is not tagged."
+                    if xbrl else "")
+    concept_key = ', "xbrl_concept": "..."' if xbrl else ""
+    printed_rule = " and without the {concept} annotation" if xbrl else ""
     return f"""You are extracting facts from a company's annual report for its MOST RECENT fiscal year. You have TWO jobs below. Do no arithmetic yourself either way - only report numbers literally printed in the document, never from outside knowledge.
-{retail_note}
+{retail_note}{xbrl_note}
 Rules that apply throughout:
 - Every field is optional. Use value: 0 ONLY when the document EXPLICITLY states a fact equivalent to zero/none (e.g. "we have not declared any cash dividends") - quote that exact statement in source_quote. If the document never discusses a topic, use null - absence of evidence is not zero.
 - Match by meaning, not exact wording - filers phrase the same concept differently (e.g. "Shareholders' equity" = "Total stockholders' equity"; "Cost of sales" = "Cost of goods sold").
@@ -155,10 +171,10 @@ JOB 1 - Raw input values. Find these in the CONSOLIDATED financial statements:
 
 For each raw value, report:
 - value: the exact number in whole dollars (if the statement says "in millions", multiply by 1,000,000; "in thousands" by 1,000). Per-share fields (EPS, dividend per share, share price) are already per-share - do not scale them. Counts (shares, stores) are plain counts, scaled only if the document says shares are in thousands/millions.
-- as_printed: an exact substring a text search would find on the page, used to jump to this value. If a digit is printed, use it exactly as printed (e.g. "180,942"), BEFORE any unit scaling. If the value is INFERRED from a qualitative statement with no digit printed (e.g. "we have not declared any cash dividends" implying $0), use a short distinctive phrase copied verbatim from source_quote.
+- as_printed: an exact substring a text search would find on the page, used to jump to this value. If a digit is printed, use it exactly as printed (e.g. "180,942"), BEFORE any unit scaling{printed_rule}. If the value is INFERRED from a qualitative statement with no digit printed (e.g. "we have not declared any cash dividends" implying $0), use a short distinctive phrase copied verbatim from source_quote.
 - unit_note: the exact nearby text establishing scale, e.g. "in thousands", "in millions", or "whole dollars" if none - verbatim.
-- source_page: the PDF page number (1-indexed, counting actual PDF pages, NOT the printed folio) where you found it.
-- source_quote: the exact line of text containing this number, quoted verbatim.
+- source_page: {page_rule} where you found it.
+- source_quote: the exact line of text containing this number, quoted verbatim.{concept_rule}
 
 JOB 2 - Already-stated ratios. Check whether the document ALREADY states the final value for any of these itself (e.g. in a key-metrics table or MD&A - such as "comparable sales increased 4.5%", "ROIC 25.7%"):
 
@@ -172,7 +188,7 @@ Respond with ONLY valid JSON:
 {{
   "company_name": "...",
   "fiscal_year_end": "YYYY-MM-DD",
-  "raw_values": {{ "<field>": {{"value": 0, "as_printed": "...", "unit_note": "...", "source_page": 0, "source_quote": "..."}} or null, ... one key per field above }},
+  "raw_values": {{ "<field>": {{"value": 0, "as_printed": "...", "unit_note": "...", "source_page": 0, "source_quote": "..."{concept_key}}} or null, ... one key per field above }},
   "stated_ratios": {{ "<ratio>": {{"value": 0, "source_page": 0, "source_quote": "..."}} or null, ... one key per ratio above }}
 }}"""
 
@@ -181,7 +197,8 @@ Respond with ONLY valid JSON:
 # model call
 # --------------------------------------------------------------------------
 
-def call_gemini(pdf_bytes: bytes, prompt: str) -> tuple[dict, dict]:
+def call_gemini(document: dict, prompt: str) -> tuple[dict, dict]:
+    """document is a Gemini content part: inline PDF data, or {"text": ...} for a rendered XBRL filing."""
     key = os.environ.get("LLMFOUNDRY_API_KEY")
     if not key:
         sys.exit("LLMFOUNDRY_API_KEY is not set")
@@ -189,7 +206,7 @@ def call_gemini(pdf_bytes: bytes, prompt: str) -> tuple[dict, dict]:
     auth = f"Bearer {key}:{project}" if project else f"Bearer {key}"
     body = {
         "contents": [{"role": "user", "parts": [
-            {"inline_data": {"mime_type": "application/pdf", "data": base64.b64encode(pdf_bytes).decode()}},
+            document,
             {"text": prompt},
         ]}],
         "generationConfig": {
@@ -220,6 +237,118 @@ def call_gemini(pdf_bytes: bytes, prompt: str) -> tuple[dict, dict]:
         print(f"  retry in {wait}s ({last})", file=sys.stderr)
         time.sleep(wait)
     sys.exit(f"model call failed: {last}")
+
+
+# --------------------------------------------------------------------------
+# inline XBRL -> page-marked text
+# --------------------------------------------------------------------------
+
+XBRL_SUFFIXES = {".htm", ".html", ".xhtml"}
+
+
+class _InlineXbrlText(HTMLParser):
+    """Visible text of an inline-XBRL filing, split at its page breaks, with each tagged number
+    followed by its concept in braces. Also collects every tagged number as {concept, text, page}."""
+
+    BLOCK = {"p", "div", "br", "li", "tr", "table", "h1", "h2", "h3", "h4", "h5", "h6", "hr"}
+    VOID = {"br", "hr", "img", "meta", "link", "input", "col"}
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.pages, self.facts = [[]], []
+        self.stack, self.open_facts, self.hidden = [], [], 0
+
+    def new_page(self):
+        if "".join(self.pages[-1]).strip():
+            self.pages.append([])
+
+    def handle_starttag(self, tag, attrs):
+        a = dict(attrs)
+        style = (a.get("style") or "").replace(" ", "").lower()
+        if "page-break-before:always" in style:
+            self.new_page()
+        if tag in self.VOID:
+            self.end_element(tag, style, hides=False)
+            return
+        hides = tag in ("ix:header", "head", "script", "style") or "display:none" in style
+        self.hidden += hides
+        if tag == "ix:nonfraction":
+            self.open_facts.append({"concept": a.get("name", ""), "text": ""})
+        self.stack.append((tag, style, hides))
+
+    def handle_startendtag(self, tag, attrs):
+        style = (dict(attrs).get("style") or "").replace(" ", "").lower()
+        if "page-break-before:always" in style:
+            self.new_page()
+        self.end_element(tag, style, hides=False)
+
+    def handle_endtag(self, tag):
+        if not any(t == tag for t, _, _ in self.stack):
+            return
+        while self.stack:
+            t, style, hides = self.stack.pop()
+            self.end_element(t, style, hides)
+            if t == tag:
+                break
+
+    def end_element(self, tag, style, hides):
+        self.hidden -= hides
+        if tag == "ix:nonfraction" and self.open_facts:
+            f = self.open_facts.pop()
+            f["text"] = f["text"].strip()
+            if not self.hidden:
+                f["page"] = len(self.pages)
+                self.facts.append(f)
+                self.pages[-1].append(f" {{{f['concept']}}}")
+        elif not self.hidden:
+            if tag in ("td", "th"):
+                self.pages[-1].append(" | ")
+            elif tag in self.BLOCK:
+                self.pages[-1].append("\n")
+        if "page-break-after:always" in style:
+            self.new_page()
+
+    def handle_data(self, data):
+        for f in self.open_facts:
+            f["text"] += data
+        if not self.hidden:
+            self.pages[-1].append(data)
+
+
+def read_inline_xbrl(html: str) -> tuple[list[str], list[dict]]:
+    parser = _InlineXbrlText()
+    parser.feed(html)
+    parser.close()
+    pages = []
+    for chunks in parser.pages:
+        lines = (re.sub(r"[ \t\u00a0]+", " ", ln).strip(" |") for ln in "".join(chunks).split("\n"))
+        pages.append("\n".join(ln for ln in lines if ln))
+    # a filing without page breaks: cut it into ~6,000-character pages so citations stay useful
+    if len(pages) == 1 and len(pages[0]) > 12000:
+        cut, cur = [], ""
+        for ln in pages[0].split("\n"):
+            if len(cur) > 6000:
+                cut.append(cur)
+                cur = ""
+            cur += ln + "\n"
+        pages = cut + [cur]
+    return pages, parser.facts
+
+
+def document_text(pages: list[str]) -> str:
+    return "\n".join(f"=== Page {i} ===\n{p}" for i, p in enumerate(pages, 1))
+
+
+def check_tags(raw: dict, facts: list[dict]) -> None:
+    """Mark a figure xbrl_tagged when the concept the LLM cites tags that same printed number in the filing."""
+    def bare(s):
+        return squash(str(s)).strip("()-")
+
+    for v in raw.values():
+        if not v or v.get("value") is None or not v.get("xbrl_concept") or not v.get("as_printed"):
+            continue
+        needle = bare(v["as_printed"])
+        v["xbrl_tagged"] = any(f["concept"] == v["xbrl_concept"] and bare(f["text"]) == needle for f in facts)
 
 
 # --------------------------------------------------------------------------
@@ -374,7 +503,7 @@ def compute(raw: dict, stated: dict, defs: dict) -> dict:
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("pdf", type=Path)
+    ap.add_argument("document", type=Path, help="annual-report PDF, or an inline-XBRL filing (.htm)")
     ap.add_argument("source_url")
     ap.add_argument("slug")
     ap.add_argument("--sector", required=True, help='e.g. "Retail"')
@@ -384,17 +513,27 @@ def main():
     ap.add_argument("--out", type=Path, default=None, help="write this company's JSON here instead of merging into companies.json")
     a = ap.parse_args()
 
-    pdf_bytes = a.pdf.read_bytes()
-    pages = [(p.extract_text() or "") for p in pypdf.PdfReader(a.pdf).pages]
+    xbrl = a.document.suffix.lower() in XBRL_SUFFIXES
+    facts = []
+    if xbrl:
+        pages, facts = read_inline_xbrl(a.document.read_text(encoding="utf-8", errors="replace"))
+        if not facts:
+            sys.exit(f"{a.document} has no inline-XBRL numeric facts (ix:nonFraction)")
+        document = {"text": document_text(pages)}
+    else:
+        pages = [(p.extract_text() or "") for p in pypdf.PdfReader(a.document).pages]
+        document = {"inline_data": {"mime_type": "application/pdf", "data": base64.b64encode(a.document.read_bytes()).decode()}}
     retail = a.domain == "retail"
-    prompt = build_prompt(retail)
+    prompt = build_prompt(retail, xbrl)
 
     t0 = time.time()
-    print(f"[{a.slug}] {len(pages)} pages -> {MODEL}", file=sys.stderr)
-    ext, usage = call_gemini(pdf_bytes, prompt)
+    print(f"[{a.slug}] {len(pages)} pages{f', {len(facts)} XBRL facts' if xbrl else ''} -> {MODEL}", file=sys.stderr)
+    ext, usage = call_gemini(document, prompt)
     raw = {k: ext.get("raw_values", {}).get(k) for k in {**RAW_FIELDS, **(RETAIL_FIELDS if retail else {})}}
     stated = ext.get("stated_ratios") or {}
     verify(raw, pages)
+    if xbrl:
+        check_tags(raw, facts)
 
     # Some balance sheets (e.g. Amazon) never print a "Total liabilities" line - derive it, and say so
     ta, eq = raw.get("ending_total_assets"), raw.get("total_stockholders_equity")
@@ -419,12 +558,13 @@ def main():
         "sector": a.sector,
         "industry": a.industry,
         "domain": a.domain,
+        "source_format": "xbrl" if xbrl else "pdf",
         "raw_values": raw,
         "stated_ratios": {k: v for k, v in stated.items() if v and v.get("value") is not None},
         "ratios": compute(raw, stated, RATIOS),
         "extraction_meta": {
             "model": MODEL,
-            "pdf_path": f"pdfs/{a.pdf.name}",
+            "pdf_path": f"pdfs/{a.document.name}",
             "pdf_pages": len(pages),
             "input_tokens": usage.get("promptTokenCount"),
             "output_tokens": usage.get("candidatesTokenCount"),
@@ -433,6 +573,7 @@ def main():
             "values_verified": sum(1 for v in checked if v["verified"]),
             "values_checked": len(checked),
             "unverified_fields": unverified,
+            **({"xbrl_facts": len(facts), "values_tagged": sum(1 for v in found if v.get("xbrl_tagged"))} if xbrl else {}),
             "elapsed_seconds": round(time.time() - t0, 1),
             "prompt": prompt,
         },

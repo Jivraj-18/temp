@@ -187,7 +187,7 @@
   </div>
   <div class="add-panel hidden" id="add-panel">
     <form class="add-form" id="add-form">
-      <input type="file" id="add-file" accept="application/pdf" required aria-label="Annual report PDF" />
+      <input type="file" id="add-file" accept="application/pdf,.pdf,.htm,.html,.xhtml" required aria-label="Annual report PDF or SEC inline-XBRL filing (.htm)" title="Annual report PDF, or an SEC inline-XBRL filing (.htm) saved from EDGAR" />
       <input type="text" id="add-sector" placeholder="Sector (e.g. Retail)" list="sector-list" required />
       <datalist id="sector-list"></datalist>
       <input type="text" id="add-industry" placeholder="Industry (optional)" />
@@ -195,14 +195,14 @@
         <option value="">No domain KPIs</option>
         <option value="retail">Retail</option>
       </select>
-      <input type="url" id="add-url" placeholder="Public PDF URL (optional)" />
+      <input type="url" id="add-url" placeholder="Public PDF or filing URL (optional)" />
       <button type="submit" id="add-submit">Extract</button>
     </form>
     <div class="token-note" id="token-note" hidden>Add your LLM Foundry token on the <a href="../index.html">demos home page</a> first. Extraction runs in this browser with your token.</div>
     <ol class="flow" id="add-flow" hidden>
-      <li data-stage="read"><b>Read PDF</b><span>Text layer, page by page</span></li>
+      <li data-stage="read"><b>Read document</b><span>PDF text layer or XBRL filing, page by page</span></li>
       <li data-stage="model"><b>LLM extraction</b><span>Figures, pages, quotes</span></li>
-      <li data-stage="verify"><b>Check vs PDF</b><span>Every figure on its page?</span></li>
+      <li data-stage="verify"><b>Check vs source</b><span>Every figure on its page?</span></li>
       <li data-stage="ratios"><b>Compute ratios</b><span>Fixed formulas, no LLM</span></li>
       <li data-stage="save"><b>Save locally</b><span>This browser only</span></li>
       <li data-stage="sector"><b>Sector benchmark</b><span>Peers re-ranked</span></li>
@@ -320,15 +320,21 @@ function renderRawValuesTab(c) {
       return `<tr><td>${label(key)}</td><td class="ratio-blank"></td><td></td><td></td></tr>`;
     }
     const hasCitation = v.as_printed != null && v.source_page != null;
-    const check = v.verified === true ? `<span class="verified" title="The printed figure was found on this page of the PDF">✓ found on page</span>`
+    const xbrl = c.source_format === "xbrl";
+    const check = v.verified === true ? `<span class="verified" title="The printed figure was found on this page of the ${xbrl ? "filing" : "PDF"}">✓ found on page</span>`
       : v.verified === "sum" ? `<span class="verified" title="Each component in the quote was found on this page and they add up to the total">✓ components on page</span>`
-      : v.verified === false ? `<span class="unverified" title="The printed figure could not be matched in the PDF text layer - review manually">⚠ not matched in text</span>` : "";
+      : v.verified === false ? `<span class="unverified" title="The printed figure could not be matched in the ${xbrl ? "filing" : "PDF"} text - review manually">⚠ not matched in text</span>` : "";
+    const tag = v.xbrl_tagged === true ? `<span class="verified" title="The filing tags this printed figure with this XBRL concept">✓ XBRL ${esc(v.xbrl_concept)}</span>`
+      : v.xbrl_tagged === false ? `<span class="unverified" title="The filing does not tag this printed figure with ${esc(v.xbrl_concept)} - review manually">⚠ XBRL tag mismatch</span>` : "";
+    // a filing has no PDF viewer to jump into, so its page chip opens the filing itself
     const pageRef = c.source_url
-      ? `<a class="source-page" href="${c.source_url}#page=${v.source_page}&search=${encodeURIComponent(v.as_printed)}&phrase=true" target="_blank" rel="noopener">p. ${v.source_page} ↗</a>`
+      ? `<a class="source-page" href="${xbrl ? c.source_url : `${c.source_url}#page=${v.source_page}&search=${encodeURIComponent(v.as_printed)}&phrase=true`}" target="_blank" rel="noopener">p. ${v.source_page} ↗</a>`
       : `<span class="source-page">p. ${v.source_page}</span>`;
+    // filing quotes come from the LLM's text view: drop its {concept} notes and cell separators for reading
+    const quote = xbrl ? String(v.source_quote || "").replace(/\s*\{[\w-]+:\w+\}/g, "").replace(/(\s*\|)+\s*/g, "   ") : v.source_quote;
     const sourceCell = hasCitation
-      ? `${pageRef}${check}
-         <span class="quote">${esc(v.source_quote)}</span>`
+      ? `${pageRef}${check}${tag}
+         <span class="quote">${esc(quote)}</span>`
       : v.derived ? `<span class="unverified">derived</span><span class="quote">${esc(v.source_quote)}</span>` : "";
     return `
     <tr>
@@ -357,8 +363,8 @@ function renderCompany(c) {
   const domainLabel = hasDomain ? c.domain.charAt(0).toUpperCase() + c.domain.slice(1) : "";
   content.innerHTML = `
     <div class="company-strip">
-      <div><h2>${esc(c.company_name)}${c.local ? `<span class="local-badge">Added in this browser</span>` : ""}</h2><div class="meta">Fiscal year end: ${esc(c.fiscal_year_end)}${c.sector ? ` · ${esc(c.sector)}${c.industry ? " — " + esc(c.industry) : ""}` : ""}${c.local && c.extraction_meta ? ` · ${c.extraction_meta.values_verified}/${c.extraction_meta.values_checked} figures matched in the PDF` : ""}</div></div>
-      <div class="meta">${c.source_url ? `<a href="${c.source_url}" target="_blank" rel="noopener">Source document ↗</a>` : ""}${c.local ? ` <button class="link-btn" type="button" id="remove-local">Remove</button>` : ""}</div>
+      <div><h2>${esc(c.company_name)}${c.source_format === "xbrl" ? `<span class="local-badge">SEC inline XBRL</span>` : ""}${c.local ? `<span class="local-badge">Added in this browser</span>` : ""}</h2><div class="meta">Fiscal year end: ${esc(c.fiscal_year_end)}${c.sector ? ` · ${esc(c.sector)}${c.industry ? " — " + esc(c.industry) : ""}` : ""}${(c.local || c.source_format === "xbrl") && c.extraction_meta ? ` · ${c.extraction_meta.values_verified}/${c.extraction_meta.values_checked} figures matched in the ${c.source_format === "xbrl" ? "filing" : "PDF"}` : ""}${c.extraction_meta && c.extraction_meta.values_tagged != null ? `, ${c.extraction_meta.values_tagged} match their XBRL tag` : ""}</div></div>
+      <div class="meta">${c.source_url ? `<a href="${c.source_url}" target="_blank" rel="noopener">${c.source_format === "xbrl" ? "Source filing" : "Source document"} ↗</a>` : ""}${c.local ? ` <button class="link-btn" type="button" id="remove-local">Remove</button>` : ""}</div>
     </div>
     <div class="tabs">
       <button class="tab-btn active" data-tab="ratios" data-tour="ratios-tab">Ratios</button>
@@ -413,7 +419,7 @@ function setupAddCompany({ getCompanies, onStart, onAdded, onFailed }) {
     if (!llmFoundry.hasToken()) { tokenNote.hidden = false; return; }
     const file = document.getElementById("add-file").files[0];
     if (!file) return;
-    if (file.size > 18e6) { status.className = "add-status err"; status.textContent = "This PDF is over 18 MB, which is too large to send inline to the model."; return; }
+    if (!pipeline.isXbrl(file) && file.size > 18e6) { status.className = "add-status err"; status.textContent = "This PDF is over 18 MB, which is too large to send inline to the model."; return; }
     const sector = document.getElementById("add-sector").value.trim();
 
     submitBtn.disabled = true;
@@ -520,6 +526,8 @@ function median(xs) {
   return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2;
 }
 const esc = s => String(s ?? "").replace(/[&<>"]/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
+// the same company can be loaded from its PDF and from its XBRL filing; keep the two apart in lists
+const coName = c => c.company_name + (c.source_format === "xbrl" ? " (XBRL)" : "");
 
 function setupSectorView(getCompanies) {
   const root = document.getElementById("sector-view");
@@ -561,8 +569,8 @@ function setupSectorView(getCompanies) {
 
     const cards = slugs.map(s => {
       const c = all[s];
-      return `<div class="peer-card ${s === state.focus ? "focus" : ""}" data-focus="${s}" title="Highlight ${esc(c.company_name)}">
-        <b>${esc(c.company_name)}</b><span>${esc(c.industry || c.sector || "")}${c.local ? " · added in this browser" : ""}</span>
+      return `<div class="peer-card ${s === state.focus ? "focus" : ""}" data-focus="${s}" title="Highlight ${esc(coName(c))}">
+        <b>${esc(coName(c))}</b><span>${esc(c.industry || c.sector || "")}${c.local ? " · added in this browser" : ""}</span>
         <div class="rev">${fmtKpi(kpiValue(c, BENCH_KPIS[0]), "usd")}</div><span>Revenue · FY ending ${esc(c.fiscal_year_end)}</span>
       </div>`;
     }).join("");
@@ -592,14 +600,14 @@ function setupSectorView(getCompanies) {
       </tr>`;
     }).join("");
 
-    const colHeads = slugs.map(s => `<th class="co ${s === state.focus ? "focus" : ""}">${esc(all[s].company_name)}</th>`).join("");
+    const colHeads = slugs.map(s => `<th class="co ${s === state.focus ? "focus" : ""}">${esc(coName(all[s]))}</th>`).join("");
 
     // caveats the reader needs to interpret the comparison honestly
     const caveats = [];
     for (const c of peers) {
       const eq = kpiValue(c, { raw: true, key: "total_stockholders_equity" });
       const ta = kpiValue(c, { raw: true, key: "ending_total_assets" });
-      if (eq != null && ta && eq / ta < 0.25) caveats.push(`${c.company_name}: equity is only ${(eq / ta * 100).toFixed(0)}% of assets (large buybacks), which inflates ROE and liabilities-to-equity.`);
+      if (eq != null && ta && eq / ta < 0.25) caveats.push(`${coName(c)}: equity is only ${(eq / ta * 100).toFixed(0)}% of assets (large buybacks), which inflates ROE and liabilities-to-equity.`);
     }
     if (n === 1) caveats.push(`${title} has a single company in this dataset, so there is no peer median. Switch to “All sectors” for a cross-industry comparison.`);
     caveats.push("Fiscal years differ by company (see each card). Comparable sales growth is company-reported and not defined identically across retailers.");
@@ -630,7 +638,7 @@ function setupSectorView(getCompanies) {
     if (!k) { panel.innerHTML = ""; return; }
     const items = peers.map((c, i) => ({ c, slug: slugs[i], v: kpiValue(c, k) })).filter(x => x.v != null);
     const unit = items.length ? kpiUnit(items[0].c, k) : "x";
-    const missing = peers.filter(c => kpiValue(c, k) == null).map(c => c.company_name);
+    const missing = peers.filter(c => kpiValue(c, k) == null).map(coName);
     items.sort((a, b) => k.better === "low" ? a.v - b.v : b.v - a.v);
     const med = median(items.map(x => x.v));
     const lo = Math.min(0, ...items.map(x => x.v)), hi = Math.max(0, ...items.map(x => x.v));
@@ -640,7 +648,7 @@ function setupSectorView(getCompanies) {
     const rows = items.map((x, i) => {
       const left = Math.min(zero, pos(x.v)), width = Math.abs(pos(x.v) - zero);
       return `<div class="rank-row ${x.slug === state.focus ? "focus" : ""}" data-i="${i}">
-        <div class="nm">${i + 1}. ${esc(x.c.company_name)}</div>
+        <div class="nm">${i + 1}. ${esc(coName(x.c))}</div>
         <div class="rank-track"><div class="rank-bar ${x.v < 0 ? "neg" : "pos"}" style="left:${left}%;width:${Math.max(width, 0.4)}%"></div></div>
         <div class="vl">${fmtKpi(x.v, unit)}</div></div>`;
     }).join("");
@@ -657,7 +665,7 @@ function setupSectorView(getCompanies) {
       const x = items[Number(row.dataset.i)];
       row.addEventListener("mousemove", e => {
         const vs = items.length >= 2 ? `<br>${fmtDelta(x.v - med, unit)} vs peer median` : "";
-        tip.innerHTML = `<b>${esc(x.c.company_name)}</b><br>${esc(k.label)}: ${fmtKpi(x.v, unit)}<br>Rank ${Number(row.dataset.i) + 1} of ${items.length}${vs}<br><span style="opacity:.7">FY ending ${esc(x.c.fiscal_year_end)}</span>`;
+        tip.innerHTML = `<b>${esc(coName(x.c))}</b><br>${esc(k.label)}: ${fmtKpi(x.v, unit)}<br>Rank ${Number(row.dataset.i) + 1} of ${items.length}${vs}<br><span style="opacity:.7">FY ending ${esc(x.c.fiscal_year_end)}</span>`;
         tip.style.display = "block";
         tip.style.left = Math.min(e.clientX + 14, window.innerWidth - 270) + "px";
         tip.style.top = e.clientY + 14 + "px";
@@ -733,7 +741,7 @@ async function main() {
   let companies = { ...published, ...pipeline.loadLocal() };
   const select = document.getElementById("company-select");
 
-  // Uploaded PDFs live in IndexedDB; give them a session URL so page links open the PDF.
+  // Uploaded PDFs and filings live in IndexedDB; give them a session URL so page links open the document.
   async function show(slug) {
     const c = companies[slug];
     if (c.local && !c.source_url) {
@@ -753,7 +761,7 @@ async function main() {
 
   function refreshDropdown(selectSlug) {
     const slugs = Object.keys(companies);
-    select.innerHTML = slugs.map(slug => `<option value="${slug}">${esc(companies[slug].company_name)}${companies[slug].local ? " (added)" : ""}</option>`).join("");
+    select.innerHTML = slugs.map(slug => `<option value="${slug}">${esc(coName(companies[slug]))}${companies[slug].local ? " (added)" : ""}</option>`).join("");
     select.value = selectSlug || slugs[0];
     show(select.value);
   }

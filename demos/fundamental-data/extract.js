@@ -1,7 +1,7 @@
-// In-browser version of pipeline.py: annual-report PDF -> Gemini (via LLM Foundry) -> numbers checked
-// against the PDF's own text layer -> ratios computed with fixed formulas -> saved in this browser.
+// In-browser version of pipeline.py: annual-report PDF or SEC inline-XBRL filing -> Gemini (via LLM Foundry)
+// -> numbers checked against the document's own text -> ratios computed with fixed formulas -> saved in this browser.
 // The LLM only *reads* numbers (value, page, verbatim quote). Every ratio is computed here.
-// Keep RAW_FIELDS / RATIOS / buildPrompt / compute in step with pipeline.py.
+// Keep RAW_FIELDS / RATIOS / buildPrompt / readInlineXbrl / compute in step with pipeline.py.
 (function () {
   const MODEL = "gemini-3.8-flash";
   const LOCAL_KEY = "fundamentals.localCompanies";
@@ -104,7 +104,7 @@
     gross_margin_rate: ["Gross Margin Rate", "(Net Sales - Cost of Goods Sold) / Net Sales", "Retail KPI. GAAP gross profit margin after product and store/warehouse occupancy overhead - equals Merchandise Margin Rate minus Occupancy Cost Rate.", "pct"],
   };
 
-  function buildPrompt(retail) {
+  function buildPrompt(retail, xbrl = false) {
     const fields = { ...RAW_FIELDS, ...(retail ? RETAIL_FIELDS : {}) };
     const ratios = { ...RATIOS, ...(retail ? RETAIL_RATIOS : {}) };
     const fieldLines = Object.entries(fields).map(([k, v]) => `- ${k}: ${v}`).join("\n");
@@ -112,8 +112,16 @@
     const retailNote = retail
       ? "\nSome of the fields and ratios below are retail-domain KPIs (same-store sales, store counts, brand mix). Only fill them where the document actually discloses them; otherwise leave them null.\n"
       : "";
+    const xbrlNote = xbrl
+      ? "\nThe document is an SEC filing in inline XBRL, given below as text. '=== Page N ===' lines mark its pages, table cells are separated by ' | ', and every XBRL-tagged number is followed by its concept in braces, e.g. '112,010 {us-gaap:NetIncomeLoss}'. Prefer tagged figures from the primary financial statements.\n"
+      : "";
+    const pageRule = xbrl ? "the page number from the '=== Page N ===' marker above the figure"
+      : "the PDF page number (1-indexed, counting actual PDF pages, NOT the printed folio)";
+    const conceptRule = xbrl ? '\n- xbrl_concept: the concept in braces right after the figure (e.g. "us-gaap:NetIncomeLoss"), or null if it is not tagged.' : "";
+    const conceptKey = xbrl ? ', "xbrl_concept": "..."' : "";
+    const printedRule = xbrl ? " and without the {concept} annotation" : "";
     return `You are extracting facts from a company's annual report for its MOST RECENT fiscal year. You have TWO jobs below. Do no arithmetic yourself either way - only report numbers literally printed in the document, never from outside knowledge.
-${retailNote}
+${retailNote}${xbrlNote}
 Rules that apply throughout:
 - Every field is optional. Use value: 0 ONLY when the document EXPLICITLY states a fact equivalent to zero/none (e.g. "we have not declared any cash dividends") - quote that exact statement in source_quote. If the document never discusses a topic, use null - absence of evidence is not zero.
 - Match by meaning, not exact wording - filers phrase the same concept differently (e.g. "Shareholders' equity" = "Total stockholders' equity"; "Cost of sales" = "Cost of goods sold").
@@ -126,10 +134,10 @@ ${fieldLines}
 
 For each raw value, report:
 - value: the exact number in whole dollars (if the statement says "in millions", multiply by 1,000,000; "in thousands" by 1,000). Per-share fields (EPS, dividend per share, share price) are already per-share - do not scale them. Counts (shares, stores) are plain counts, scaled only if the document says shares are in thousands/millions.
-- as_printed: an exact substring a text search would find on the page, used to jump to this value. If a digit is printed, use it exactly as printed (e.g. "180,942"), BEFORE any unit scaling. If the value is INFERRED from a qualitative statement with no digit printed (e.g. "we have not declared any cash dividends" implying $0), use a short distinctive phrase copied verbatim from source_quote.
+- as_printed: an exact substring a text search would find on the page, used to jump to this value. If a digit is printed, use it exactly as printed (e.g. "180,942"), BEFORE any unit scaling${printedRule}. If the value is INFERRED from a qualitative statement with no digit printed (e.g. "we have not declared any cash dividends" implying $0), use a short distinctive phrase copied verbatim from source_quote.
 - unit_note: the exact nearby text establishing scale, e.g. "in thousands", "in millions", or "whole dollars" if none - verbatim.
-- source_page: the PDF page number (1-indexed, counting actual PDF pages, NOT the printed folio) where you found it.
-- source_quote: the exact line of text containing this number, quoted verbatim.
+- source_page: ${pageRule} where you found it.
+- source_quote: the exact line of text containing this number, quoted verbatim.${conceptRule}
 
 JOB 2 - Already-stated ratios. Check whether the document ALREADY states the final value for any of these itself (e.g. in a key-metrics table or MD&A - such as "comparable sales increased 4.5%", "ROIC 25.7%"):
 
@@ -143,7 +151,7 @@ Respond with ONLY valid JSON:
 {
   "company_name": "...",
   "fiscal_year_end": "YYYY-MM-DD",
-  "raw_values": { "<field>": {"value": 0, "as_printed": "...", "unit_note": "...", "source_page": 0, "source_quote": "..."} or null, ... one key per field above },
+  "raw_values": { "<field>": {"value": 0, "as_printed": "...", "unit_note": "...", "source_page": 0, "source_quote": "..."${conceptKey}} or null, ... one key per field above },
   "stated_ratios": { "<ratio>": {"value": 0, "source_page": 0, "source_quote": "..."} or null, ... one key per ratio above }
 }`;
   }
@@ -169,12 +177,67 @@ Respond with ONLY valid JSON:
     r.readAsDataURL(file);
   });
 
+  // ------------------------------------------------------------------------
+  // inline XBRL -> page-marked text
+  // ------------------------------------------------------------------------
+
+  const isXbrl = file => /\.x?html?$/i.test(file.name) || /html/.test(file.type);
+
+  // Visible text of an inline-XBRL filing, split at its page breaks, with each tagged number followed
+  // by its concept in braces. Also collects every tagged number as {concept, text, page}.
+  function readInlineXbrl(html) {
+    let doc = new DOMParser().parseFromString(html, "application/xhtml+xml");
+    if (doc.getElementsByTagName("parsererror").length) doc = new DOMParser().parseFromString(html, "text/html");
+    const BLOCK = new Set(["p", "div", "br", "li", "tr", "table", "h1", "h2", "h3", "h4", "h5", "h6", "hr"]);
+    const chunks = [[]], facts = [];
+    const out = s => chunks[chunks.length - 1].push(s);
+    const newPage = () => { if (chunks[chunks.length - 1].join("").trim()) chunks.push([]); };
+    function walk(node, hidden) {
+      if (node.nodeType === 3) { if (!hidden) out(node.nodeValue); return; }
+      if (node.nodeType !== 1) return;
+      const tag = node.tagName.toLowerCase();
+      const style = (node.getAttribute("style") || "").replace(/\s/g, "").toLowerCase();
+      if (style.includes("page-break-before:always")) newPage();
+      const hide = hidden || ["ix:header", "head", "script", "style"].includes(tag) || style.includes("display:none");
+      for (const child of node.childNodes) walk(child, hide);
+      if (tag === "ix:nonfraction") {
+        if (!hide) {
+          const f = { concept: node.getAttribute("name") || "", text: node.textContent.trim(), page: chunks.length };
+          facts.push(f);
+          out(` {${f.concept}}`);
+        }
+      } else if (!hide) {
+        if (tag === "td" || tag === "th") out(" | ");
+        else if (BLOCK.has(tag)) out("\n");
+      }
+      if (style.includes("page-break-after:always")) newPage();
+    }
+    walk(doc.body || doc.documentElement, false);
+    let pages = chunks.map(c => c.join("").split("\n")
+      .map(ln => ln.replace(/[ \t ]+/g, " ").replace(/^[ |]+|[ |]+$/g, ""))
+      .filter(Boolean).join("\n"));
+    // a filing without page breaks: cut it into ~6,000-character pages so citations stay useful
+    if (pages.length === 1 && pages[0].length > 12000) {
+      const cut = [];
+      let cur = "";
+      for (const ln of pages[0].split("\n")) {
+        if (cur.length > 6000) { cut.push(cur); cur = ""; }
+        cur += ln + "\n";
+      }
+      pages = [...cut, cur];
+    }
+    return { pages, facts };
+  }
+
+  const documentText = pages => pages.map((p, i) => `=== Page ${i + 1} ===\n${p}`).join("\n");
+
   const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-  async function callGemini(pdfBase64, prompt) {
+  // source is a Gemini content part: inline PDF data, or {text} for a rendered XBRL filing
+  async function callGemini(source, prompt) {
     const body = JSON.stringify({
       contents: [{ role: "user", parts: [
-        { inline_data: { mime_type: "application/pdf", data: pdfBase64 } },
+        source,
         { text: prompt },
       ] }],
       generationConfig: { responseMimeType: "application/json", maxOutputTokens: 65536, thinkingConfig: { thinkingLevel: "medium" } },
@@ -237,6 +300,16 @@ Respond with ONLY valid JSON:
     if (isNaN(target)) return false;
     return parts.length >= 2 && parts.every(p => page.includes(squash(p)))
       && Math.abs(parts.reduce((s, p) => s + parseFloat(p.replace(/,/g, "")), 0) - target) < 0.5;
+  }
+
+  // Mark a figure xbrl_tagged when the concept the LLM cites tags that same printed number in the filing.
+  function checkTags(raw, facts) {
+    const bare = s => squash(s).replace(/^[()-]+|[()-]+$/g, "");
+    for (const v of Object.values(raw)) {
+      if (!v || v.value == null || !v.xbrl_concept || !v.as_printed) continue;
+      const needle = bare(v.as_printed);
+      v.xbrl_tagged = facts.some(f => f.concept === v.xbrl_concept && bare(f.text) === needle);
+    }
   }
 
   // ------------------------------------------------------------------------
@@ -373,15 +446,25 @@ Respond with ONLY valid JSON:
     const stage = (id, state, detail) => onStage && onStage(id, state, detail);
     const t0 = Date.now();
     const retail = domain === "retail";
+    const xbrl = isXbrl(file);
 
     stage("read", "active", `${(file.size / 1e6).toFixed(1)} MB`);
-    const [pages, pdfBase64] = await Promise.all([readPages(file), toBase64(file)]);
-    stage("read", "done", `${pages.length} pages · ${(file.size / 1e6).toFixed(1)} MB`);
+    let pages, facts = [], source;
+    if (xbrl) {
+      ({ pages, facts } = readInlineXbrl(await file.text()));
+      if (!facts.length) throw new Error("no inline-XBRL figures (ix:nonFraction) found - is this an SEC inline-XBRL filing?");
+      source = { text: documentText(pages) };
+    } else {
+      let pdfBase64;
+      [pages, pdfBase64] = await Promise.all([readPages(file), toBase64(file)]);
+      source = { inline_data: { mime_type: "application/pdf", data: pdfBase64 } };
+    }
+    stage("read", "done", `${pages.length} pages · ${xbrl ? `${facts.length} XBRL facts` : `${(file.size / 1e6).toFixed(1)} MB`}`);
 
     stage("model", "active", `${MODEL} reading ${pages.length} pages…`);
-    const prompt = buildPrompt(retail);
+    const prompt = buildPrompt(retail, xbrl);
     const tModel = Date.now();
-    const [ext, usage] = await callGemini(pdfBase64, prompt);
+    const [ext, usage] = await callGemini(source, prompt);
     const fieldKeys = Object.keys({ ...RAW_FIELDS, ...(retail ? RETAIL_FIELDS : {}) });
     const raw = Object.fromEntries(fieldKeys.map(k => [k, (ext.raw_values || {})[k] ?? null]));
     const stated = ext.stated_ratios || {};
@@ -390,6 +473,7 @@ Respond with ONLY valid JSON:
 
     stage("verify", "active", "Searching the text layer…");
     verify(raw, pages);
+    if (xbrl) checkTags(raw, facts);
     // Some balance sheets (e.g. Amazon) never print a "Total liabilities" line - derive it, and say so
     const ta = raw.ending_total_assets, eq = raw.total_stockholders_equity;
     if (!(raw.total_liabilities || {}).value && ta && eq && ta.value && eq.value) {
@@ -402,7 +486,8 @@ Respond with ONLY valid JSON:
     const checked = found.filter(v => "verified" in v);
     const verifiedCount = checked.filter(v => v.verified).length;
     const unverified = Object.keys(raw).filter(k => raw[k] && raw[k].verified === false);
-    stage("verify", "done", `${verifiedCount}/${checked.length} found on the cited page`);
+    const taggedCount = found.filter(v => v.xbrl_tagged).length;
+    stage("verify", "done", `${verifiedCount}/${checked.length} found on the cited page${xbrl ? ` · ${taggedCount} match their XBRL tag` : ""}`);
 
     stage("ratios", "active", "Applying fixed formulas…");
     const ratios = compute(raw, stated, RATIOS);
@@ -411,7 +496,7 @@ Respond with ONLY valid JSON:
     stage("ratios", "done", `${nRatios} of ${Object.keys(RATIOS).length} ratios${domainRatios ? ` + ${Object.values(domainRatios).filter(r => r.number != null).length} retail KPIs` : ""}`);
 
     stage("save", "active", "Writing to this browser…");
-    const base = "local-" + slugify(ext.company_name || file.name.replace(/\.pdf$/i, ""));
+    const base = "local-" + slugify(ext.company_name || file.name.replace(/\.(pdf|x?html?)$/i, ""));
     let slug = base;
     for (let i = 2; existingSlugs.includes(slug); i++) slug = `${base}-${i}`;
     const company = {
@@ -420,6 +505,7 @@ Respond with ONLY valid JSON:
       source_url: sourceUrl || "",
       country: "",
       sector, industry, domain: domain || null,
+      source_format: xbrl ? "xbrl" : "pdf",
       local: true,
       added_at: new Date().toISOString(),
       raw_values: raw,
@@ -436,6 +522,7 @@ Respond with ONLY valid JSON:
         values_verified: verifiedCount,
         values_checked: checked.length,
         unverified_fields: unverified,
+        ...(xbrl ? { xbrl_facts: facts.length, values_tagged: taggedCount } : {}),
         elapsed_seconds: Math.round((Date.now() - t0) / 100) / 10,
       },
     };
@@ -445,9 +532,10 @@ Respond with ONLY valid JSON:
     saveLocal(all);
     let pdfStored = true;
     try { await putPdf(slug, file); } catch { pdfStored = false; }
-    stage("save", "done", pdfStored ? "Ratios in localStorage · PDF in IndexedDB" : "Ratios in localStorage (PDF not stored)");
+    const kind = xbrl ? "filing" : "PDF";
+    stage("save", "done", pdfStored ? `Ratios in localStorage · ${kind} in IndexedDB` : `Ratios in localStorage (${kind} not stored)`);
     return { slug, company };
   }
 
-  window.fundamentalsPipeline = { MODEL, run, loadLocal, removeLocal, getPdf };
+  window.fundamentalsPipeline = { MODEL, run, loadLocal, removeLocal, getPdf, isXbrl, readInlineXbrl };
 })();
