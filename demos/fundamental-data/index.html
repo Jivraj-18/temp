@@ -363,14 +363,14 @@ function renderCompany(c) {
   const domainLabel = hasDomain ? c.domain.charAt(0).toUpperCase() + c.domain.slice(1) : "";
   content.innerHTML = `
     <div class="company-strip">
-      <div><h2>${esc(c.company_name)}${c.source_format === "xbrl" ? `<span class="local-badge">SEC inline XBRL</span>` : ""}${c.local ? `<span class="local-badge">Added in this browser</span>` : ""}</h2><div class="meta">Fiscal year end: ${esc(c.fiscal_year_end)}${c.sector ? ` · ${esc(c.sector)}${c.industry ? " — " + esc(c.industry) : ""}` : ""}${(c.local || c.source_format === "xbrl") && c.extraction_meta ? ` · ${c.extraction_meta.values_verified}/${c.extraction_meta.values_checked} figures matched in the ${c.source_format === "xbrl" ? "filing" : "PDF"}` : ""}${c.extraction_meta && c.extraction_meta.values_tagged != null ? `, ${c.extraction_meta.values_tagged} match their XBRL tag` : ""}</div></div>
+      <div><h2>${esc(c.company_name)}${c.source_format === "xbrl" ? `<span class="local-badge">SEC inline XBRL</span>` : ""}${c.local ? `<span class="local-badge">Added in this browser</span>` : ""}</h2><div class="meta">Fiscal year end: ${esc(c.fiscal_year_end)}${c.sector ? ` · ${esc(c.sector)}${c.industry ? " — " + esc(c.industry) : ""}` : ""}</div></div>
       <div class="meta">${c.source_url ? `<a href="${c.source_url}" target="_blank" rel="noopener">${c.source_format === "xbrl" ? "Source filing" : "Source document"} ↗</a>` : ""}${c.local ? ` <button class="link-btn" type="button" id="remove-local">Remove</button>` : ""}</div>
     </div>
     <div class="tabs">
       <button class="tab-btn active" data-tab="ratios" data-tour="ratios-tab">Ratios</button>
       ${hasDomain ? `<button class="tab-btn" data-tab="domain">${domainLabel} KPIs</button>` : ""}
       <button class="tab-btn" data-tab="raw" data-tour="raw-tab">Financial Indicators</button>
-      <button class="tab-btn" data-tab="formulas" data-tour="formula-tab">FORMULAE USED</button>
+      <button class="tab-btn" data-tab="formulas" data-tour="formula-tab">Formulae Used</button>
     </div>
     <div class="tab-panel active" id="tab-ratios" data-tour="ratios-table">${renderRatiosTab(c)}</div>
     ${hasDomain ? `<div class="tab-panel" id="tab-domain">${renderRatiosTab({ ratios: c.domain_ratios }, { clustered: false })}</div>` : ""}
